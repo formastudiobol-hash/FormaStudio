@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Forma Studio | Portafolio de Soluciones Web</title>
   
+  <!-- Favicon Oficial de Forma Studio para la Pestaña del Navegador -->
+  <link rel="icon" type="image/png" href="1783482620590_1.png">
+  
   <!-- SEO de Marca para Forma Studio -->
   <meta name="description" content="Diseño y desarrollo web a medida por Forma Studio. Explora nuestros planes y demostraciones interactivas de alta conversión.">
 
@@ -162,6 +165,7 @@
           <span class="plan-badge">Plan 01</span>
           <h2 class="plan-title">Plan 1: Esencial / Landing Page</h2>
         </div>
+        <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="landing_page.html" target="_blank" onclick="trackDemoClick('Plan 1')">
           Ver Demostración <i class="fas fa-external-link-alt"></i>
         </a>
@@ -173,6 +177,7 @@
           <span class="plan-badge">Plan 02</span>
           <h2 class="plan-title">Plan 2: Catálogo Digital</h2>
         </div>
+        <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="catalogo_digital.html" target="_blank" onclick="trackDemoClick('Plan 2')">
           Ver Demostración <i class="fas fa-external-link-alt"></i>
         </a>
@@ -184,6 +189,7 @@
           <span class="plan-badge">Plan 03</span>
           <h2 class="plan-title">Plan 3: Corporativo Profesional</h2>
         </div>
+        <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="corporativo_profesional.html" target="_blank" onclick="trackDemoClick('Plan 3')">
           Ver Demostración <i class="fas fa-external-link-alt"></i>
         </a>
@@ -195,6 +201,7 @@
           <span class="plan-badge">Plan 04</span>
           <h2 class="plan-title">Plan 4: E-Commerce Automatizado</h2>
         </div>
+        <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="e-commerce.html" target="_blank" onclick="trackDemoClick('Plan 4')">
           Ver Demostración <i class="fas fa-external-link-alt"></i>
         </a>
@@ -232,8 +239,8 @@
         themeBtn.className = 'fas fa-moon';
         showToast("Modo Oscuro activado");
       } else {
-        body.setAttribute('data-theme', 'dark');
-        header.setAttribute('data-theme', 'dark');
+        body.setAttribute('data-theme', 'light');
+        header.setAttribute('data-theme', 'light');
         themeBtn.className = 'fas fa-sun';
         showToast("Modo Claro activado");
       }
