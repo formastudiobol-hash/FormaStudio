@@ -29,6 +29,7 @@
       --text-muted: #9c9c97;
       --accent: #2d6086; /* Azul Acero de Forma Studio */
       --accent-light: #6a8495;
+      --accent-glow: rgba(45, 96, 134, 0.2);
       --shadow: rgba(0, 0, 0, 0.4);
       --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -41,6 +42,7 @@
       --text-muted: #6b6b66;
       --accent: #2d6086;
       --accent-light: #3b749f;
+      --accent-glow: rgba(45, 96, 134, 0.05);
       --shadow: rgba(0, 0, 0, 0.05);
     }
 
@@ -54,8 +56,21 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
     }
     h1, h2, h3, .logo-text { font-family: 'Playfair Display', serif; }
+
+    /* --- DECORACIÓN DE FONDO --- */
+    .bg-glow {
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(45, 96, 134, 0.1) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
     /* --- TOAST DE ALERTA --- */
     #customToast {
@@ -110,36 +125,68 @@
     .btn-icon { background: none; border: none; font-size: 18px; color: var(--text); cursor: pointer; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--border); transition: var(--transition); }
     .btn-icon:hover { background: var(--surface); transform: rotate(15deg); }
 
+    /* --- PRESENTACIÓN HERO --- */
+    .hero-section {
+      text-align: center;
+      padding: 50px 20px 20px 20px;
+      z-index: 1;
+    }
+    .hero-tag {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-light);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    .hero-title {
+      font-size: clamp(32px, 5vw, 46px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
     /* --- CONTENEDOR PRINCIPAL --- */
-    main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 60px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+    main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 30px 20px 60px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; z-index: 1; }
 
     /* --- GRILLA DE PLANES --- */
     .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
-    .plan-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 45px 28px; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); min-height: 280px; }
+    .plan-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px 28px; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); min-height: 310px; }
     .plan-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--text-muted); transition: var(--transition); }
-    .plan-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(45, 96, 134, 0.2); }
+    .plan-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 40px var(--accent-glow); }
     .plan-card:hover::before { background: var(--accent); }
     
-    .plan-header { margin-bottom: 35px; }
+    .plan-header { margin-bottom: 25px; }
     .plan-badge { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: inline-block; }
-    .plan-title { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .plan-title { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .plan-desc { font-size: 14px; color: var(--text-muted); margin-top: 12px; line-height: 1.5; }
 
     .btn-view-demo { width: 100%; background: transparent; color: var(--text); border: 1px solid var(--border); padding: 14px 20px; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; min-height: 48px; }
     .plan-card:hover .btn-view-demo { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     /* --- FOOTER --- */
-    footer { border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; background: var(--bg); transition: var(--transition); }
+    footer { border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; background: var(--bg); transition: var(--transition); z-index: 1; }
     footer p { font-size: 13px; color: var(--text-muted); }
 
     @media (max-width: 768px) {
       header { padding: 18px 5%; }
       main { padding: 40px 15px; }
       .plans-grid { gap: 20px; }
+      .hero-title { font-size: 32px; }
     }
   </style>
 </head>
 <body>
 
+  <div class="bg-glow"></div>
   <div id="customToast">Notificación</div>
 
   <!-- HEADER -->
@@ -155,6 +202,13 @@
     </div>
   </header>
 
+  <!-- PRESENTACIÓN HERO -->
+  <div class="hero-section">
+    <span class="hero-tag">Portafolio de Soluciones Web</span>
+    <h1 class="hero-title">Sitios Web de Alta Conversión</h1>
+    <p class="hero-subtitle">Diseños exclusivos, ultra rápidos y optimizados para impulsar los resultados de tu negocio. Elige un plan y explora su demostración interactiva en vivo.</p>
+  </div>
+
   <!-- CONTENIDO PRINCIPAL -->
   <main>
     <div class="plans-grid">
@@ -164,6 +218,7 @@
         <div class="plan-header">
           <span class="plan-badge">Plan 01</span>
           <h2 class="plan-title">Plan 1: Esencial / Landing Page</h2>
+          <p class="plan-desc">Perfecto para lanzar tu marca con una sola sección de alto impacto comercial y botones directos de contacto.</p>
         </div>
         <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="landing_page.html" target="_blank" onclick="trackDemoClick('Plan 1')">
@@ -176,6 +231,7 @@
         <div class="plan-header">
           <span class="plan-badge">Plan 02</span>
           <h2 class="plan-title">Plan 2: Catálogo Digital</h2>
+          <p class="plan-desc">Exhibe de forma interactiva y elegante tus productos o servicios con menús dinámicos e intuitivos.</p>
         </div>
         <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="catalogo_digital.html" target="_blank" onclick="trackDemoClick('Plan 2')">
@@ -188,6 +244,7 @@
         <div class="plan-header">
           <span class="plan-badge">Plan 03</span>
           <h2 class="plan-title">Plan 3: Corporativo Profesional</h2>
+          <p class="plan-desc">Una estructura robusta con múltiples secciones, galería interactiva de productos y sistema automatizado de reservas.</p>
         </div>
         <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="corporativo_profesional.html" target="_blank" onclick="trackDemoClick('Plan 3')">
@@ -200,6 +257,7 @@
         <div class="plan-header">
           <span class="plan-badge">Plan 04</span>
           <h2 class="plan-title">Plan 4: E-Commerce Automatizado</h2>
+          <p class="plan-desc">La solución de ventas definitiva con un carrito de compras dinámico y pasarela automatizada directo a tu WhatsApp.</p>
         </div>
         <!-- Enlace relativo directo con apertura en pestaña nueva -->
         <a class="btn-view-demo" href="e-commerce.html" target="_blank" onclick="trackDemoClick('Plan 4')">
@@ -239,8 +297,8 @@
         themeBtn.className = 'fas fa-moon';
         showToast("Modo Oscuro activado");
       } else {
-        body.setAttribute('data-theme', 'dark');
-        header.setAttribute('data-theme', 'dark');
+        body.setAttribute('data-theme', 'light');
+        header.setAttribute('data-theme', 'light');
         themeBtn.className = 'fas fa-sun';
         showToast("Modo Claro activado");
       }
