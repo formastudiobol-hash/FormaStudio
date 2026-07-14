@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- SEO Local y de Marca (Plan 1) -->
+  <title>Cafetería Aroma | Café Premium en La Paz</title>
+  <meta name="description" content="Disfruta del auténtico café premium en Cafetería Aroma. Visítanos en la Plaza del Maestro o haz tu pedido directamente por WhatsApp.">
+
+  <!-- Etiquetas Open Graph Básicas -->
+  <meta property="og:title" content="Cafetería Aroma | Café Premium">
+  <meta property="og:description" content="Espressos perfectos, repostería fresca y el mejor ambiente. Contáctanos directo por WhatsApp.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome para Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #4e342e;
+      --primary-light: #7b5e57;
+      --accent: #c7a17a;
+      --bg: #fdfbf7;
+      --surface: #ffffff;
+      --text: #2c2523;
+      --text-muted: #706461;
+      --border: #eeded1;
+      --shadow: rgba(78, 52, 46, 0.05);
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --primary: #d7ccc8;
+      --primary-light: #b0bec5;
+      --accent: #e5c158;
+      --bg: #12100f;
+      --surface: #1e1a18;
+      --text: #f5f2f0;
+      --text-muted: #a19390;
+      --border: #3a3230;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: var(--bg); 
+      color: var(--text); 
+      transition: var(--transition); 
+      overflow-x: hidden; 
+    }
+    h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+
+    /* --- TOAST DE NOTIFICACIÓN CUSTOM --- */
+    #customToast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      z-index: 3000;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+      opacity: 0;
+      pointer-events: none;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid var(--accent);
+    }
+    #customToast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* --- CABECERA ULTRA MINIMALISTA (Paso 1) --- */
+    header { 
+      position: sticky; 
+      top: 0; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 18px 6%; 
+      background: var(--surface); 
+      box-shadow: 0 2px 20px var(--shadow); 
+      z-index: 1000; 
+      transition: var(--transition); 
+    }
+    
+    .logo { 
+      font-size: 24px; 
+      font-weight: 700; 
+      color: var(--primary); 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      text-decoration: none;
+      white-space: nowrap; 
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-icon { 
+      background: none; 
+      border: none; 
+      font-size: 20px; 
+      color: var(--text); 
+      cursor: pointer; 
+      width: 44px; 
+      height: 44px; 
+      display: grid; 
+      place-items: center; 
+      border-radius: 50%; 
+      transition: var(--transition); 
+    }
+    .btn-icon:hover { background: var(--border); }
+
+    /* --- HERO DE CONVERSIÓN --- */
+    .hero { 
+      height: 60vh; 
+      min-height: 400px;
+      background: linear-gradient(rgba(44, 26, 20, 0.6), rgba(44, 26, 20, 0.6)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80') center/cover fixed; 
+      display: grid; 
+      place-items: center; 
+      color: #fff; 
+      text-align: center; 
+      padding: 20px; 
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      width: 100%;
+    }
+    
+    .hero-content h1 { 
+      font-size: clamp(32px, 5vw, 56px); 
+      font-weight: 700;
+      margin-bottom: 16px; 
+      letter-spacing: 0.5px; 
+      line-height: 1.2;
+    }
+    
+    .hero-content p { 
+      font-size: clamp(15px, 2vw, 19px); 
+      font-weight: 300; 
+      opacity: 0.95; 
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .btn-hero {
+      background: var(--accent);
+      color: #1e1a18;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(199, 161, 122, 0.3);
+    }
+    .btn-hero:hover {
+      background: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* --- SOBRE NOSOTROS --- */
+    .about-section { 
+      background: var(--surface); 
+      padding: 80px 6%; 
+      display: flex; 
+      align-items: center; 
+      gap: 50px; 
+      max-width: 1200px; 
+      margin: 60px auto; 
+      border-radius: 24px; 
+      box-shadow: 0 4px 20px var(--shadow); 
+      border: 1px solid var(--border);
+    }
+    .about-content { flex: 1; }
+    .about-content h2 { font-size: clamp(26px, 3.5vw, 36px); margin-bottom: 20px; color: var(--primary); }
+    .about-content p { color: var(--text-muted); line-height: 1.7; margin-bottom: 15px; font-size: 15px; }
+
+    /* --- ESPECIALIDADES / CARTA VISUAL (Paso 4 - Con Imágenes de Regreso) --- */
+    .specials-section {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .specials-section h2 {
+      font-size: clamp(28px, 4vw, 36px);
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+    .specials-section .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-bottom: 50px;
+    }
+    
+    /* Cuadrícula de Especialidades */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 25px var(--shadow);
+      transition: var(--transition);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px rgba(78, 52, 46, 0.12);
+    }
+    .img-container {
+      height: 200px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .card:hover .img-container img {
+      transform: scale(1.05);
+    }
+    .card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+    .card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+      gap: 15px;
+    }
+    .card-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .card-price {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .card-text {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* --- LLAMADO A LA ACCIÓN CENTRAL (CONVERSIÓN DIRECTA) --- */
+    .cta-banner {
+      max-width: 1160px;
+      margin: 80px auto;
+      padding: 60px 40px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 24px;
+      text-align: center;
+      border: 1px solid rgba(212, 163, 115, 0.2);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      position: relative;
+    }
+    .cta-banner h2 {
+      font-size: clamp(28px, 4vw, 36px);
+      margin-bottom: 15px;
+      color: #fff;
+    }
+    .cta-banner p {
+      color: var(--border);
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .btn-whatsapp-cta {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .btn-whatsapp-cta:hover {
+      background: #20ba5a;
+      transform: scale(1.03);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+
+    /* --- FOOTER SIMPLE --- */
+    footer { 
+      background: #1e1a18; 
+      color: #ae9f9a; 
+      padding: 60px 6% 30px; 
+      font-size: 14px; 
+    }
+    .footer-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+      gap: 40px; 
+      max-width: 1200px; 
+      margin: 0 auto 30px; 
+    }
+    .footer-col h4 { 
+      color: #fff; 
+      font-family: 'Playfair Display', serif; 
+      font-size: 18px; 
+      margin-bottom: 15px; 
+    }
+    .footer-col p { 
+      line-height: 1.6; 
+      margin-bottom: 8px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    .social-icon {
+      color: #ae9f9a;
+      font-size: 18px;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(174, 159, 154, 0.2);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+    .social-icon:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .footer-bottom { 
+      border-top: 1px solid #322b28; 
+      padding-top: 25px; 
+      text-align: center; 
+      font-size: 12px; 
+      color: #7d6e6a;
+    }
+
+    /* --- RESPONSIVIDAD --- */
+    @media (max-width: 768px) {
+      header { padding: 12px 5%; }
+      
+      .hero { 
+        height: 50vh; 
+        background-attachment: scroll; 
+      }
+
+      .about-section {
+        flex-direction: column;
+        padding: 40px 20px;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST DE ALERTA PERSONALIZADO -->
+  <div id="customToast">Notificación</div>
+
+  <!-- HEADER (Paso 1: Removida la navegación redundante) -->
+  <header>
+    <a href="#" class="logo">
+      <span>☕ Café Aroma</span>
+    </a>
+    
+    <div class="nav-actions">
+      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Cambiar Tema">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>Café Premium de Altura</h1>
+      <p>Descubre el aroma de los Yungas cosechado con orgullo y tostado artesanalmente todos los días en la ciudad de La Paz.</p>
+      <a href="https://wa.me/59176721293?text=¡Hola%20Café%20Aroma!%20Vi%20su%20Landing%20Page%20y%20me%20gustaría%20hacer%20un%20pedido%20o%20conocer%20los%20especiales%20de%20hoy." class="btn-hero" target="_blank" onclick="trackWhatsAppClick('Botón Hero')">
+        <i class="fab fa-whatsapp"></i> Hacer Pedido por WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="about-section" id="about-section">
+    <div class="about-content">
+      <h2>Nuestra Pasión por el Grano</h2>
+      <p>En Café Aroma nos apasiona el barismo de origen. Seleccionamos minuciosamente granos premium cultivados de forma sostenible en los Yungas de La Paz.</p>
+      <p>Cada lote pasa por una tostación artesanal controlada para asegurar notas aromáticas únicas, brindándote frescura y un sabor extraordinario en cada taza.</p>
+    </div>
+  </section>
+
+  <!-- ESPECIALIDADES DESTACADAS (Paso 4: Los 7 productos con imágenes y descripciones restauradas) -->
+  <section class="specials-section" id="specials-section">
+    <h2>Nuestras Especialidades de la Casa</h2>
+    <p class="subtitle">Una selección completa de nuestras mejores delicias para consentirte hoy mismo.</p>
+    <div class="grid">
+      
+      <!-- Producto 1 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" alt="Capuccino Tradicional" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Capuccino Tradicional</h3>
+            <span class="card-price">Bs 18</span>
+          </div>
+          <p class="card-text">Espresso intenso balanceado con leche cremosa vaporizada y una lluvia fina de cacao.</p>
+        </div>
+      </div>
+
+      <!-- Producto 2 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" alt="Latte Macchiato" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Latte Macchiato</h3>
+            <span class="card-price">Bs 20</span>
+          </div>
+          <p class="card-text">Leche texturizada en tres capas con un shot perfecto de espresso seleccionado de altura.</p>
+        </div>
+      </div>
+
+      <!-- Producto 3 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1510707577719-0d458b3dc4f4?auto=format&fit=crop&w=600&q=80" alt="Espresso Intenso" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Espresso Intenso</h3>
+            <span class="card-price">Bs 14</span>
+          </div>
+          <p class="card-text">Shot corto y concentrado con crema avellana perfecta y notas marcadas a cacao amargo.</p>
+        </div>
+      </div>
+
+      <!-- Producto 4 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80" alt="Iced Latte" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Iced Latte Vainilla</h3>
+            <span class="card-price">Bs 22</span>
+          </div>
+          <p class="card-text">Nuestro café espresso premium frío servido con leche, un toque de vainilla y hielo.</p>
+        </div>
+      </div>
+
+      <!-- Producto 5 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80" alt="Frappé de Caramelo" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Frappé de Caramelo</h3>
+            <span class="card-price">Bs 25</span>
+          </div>
+          <p class="card-text">Bebida helada licuada de espresso con dulce de leche local, crema batida y caramelo.</p>
+        </div>
+      </div>
+
+      <!-- Producto 6 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80" alt="Cheesecake" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Cheesecake New York</h3>
+            <span class="card-price">Bs 22</span>
+          </div>
+          <p class="card-text">Suave tarta de queso crema horneada con base crocante y coulis de frutos rojos.</p>
+        </div>
+      </div>
+
+      <!-- Producto 7 -->
+      <div class="card">
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80" alt="Croissant de Almendras" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h3 class="card-title">Croissant de Almendras</h3>
+            <span class="card-price">Bs 16</span>
+          </div>
+          <p class="card-text">Hojaldre crujiente de pura mantequilla con relleno de crema frangipane y almendras tostadas.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LLAMADO A LA ACCIÓN CENTRAL -->
+  <section class="cta-banner">
+    <h2>¿Listo para disfrutar un buen café?</h2>
+    <p>Haz clic abajo para chatear directamente con nuestra barra en WhatsApp, consultar disponibilidad o solicitar tu pedido para llevar.</p>
+    <a href="https://wa.me/59176721293?text=¡Hola%20Café%20Aroma!%20Me%20gustaría%20saber%20más%20sobre%20sus%20especialidades%20y%20hacer%20un%20pedido." class="btn-whatsapp-cta" target="_blank" onclick="trackWhatsAppClick('Banner CTA Central')">
+      <i class="fab fa-whatsapp"></i> Chatear con la Barra
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Café Aroma</h4>
+        <p>Seleccionamos los mejores granos de La Paz para brindarte una experiencia artesanal única.</p>
+        <div class="social-icons">
+          <a class="social-icon" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-icon" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios de Atención</h4>
+        <p><i class="far fa-clock"></i> Lunes a Viernes: <br>07:30 - 21:30</p>
+        <p><i class="far fa-clock"></i> Sábados y Domingos: <br>08:30 - 22:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Ubicación</h4>
+        <p><i class="fas fa-map-marker-alt"></i> Plaza del Maestro, Villa Fátima (La Paz, Bolivia)</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Café Aroma Premium. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script>
+    // SISTEMA DE NOTIFICACIONES TOAST PREMIUM
+    function showToast(msg) {
+      const toast = document.getElementById('customToast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function trackWhatsAppClick(locationLabel) {
+      showToast(`Abriendo WhatsApp desde: ${locationLabel}`);
+    }
+
+    // CONTROL DEL MODO OSCURO
+    function toggleTheme() {
+      const body = document.body;
+      const themeBtn = document.getElementById('themeBtn').querySelector('i');
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        themeBtn.className = 'fas fa-moon';
+        showToast("Modo Claro activado");
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        themeBtn.className = 'fas fa-sun';
+        showToast("Modo Oscuro activado");
+      }
+    }
+  </script>
+</body>
+</html>

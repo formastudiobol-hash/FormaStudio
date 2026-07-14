@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- SEO Local y de Marca (Plan 3) -->
+  <title>Cafetería Aroma | Café Premium y Reservas en La Paz</title>
+  <meta name="description" content="Disfruta del mejor café premium en Cafetería Aroma. Explora nuestro menú exclusivo, conoce nuestra historia y reserva tu mesa en nuestra sucursal de la Plaza del Maestro.">
+
+  <!-- Etiquetas Open Graph para Redes Sociales -->
+  <meta property="og:title" content="Cafetería Aroma | Café Premium">
+  <meta property="og:description" content="Espressos perfectos, repostería artesanal y un ambiente diseñado para ti. Reserva tu mesa en línea.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome para Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #4e342e;
+      --primary-light: #7b5e57;
+      --accent: #c7a17a;
+      --bg: #fdfbf7;
+      --surface: #ffffff;
+      --text: #2c2523;
+      --text-muted: #706461;
+      --border: #eeded1;
+      --shadow: rgba(78, 52, 46, 0.08);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --primary: #d7ccc8;
+      --primary-light: #b0bec5;
+      --accent: #e5c158;
+      --bg: #12100f;
+      --surface: #1e1a18;
+      --text: #f5f2f0;
+      --text-muted: #a19390;
+      --border: #3a3230;
+      --shadow: rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); transition: var(--transition); overflow-x: hidden; }
+    h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+
+    /* --- HEADER Y NAVEGACIÓN PROFESIONAL --- */
+    header { 
+      position: sticky; 
+      top: 0; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 16px 6%; 
+      background: var(--surface); 
+      box-shadow: 0 2px 20px var(--shadow); 
+      z-index: 100; 
+      transition: var(--transition); 
+    }
+    
+    .logo { 
+      font-size: 24px; 
+      font-weight: 700; 
+      color: var(--primary); 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      text-decoration: none;
+    }
+    
+    nav { display: flex; gap: 25px; align-items: center; }
+    nav a { text-decoration: none; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: var(--transition); position: relative; padding: 4px 0; font-size: 15px; }
+    nav a:hover, nav a.active { color: var(--primary); }
+    nav a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent); border-radius: 2px; }
+    
+    .nav-actions { display: flex; align-items: center; gap: 15px; }
+    .btn-icon { background: none; border: none; font-size: 20px; color: var(--text); cursor: pointer; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; transition: var(--transition); }
+    .btn-icon:hover { background: var(--border); }
+    
+    .btn-nav-booking { background: var(--primary); color: #fff; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 14px; transition: var(--transition); border: none; cursor: pointer; }
+    .btn-nav-booking:hover { background: var(--accent); }
+    
+    .menu-toggle { display: none; }
+
+    /* --- HERO --- */
+    .hero { 
+      height: 65vh; 
+      background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80') center/cover fixed; 
+      display: grid; 
+      place-items: center; 
+      color: #fff; 
+      text-align: center; 
+      padding: 20px; 
+    }
+    .hero-content h1 { font-size: 48px; margin-bottom: 16px; letter-spacing: 1px; }
+    .hero-content p { font-size: 18px; font-weight: 300; opacity: 0.9; margin-bottom: 25px; }
+    .btn-hero { background: var(--accent); color: #fff; border: none; padding: 12px 28px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); text-decoration: none; font-size: 15px; display: inline-block; }
+    .btn-hero:hover { background: var(--primary); transform: translateY(-2px); }
+
+    /* --- CARRUSEL AUTOMÁTICO INFORMATIVO --- */
+    .promo-carousel { max-width: 1200px; margin: 45px auto; padding: 0 20px; position: relative; overflow: hidden; }
+    .carousel-track { display: flex; transition: transform 0.6s ease-in-out; }
+    .carousel-slide { min-width: 100%; display: flex; align-items: center; background: var(--surface); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px var(--shadow); border: 1px solid var(--border); }
+    .carousel-img { width: 50%; height: 350px; object-fit: cover; }
+    .carousel-info { padding: 40px; width: 50%; }
+    .carousel-info h3 { font-size: 28px; margin-bottom: 10px; color: var(--primary); }
+    .carousel-info p { color: var(--text-muted); margin-bottom: 20px; font-size: 15px; }
+    .badge { background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; margin-bottom: 10px; }
+
+    /* --- HISTORIA / SOBRE NOSOTROS --- */
+    .about-section { background: var(--surface); padding: 80px 6%; display: flex; align-items: center; gap: 50px; max-width: 1200px; margin: 40px auto; border-radius: 30px; box-shadow: 0 10px 30px var(--shadow); border: 1px solid var(--border); }
+    .about-content { flex: 1; }
+    .about-content h2 { font-size: 36px; margin-bottom: 20px; color: var(--primary); }
+    .about-content p { color: var(--text-muted); line-height: 1.7; margin-bottom: 15px; font-size: 15px; }
+    .about-img { flex: 1; border-radius: 20px; overflow: hidden; height: 350px; }
+    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* --- FILTROS Y BUSCADOR --- */
+    .shop-controls { max-width: 1200px; margin: 60px auto 20px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .categories { display: flex; gap: 10px; flex-wrap: wrap; }
+    .cat-btn { background: var(--surface); border: 1px solid var(--border); padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 500; color: var(--text-muted); transition: var(--transition); }
+    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .search-wrapper { position: relative; width: 300px; }
+    .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+    #search { width: 100%; padding: 12px 15px 12px 42px; border-radius: 30px; border: 1px solid var(--border); background: var(--surface); color: var(--text); outline: none; transition: var(--transition); font-family: inherit; }
+    #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(199, 161, 122, 0.2); }
+
+    /* --- CATÁLOGO DE PRODUCTOS (SIN CARRITO) --- */
+    .grid { max-width: 1200px; margin: 0 auto 80px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .card { background: var(--surface); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); border: 1px solid var(--border); transition: var(--transition); display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 35px rgba(78, 52, 46, 0.12); }
+    .img-container { position: relative; overflow: hidden; height: 220px; }
+    .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--transition); }
+    .card:hover img { transform: scale(1.06); }
+    .card-body { padding: 22px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-body h3 { font-size: 20px; margin-bottom: 8px; color: var(--text); }
+    .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border); }
+    .price { font-size: 22px; font-weight: 700; color: var(--primary); }
+    
+    /* Botón corporativo: Redirige a Reservas */
+    .btn-action { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 8px; font-size: 13px; text-decoration: none; }
+    .btn-action:hover { background: var(--accent); }
+
+    /* --- SECCIÓN OPINIONES Y RESEÑAS --- */
+    .reviews-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; text-align: center; }
+    .reviews-section h2 { font-size: 36px; margin-bottom: 25px; color: var(--primary); }
+    .review-form-container { max-width: 600px; margin: 0 auto 40px; background: var(--surface); padding: 25px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 5px 20px var(--shadow); text-align: left; }
+    .review-form-container h3 { margin-bottom: 15px; font-size: 20px; color: var(--primary); }
+    .rating-selector { display: flex; gap: 8px; margin-bottom: 15px; font-size: 22px; cursor: pointer; color: #ccc; }
+    .rating-selector i.active { color: #f1c40f; }
+    .review-form-container textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: inherit; outline: none; resize: vertical; height: 90px; margin-bottom: 15px; }
+    
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 20px; }
+    .review-card { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 5px 20px var(--shadow); text-align: left; transition: var(--transition); }
+    .review-card:hover { transform: translateY(-3px); }
+    .stars { color: #f1c40f; margin-bottom: 15px; }
+    .review-text { font-style: italic; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6; }
+    .review-user { font-weight: 600; font-size: 14px; color: var(--primary); }
+
+    /* --- EXTRAS: GALERÍA, RESERVAS Y MAPA --- */
+    .extra-grid { max-width: 1200px; margin: 60px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .gallery-grid img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; transition: var(--transition); border: 1px solid var(--border); }
+    .gallery-grid img:hover { transform: scale(1.04); }
+    
+    .booking-form { background: var(--surface); padding: 30px; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow); }
+    .booking-form h3 { margin-bottom: 20px; font-size: 24px; color: var(--primary); }
+    .form-group { margin-bottom: 15px; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; font-family: inherit; }
+    
+    /* Calendario Interactivo */
+    .mini-calendar { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: bold; font-size: 14px; color: var(--primary); }
+    .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 12px; }
+    .day-name { font-weight: 600; color: var(--text-muted); padding-bottom: 5px; }
+    .calendar-day { padding: 6px; border-radius: 6px; cursor: pointer; transition: var(--transition); color: var(--text); }
+    .calendar-day:hover:not(.empty) { background: var(--border); }
+    .calendar-day.selected { background: var(--primary) !important; color: #fff !important; font-weight: bold; }
+    .calendar-day.empty { cursor: default; }
+
+    .btn-submit { width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition); }
+    .btn-submit:hover { background: var(--accent); }
+    
+    /* Mapa de Ubicación */
+    .map-box { grid-column: span 2; background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow); display: flex; flex-direction: column; }
+    .map-bar { padding: 15px 20px; background: var(--primary); color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .map-bar span { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .btn-directions { background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; transition: var(--transition); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .btn-directions:hover { background: #fff; color: var(--primary); }
+    .map-container { height: 350px; width: 100%; }
+
+    /* --- FLOATING WHATSAPP BUTTON --- */
+    .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-decoration: none; z-index: 99; transition: var(--transition); }
+    .whatsapp-btn:hover { transform: scale(1.1); background: #20ba5a; }
+
+    /* --- FOOTER --- */
+    footer { background: #1e1a18; color: #ae9f9a; padding: 50px 6% 20px; font-size: 14px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+    .footer-col h4 { color: #fff; font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 20px; }
+    .footer-col p { line-height: 1.6; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; cursor: pointer; transition: var(--transition); }
+    .footer-col ul li:hover { color: var(--accent); }
+    .footer-bottom { border-top: 1px solid #322b28; padding-top: 20px; text-align: center; font-size: 12px; }
+
+    /* --- RESPONSIVO MÓVIL / COMPUTADORA --- */
+    @media (max-width: 768px) {
+      header { padding: 16px 4%; }
+      .menu-toggle { display: block; font-size: 22px; background: none; border: none; color: var(--text); cursor: pointer; }
+      
+      nav { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        width: 100%; 
+        background: var(--surface); 
+        flex-direction: column; 
+        gap: 0; 
+        padding: 20px 0; 
+        box-shadow: 0 10px 20px var(--shadow);
+        border-top: 1px solid var(--border);
+      }
+      nav.open { display: flex; }
+      nav a { width: 100%; text-align: center; padding: 12px 0; }
+      nav a.active::after { display: none; }
+      .btn-nav-booking { margin-top: 10px; width: 80%; text-align: center; }
+
+      .hero { height: 50vh; }
+      .hero-content h1 { font-size: 34px; }
+      .hero-content p { font-size: 15px; }
+
+      .carousel-slide { flex-direction: column; }
+      .carousel-img { width: 100%; height: 220px; }
+      .carousel-info { width: 100%; padding: 25px; }
+      
+      .about-section { flex-direction: column; padding: 40px 20px; gap: 30px; }
+      .about-img { height: 250px; width: 100%; }
+
+      .shop-controls { flex-direction: column; align-items: stretch; }
+      .search-wrapper { width: 100%; }
+
+      .extra-grid { grid-template-columns: 1fr; }
+      .map-box { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="#" class="logo">☕ Café Aroma</a>
+    
+    <nav id="navbar">
+      <a onclick="scrollToSection('hero')" class="active">Inicio</a>
+      <a onclick="scrollToSection('about')">Sobre Nosotros</a>
+      <a onclick="scrollToSection('menu')">Menú</a>
+      <a onclick="scrollToSection('reviews')">Opiniones</a>
+      <button class="btn-nav-booking" onclick="scrollToSection('booking')">Reservar Mesa</button>
+    </nav>
+    
+    <div class="nav-actions">
+      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()" title="Cambiar Modo"><i class="fas fa-moon"></i></button>
+      <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <h1>Cada taza cuenta una historia</h1>
+      <p>Café de especialidad artesanal, repostería fina y un espacio diseñado para tus mejores momentos.</p>
+      <button class="btn-hero" onclick="scrollToSection('menu')">Explorar Menú</button>
+    </div>
+  </section>
+
+  <!-- CARRUSEL DE PROMOCIONES / DESTACADOS -->
+  <section class="promo-carousel">
+    <div class="carousel-track" id="carouselTrack">
+      <div class="carousel-slide" id="slide-0">
+        <img class="carousel-img" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="Café Moca Especial">
+        <div class="carousel-info">
+          <span class="badge">Especial del Mes</span>
+          <h3>Café Moca Avellana</h3>
+          <p>Un perfecto balance entre espresso premium de altura, leche cremosa texturizada, chocolate amargo artesanal y un toque sutil de avellanas tostadas.</p>
+          <strong>Disponible en salón por Bs 24</strong>
+        </div>
+      </div>
+      <div class="carousel-slide" id="slide-1" style="display: none;">
+        <img class="carousel-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Tarde de Té y Tarta">
+        <div class="carousel-info">
+          <span class="badge">Nuevos Sabores</span>
+          <h3>Tarde de Latte & Repostería</h3>
+          <p>Disfruta de cualquier tarta fresca de nuestra vitrina y acompáñala con un Latte mediano cremoso recién hecho por nuestros baristas.</p>
+          <strong>De Lunes a Viernes de 16:00 a 19:00</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="about-section" id="about">
+    <div class="about-content">
+      <h2>Nuestra Pasión por el Grano</h2>
+      <p>En Café Aroma seleccionamos meticulosamente granos de origen único provenientes de caficultores locales para asegurar notas aromáticas inigualables en cada tostado.</p>
+      <p>Nos dedicamos a crear un santuario urbano donde la excelencia de una buena taza de café se entrelaza de forma armónica con tus lecturas, reuniones y momentos de calma.</p>
+    </div>
+    <div class="about-img">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=80" alt="Nuestra cafetería por dentro">
+    </div>
+  </section>
+
+  <!-- CONTROLES MENU -->
+  <div class="shop-controls" id="menu">
+    <div class="categories" id="categoriesContainer">
+      <button class="cat-btn active" onclick="filterCategory('todos')">Todos</button>
+      <button class="cat-btn" onclick="filterCategory('cafes')">Cafés</button>
+      <button class="cat-btn" onclick="filterCategory('bebidas-frias')">Bebidas Frías</button>
+      <button class="cat-btn" onclick="filterCategory('postres')">Postres</button>
+    </div>
+    <div class="search-wrapper">
+      <i class="fas fa-search"></i>
+      <input id="search" placeholder="Buscar en el menú..." oninput="handleSearch()">
+    </div>
+  </div>
+
+  <!-- CATÁLOGO DE PRODUCTOS (PLAN 3) -->
+  <div id="products" class="grid"></div>
+
+  <!-- RESEÑAS Y OPINIONES -->
+  <section class="reviews-section" id="reviews">
+    <h2>Lo que dicen nuestros Coffee Lovers</h2>
+    
+    <div class="review-form-container">
+      <h3>Califica tu experiencia</h3>
+      <div class="rating-selector" id="ratingSelector">
+        <i class="fas fa-star" data-value="1"></i>
+        <i class="fas fa-star" data-value="2"></i>
+        <i class="fas fa-star" data-value="3"></i>
+        <i class="fas fa-star" data-value="4"></i>
+        <i class="fas fa-star" data-value="5"></i>
+      </div>
+      <textarea id="reviewText" placeholder="Escribe tu opinión aquí..."></textarea>
+      <button class="btn-submit" onclick="submitReview()">Publicar Reseña</button>
+    </div>
+
+    <div class="reviews-grid" id="reviewsGrid">
+      <div class="review-card">
+        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="review-text">"El Capuccino tiene la textura de espuma perfecta. El ambiente es super premium y tranquilo para trabajar."</p>
+        <div class="review-user">- Mariana V.</div>
+      </div>
+      <div class="review-card">
+        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <p class="review-text">"¡El Cheesecake de frutos rojos es de otro planeta! Y la atención del cliente siempre es de primera."</p>
+        <div class="review-user">- Alejandro M.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTRAS: GALERÍA, RESERVAS Y UBICACIÓN -->
+  <div class="extra-grid" id="booking">
+    <div>
+      <h3 style="margin-bottom: 20px; font-size: 24px; font-family: 'Playfair Display', serif;">Galería Aroma</h3>
+      <div class="gallery-grid">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80" alt="Taza de cafe">
+        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Preparación barismo">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" alt="Espacio interior">
+        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=400&q=80" alt="Postres vitrina">
+      </div>
+    </div>
+    
+    <div class="booking-form">
+      <h3>Reserva tu Mesa</h3>
+      <form onsubmit="handleReserve(event)">
+        <div class="form-group">
+          <input type="text" id="reserveName" placeholder="Nombre completo" required>
+        </div>
+        
+        <!-- Calendario Interactivo -->
+        <div class="mini-calendar">
+          <div class="calendar-header">
+            <button type="button" onclick="changeMonth(-1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;"><</button>
+            <span id="calendarMonthYear">Julio 2026</span>
+            <button type="button" onclick="changeMonth(1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;">></button>
+          </div>
+          <div class="calendar-days-grid" id="calendarGrid"></div>
+        </div>
+        
+        <div class="form-group">
+          <select id="bookingTime">
+            <option>08:00</option><option>09:00</option><option>10:00</option>
+            <option>11:00</option><option>12:00</option><option>13:00</option>
+            <option>14:00</option><option>15:00</option><option>16:00</option>
+            <option>17:00</option><option>18:00</option><option>19:00</option>
+            <option>20:00</option><option>21:00</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Confirmar Reserva vía WhatsApp</button>
+      </form>
+    </div>
+
+    <!-- Mapa en Plaza del Maestro, Villa Fátima (La Paz) -->
+    <div class="map-box">
+      <div class="map-bar">
+        <span><i class="fas fa-map-marker-alt"></i> Plaza del Maestro, Villa Fátima (La Paz)</span>
+        <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=-16.4839,-68.1132" target="_blank">
+          <i class="fas fa-route"></i> Cómo llegar / Indicaciones
+        </a>
+      </div>
+      <div class="map-container">
+        <!-- Mapa de Google Maps centrado de forma adaptativa y automática en Plaza del Maestro, La Paz -->
+        <iframe src="https://maps.google.com/maps?q=-16.4839,-68.1132&amp;z=16&amp;output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <a href="https://wa.me/59176721293?text=Hola!%20Me%20gustaría%20hacer%20una%20consulta%20a%20Café%20Aroma." class="whatsapp-btn" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Café Aroma</h4>
+        <p>Experiencias de café premium todos los días en la ciudad de La Paz.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <p>Lunes a Viernes: 7:30 - 21:30</p>
+        <p>Sábados y Domingos: 8:30 - 22:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <p><i class="fas fa-phone"></i> +591 70000000</p>
+        <p><i class="fas fa-envelope"></i> info@cafearoma.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Café Aroma Premium. Todos los derechos reservados.
+    </div>
+  </footer>
+
+  <script>
+    // DATOS DE PRODUCTOS (PLAN 3 - SIN CARRITO)
+    const productsData = [
+      { name: 'Capuccino Tradicional', price: 18, category: 'cafes', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Latte Macchiato', price: 20, category: 'cafes', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Espresso Intenso', price: 14, category: 'cafes', img: 'https://images.unsplash.com/photo-1510707577719-0d458b3dc4f4?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Iced Latte Vainilla', price: 22, category: 'bebidas-frias', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Frappé de Caramelo', price: 25, category: 'bebidas-frias', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Cheesecake New York', price: 22, category: 'postres', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Croissant de Almendras', price: 16, category: 'postres', img: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80' }
+    ];
+
+    let currentCategory = 'todos';
+    let selectedRating = 5;
+    let selectedDay2026 = null;
+
+    // RENDERIZAR PRODUCTOS
+    function renderProducts(filterText = '') {
+      const grid = document.getElementById('products');
+      grid.innerHTML = '';
+      
+      productsData.forEach(p => {
+        if (currentCategory !== 'todos' && p.category !== currentCategory) return;
+        if (!p.name.toLowerCase().includes(filterText.toLowerCase())) return;
+
+        grid.innerHTML += `
+          <div class="card">
+            <div class="img-container">
+              <img src="${p.img}" alt="${p.name}">
+            </div>
+            <div class="card-body">
+              <h3>${p.name}</h3>
+              <div class="price-row">
+                <span class="price">Bs ${p.price}</span>
+                <button class="btn-action" onclick="scrollToSection('booking')">
+                  <i class="far fa-calendar-alt"></i> Reservar Mesa
+                </button>
+              </div>
+            </div>
+          </div>`;
+      });
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderProducts(document.getElementById('search').value);
+    }
+
+    // CONTROL DEL MODO OSCURO
+    function toggleTheme() {
+      const body = document.body;
+      const themeBtn = document.getElementById('themeBtn').querySelector('i');
+      if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        themeBtn.className = 'fas fa-moon';
+      } else {
+        body.setAttribute('data-theme', 'dark');
+        themeBtn.className = 'fas fa-sun';
+      }
+    }
+
+    // MENÚ HAMBURGUESA RESPONSIVO
+    function toggleMobileMenu() {
+      const nav = document.getElementById('navbar');
+      nav.classList.toggle('open');
+    }
+
+    // SCROLL SUAVE ENTRE SECCIONES
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
+      if(section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('navbar').classList.remove('open'); // Cierra menú móvil al hacer click
+        
+        // Actualiza clase activa en el nav
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => a.getAttribute('onclick').includes(id));
+        if(activeLink) activeLink.classList.add('active');
+      }
+    }
+
+    // GESTIÓN DE RESEÑAS CON ESTRELLAS
+    document.querySelectorAll('#ratingSelector i').forEach(star => {
+      star.onclick = function() {
+        selectedRating = parseInt(this.getAttribute('data-value'));
+        document.querySelectorAll('#ratingSelector i').forEach(s => {
+          if(parseInt(s.getAttribute('data-value')) <= selectedRating) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
+        });
+      }
+    });
+    // Forzar estrellas por defecto a 5 estrellas iluminadas al iniciar
+    document.querySelectorAll('#ratingSelector i').forEach(s => s.classList.add('active'));
+
+    function submitReview() {
+      const txt = document.getElementById('reviewText').value.trim();
+      if(!txt) return alert("Por favor escribe un comentario para tu reseña.");
+      
+      let starsHtml = '';
+      for(let i=1; i<=5; i++) {
+        starsHtml += `<i class="${i <= selectedRating ? 'fas' : 'far'} fa-star"></i>`;
+      }
+
+      const grid = document.getElementById('reviewsGrid');
+      const newCard = document.createElement('div');
+      newCard.className = 'review-card';
+      newCard.innerHTML = `
+        <div class="stars" style="color: #f1c40f; margin-bottom: 15px;">${starsHtml}</div>
+        <p class="review-text">"${txt}"</p>
+        <div class="review-user">- Cliente Satisfecho</div>
+      `;
+      grid.insertBefore(newCard, grid.firstChild);
+      
+      // Resetear campo
+      document.getElementById('reviewText').value = '';
+      alert("¡Gracias! Tu reseña ha sido enviada con éxito.");
+    }
+
+    // MINI CALENDARIO INTERACTIVO - JULIO 2026 (Como ejemplo de Plan Corporativo)
+    let currentMonthIdx = 6; // Julio (0-Indexed)
+    const months2026 = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const daysInMonths2026 = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const startDays2026 = [4, 0, 0, 3, 5, 1, 3, 6, 2, 4, 0, 2]; // Día de inicio de semana de cada mes (0=Dom, 1=Lun, etc.)
+
+    function renderCalendarDays() {
+      const grid = document.getElementById('calendarGrid');
+      if(!grid) return;
+      grid.innerHTML = '';
+      
+      const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+      dayNames.forEach(d => { grid.innerHTML += `<div class="day-name">${d}</div>`; });
+      
+      let spaces = startDays2026[currentMonthIdx];
+      for(let i = 0; i < spaces; i++) { grid.innerHTML += `<div class="calendar-day empty"></div>`; }
+      
+      let days = daysInMonths2026[currentMonthIdx];
+      for(let day = 1; day <= days; day++) {
+        grid.innerHTML += `<div class="calendar-day" data-day="${day}" onclick="selectCalendarDay(${day})">${day}</div>`;
+      }
+      selectedDay2026 = null;
+    }
+
+    function changeMonth(dir) {
+      currentMonthIdx = (currentMonthIdx + dir + 12) % 12;
+      document.getElementById('calendarMonthYear').textContent = months2026[currentMonthIdx] + ' 2026';
+      renderCalendarDays();
+    }
+
+    function selectCalendarDay(day) {
+      selectedDay2026 = day;
+      document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
+      event.target.classList.add('selected');
+    }
+
+    // RESERVAS REDIRIGIDAS A WHATSAPP
+    function handleReserve(e) {
+      e.preventDefault();
+      if(!selectedDay2026) {
+        return alert("Por favor selecciona un día del mini calendario para tu reserva.");
+      }
+      const nombre = document.getElementById('reserveName').value;
+      const time = document.getElementById('bookingTime').value;
+      const mesAnio = document.getElementById('calendarMonthYear').textContent;
+      
+      const textoWhatsApp = `¡Hola Café Aroma! Quiero confirmar una reserva de mesa a nombre de: *${nombre}*. Fecha: *${selectedDay2026} de ${mesAnio}*. Hora: *${time}*. Por favor me confirman disponibilidad. ¡Muchas gracias!`;
+      const urlWhatsApp = `https://wa.me/59176721293?text=${encodeURIComponent(textoWhatsApp)}`;
+      
+      // Abrir WhatsApp
+      window.open(urlWhatsApp, '_blank');
+      
+      alert(`Redirigiendo a WhatsApp para procesar tu reserva del día ${selectedDay2026} de ${mesAnio} a las ${time}.`);
+      e.target.reset();
+      selectedDay2026 = null;
+      document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
+    }
+
+    // INICIALIZACIÓN
+    window.onload = function() {
+      renderProducts();
+      renderCalendarDays();
+      
+      // Rotación del Carrusel de Promociones (Informativo)
+      const slides = document.querySelectorAll('.carousel-slide');
+      let currentSlide = 0;
+      if (slides.length > 1) {
+        setInterval(() => {
+          slides[currentSlide].style.display = 'none';
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides[currentSlide].style.display = 'flex';
+        }, 5000);
+      }
+    };
+  </script>
+</body>
+</html>
