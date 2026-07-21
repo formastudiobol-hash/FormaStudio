@@ -51,7 +51,19 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); transition: var(--transition); overflow-x: hidden; }
     h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
 
-    /* --- NOTIFICACIONES TOAST ELEGANTES (Sustituyen a las alertas nativas) --- */
+    /* --- ANIMACIÓN SCROLL REVEAL (Aparición progresiva al bajar) --- */
+    .reveal-element {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-element.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- NOTIFICACIONES TOAST ELEGANTES --- */
     #customToast {
       position: fixed;
       bottom: 30px;
@@ -327,7 +339,7 @@
   </section>
 
   <!-- DESTACADOS / CARRUSEL -->
-  <section class="promo-carousel">
+  <section class="promo-carousel reveal-element">
     <div class="carousel-track" id="carouselTrack">
       <div class="carousel-slide">
         <img class="carousel-img" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="Promo 1">
@@ -351,7 +363,7 @@
   </section>
 
   <!-- CONTROLES TIENDA (BUSCADOR Y CATEGORÍAS) -->
-  <div class="shop-controls" id="shop-controls">
+  <div class="shop-controls reveal-element" id="shop-controls">
     <div class="categories" id="categoriesContainer">
       <button class="cat-btn active" onclick="filterCategory('todos')">Todos</button>
       <button class="cat-btn" onclick="filterCategory('cafes')">Cafés</button>
@@ -368,7 +380,7 @@
   <div id="products" class="grid"></div>
 
   <!-- BANNER INTERACTIVO RESERVAS (BENEATH PRODUCTS) -->
-  <div class="booking-cta-banner">
+  <div class="booking-cta-banner reveal-element">
     <h3>¿Quieres asegurar tu espacio ideal en nuestro salón?</h3>
     <p>Disfruta de tus espressos favoritos y repostería artesanal en la zona perfecta. Garantiza tu mesa reservando con antelación desde nuestro calendario dinámico.</p>
     <button class="btn-cta" onclick="scrollToSection('booking')">
@@ -377,19 +389,19 @@
   </div>
 
   <!-- SOBRE NOSOTROS -->
-  <section class="about-section" id="about">
+  <section class="about-section reveal-element" id="about">
     <div class="about-content">
       <h2>Nuestra Pasión por el Grano</h2>
       <p>En Café Aroma seleccionamos meticulosamente granos de origen local e internacional para asegurar notas aromáticas únicas en cada tostado.</p>
       <p>Creamos un santuario urbano donde el aroma del buen café se entrelaza con conversaciones inspiradoras y momentos de calma.</p>
     </div>
     <div class="about-img">
-      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=80" alt="Nosotros">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=80" alt="Nosotros" loading="lazy">
     </div>
   </section>
 
   <!-- RESEÑAS -->
-  <section class="reviews-section">
+  <section class="reviews-section reveal-element">
     <h2>Lo que dicen nuestros Coffee Lovers</h2>
     
     <!-- Barra para dejar Reseñas y Puntuar -->
@@ -421,14 +433,14 @@
   </section>
 
   <!-- EXTRAS: GALERÍA Y RESERVAS + MAPA -->
-  <div class="extra-grid" id="booking">
+  <div class="extra-grid reveal-element" id="booking">
     <div>
       <h3 style="margin-bottom: 20px; font-size: 24px;">Galería Aroma</h3>
       <div class="gallery-grid">
-        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80" alt="1">
-        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="2">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" alt="3">
-        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=400&q=80" alt="4">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80" alt="1" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="2" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" alt="3" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=400&q=80" alt="4" loading="lazy">
       </div>
     </div>
     
@@ -455,7 +467,7 @@
     </div>
 
     <!-- Caja del Mapa de Google Maps Integrada (Centrado Inteligente sin cortes) -->
-    <div class="map-box">
+    <div class="map-box reveal-element">
       <div class="map-bar">
         <span><i class="fas fa-map-marker-alt"></i> Plaza del Maestro, Villa Fátima (La Paz)</span>
         <!-- Enlace real a Google Maps configurado para dar indicaciones (Directions) directo a la ubicación -->
@@ -583,8 +595,8 @@
     const data = [
       ['Capuccino Tradicional', 18, 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80', 'cafes'],
       ['Latte Macchiato', 20, 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80', 'cafes'],
-      ['Espresso Intenso', 14, 'https://images.unsplash.com/photo-1510707577719-0d458b3dc4f4?auto=format&fit=crop&w=600&q=80', 'cafes'],
-      ['Iced Latte Vainilla', 22, 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80', 'bebidas-frias'],
+      ['Espresso Intenso', 14, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', 'cafes'],
+      ['Iced Latte Vainilla', 22, 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', 'bebidas-frias'],
       ['Frappé de Caramelo', 25, 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', 'bebidas-frias'],
       ['Cheesecake New York', 22, 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80', 'postres'],
       ['Croissant de Almendras', 16, 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80', 'postres']
@@ -616,9 +628,9 @@
         if (!p[0].toLowerCase().includes(filterText.toLowerCase())) return;
 
         grid.innerHTML += `
-          <div class="card">
+          <div class="card reveal-element">
             <div class="img-container">
-              <img src="${p[2]}" alt="${p[0]}">
+              <img src="${p[2]}" alt="${p[0]}" loading="lazy">
             </div>
             <div class="card-body">
               <h3>${p[0]}</h3>
@@ -631,6 +643,9 @@
             </div>
           </div>`;
       });
+
+      // Reconectar el observador de scroll para las tarjetas renderizadas dinámicamente
+      initScrollReveal();
     }
 
     function filterCategory(cat) {
@@ -737,7 +752,7 @@
 
       const grid = document.getElementById('reviewsGrid');
       const newCard = document.createElement('div');
-      newCard.className = 'review-card';
+      newCard.className = 'review-card reveal-element';
       newCard.innerHTML = `
         <div class="stars" style="color: #f1c40f; margin-bottom: 15px;">${starsHtml}</div>
         <p class="review-text">"${txt}"</p>
@@ -747,6 +762,7 @@
       
       document.getElementById('reviewText').value = '';
       showToast("¡Gracias! Tu reseña ha sido enviada con éxito.");
+      initScrollReveal();
     }
 
     // MINI CALENDARIO INTERACTIVO - JULIO 2026
@@ -957,6 +973,30 @@
       document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
 
+    // LÓGICA DE DETECCIÓN DE SCROLL REVEAL
+    let revealObserver = null;
+    function initScrollReveal() {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('revealed'));
+        return;
+      }
+      
+      if (!revealObserver) {
+        revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      }
+
+      document.querySelectorAll('.reveal-element:not(.revealed)').forEach(el => {
+        revealObserver.observe(el);
+      });
+    }
+
     document.getElementById('search').oninput = e => paint(e.target.value);
     document.getElementById('cartBtn').onclick = () => document.getElementById('drawer').classList.add('open');
     document.getElementById('closeDrawerBtn').onclick = () => document.getElementById('drawer').classList.remove('open');
@@ -969,6 +1009,7 @@
     // Inicializadores al cargar
     paint();
     initMiniCalendar();
+    initScrollReveal();
   </script>
 </body>
 </html>
