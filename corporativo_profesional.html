@@ -52,6 +52,18 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); transition: var(--transition); overflow-x: hidden; }
     h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
 
+    /* --- ANIMACIÓN SCROLL REVEAL (Aparición progresiva al bajar) --- */
+    .reveal-element {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-element.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* --- HEADER Y NAVEGACIÓN PROFESIONAL --- */
     header { 
       position: sticky; 
@@ -105,9 +117,9 @@
     .btn-hero { background: var(--accent); color: #fff; border: none; padding: 12px 28px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); text-decoration: none; font-size: 15px; display: inline-block; }
     .btn-hero:hover { background: var(--primary); transform: translateY(-2px); }
 
-    /* --- CARRUSEL AUTOMÁTICO INFORMATIVO --- */
+    /* --- CARRUSEL DESLIZABLE DE LADO A LADO --- */
     .promo-carousel { max-width: 1200px; margin: 45px auto; padding: 0 20px; position: relative; overflow: hidden; }
-    .carousel-track { display: flex; transition: transform 0.6s ease-in-out; }
+    .carousel-track { display: flex; transition: transform 0.6s ease-in-out; width: 100%; }
     .carousel-slide { min-width: 100%; display: flex; align-items: center; background: var(--surface); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px var(--shadow); border: 1px solid var(--border); }
     .carousel-img { width: 50%; height: 350px; object-fit: cover; }
     .carousel-info { padding: 40px; width: 50%; }
@@ -133,20 +145,34 @@
     #search { width: 100%; padding: 12px 15px 12px 42px; border-radius: 30px; border: 1px solid var(--border); background: var(--surface); color: var(--text); outline: none; transition: var(--transition); font-family: inherit; }
     #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(199, 161, 122, 0.2); }
 
-    /* --- CATÁLOGO DE PRODUCTOS (SIN CARRITO) --- */
-    .grid { max-width: 1200px; margin: 0 auto 80px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    /* --- CATÁLOGO DE PRODUCTOS (FILAS DE 4 PRODUCTOS EN ESCRITORIO) --- */
+    .grid { 
+      max-width: 1200px; 
+      margin: 0 auto 80px; 
+      padding: 0 20px; 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); 
+      gap: 24px; 
+    }
+    
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr); /* Fuerza 4 productos por fila */
+      }
+    }
+
     .card { background: var(--surface); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); border: 1px solid var(--border); transition: var(--transition); display: flex; flex-direction: column; }
     .card:hover { transform: translateY(-8px); box-shadow: 0 16px 35px rgba(78, 52, 46, 0.12); }
-    .img-container { position: relative; overflow: hidden; height: 220px; }
+    .img-container { position: relative; overflow: hidden; height: 200px; }
     .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--transition); }
     .card:hover img { transform: scale(1.06); }
-    .card-body { padding: 22px; display: flex; flex-direction: column; flex-grow: 1; }
-    .card-body h3 { font-size: 20px; margin-bottom: 8px; color: var(--text); }
+    .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-body h3 { font-size: 18px; margin-bottom: 8px; color: var(--text); }
     .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; border-top: 1px dashed var(--border); }
-    .price { font-size: 22px; font-weight: 700; color: var(--primary); }
+    .price { font-size: 20px; font-weight: 700; color: var(--primary); }
     
     /* Botón corporativo: Redirige a Reservas */
-    .btn-action { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 8px; font-size: 13px; text-decoration: none; }
+    .btn-action { background: var(--primary); color: #fff; border: none; padding: 8px 14px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 6px; font-size: 12px; text-decoration: none; }
     .btn-action:hover { background: var(--accent); }
 
     /* --- SECCIÓN OPINIONES Y RESEÑAS --- */
@@ -189,7 +215,7 @@
     .btn-submit { width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition); }
     .btn-submit:hover { background: var(--accent); }
     
-    /* Mapa de Ubicación */
+    /* Mapa de Ubicación Google Maps */
     .map-box { grid-column: span 2; background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow); display: flex; flex-direction: column; }
     .map-bar { padding: 15px 20px; background: var(--primary); color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
     .map-bar span { font-weight: 600; display: flex; align-items: center; gap: 8px; }
@@ -282,10 +308,10 @@
     </div>
   </section>
 
-  <!-- CARRUSEL DE PROMOCIONES / DESTACADOS -->
-  <section class="promo-carousel">
+  <!-- CARRUSEL DE PROMOCIONES / DESTACADOS DESLIZANTE -->
+  <section class="promo-carousel reveal-element">
     <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide" id="slide-0">
+      <div class="carousel-slide">
         <img class="carousel-img" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="Café Moca Especial">
         <div class="carousel-info">
           <span class="badge">Especial del Mes</span>
@@ -294,7 +320,7 @@
           <strong>Disponible en salón por Bs 24</strong>
         </div>
       </div>
-      <div class="carousel-slide" id="slide-1" style="display: none;">
+      <div class="carousel-slide">
         <img class="carousel-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Tarde de Té y Tarta">
         <div class="carousel-info">
           <span class="badge">Nuevos Sabores</span>
@@ -307,19 +333,19 @@
   </section>
 
   <!-- SOBRE NOSOTROS -->
-  <section class="about-section" id="about">
+  <section class="about-section reveal-element" id="about">
     <div class="about-content">
       <h2>Nuestra Pasión por el Grano</h2>
       <p>En Café Aroma seleccionamos meticulosamente granos de origen único provenientes de caficultores locales para asegurar notas aromáticas inigualables en cada tostado.</p>
       <p>Nos dedicamos a crear un santuario urbano donde la excelencia de una buena taza de café se entrelaza de forma armónica con tus lecturas, reuniones y momentos de calma.</p>
     </div>
     <div class="about-img">
-      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=80" alt="Nuestra cafetería por dentro">
+      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=80" alt="Nuestra cafetería por dentro" loading="lazy">
     </div>
   </section>
 
   <!-- CONTROLES MENU -->
-  <div class="shop-controls" id="menu">
+  <div class="shop-controls reveal-element" id="menu">
     <div class="categories" id="categoriesContainer">
       <button class="cat-btn active" onclick="filterCategory('todos')">Todos</button>
       <button class="cat-btn" onclick="filterCategory('cafes')">Cafés</button>
@@ -332,11 +358,11 @@
     </div>
   </div>
 
-  <!-- CATÁLOGO DE PRODUCTOS (PLAN 3) -->
+  <!-- CATÁLOGO DE PRODUCTOS (FILAS DE 4) -->
   <div id="products" class="grid"></div>
 
   <!-- RESEÑAS Y OPINIONES -->
-  <section class="reviews-section" id="reviews">
+  <section class="reviews-section reveal-element" id="reviews">
     <h2>Lo que dicen nuestros Coffee Lovers</h2>
     
     <div class="review-form-container">
@@ -366,15 +392,15 @@
     </div>
   </section>
 
-  <!-- EXTRAS: GALERÍA, RESERVAS Y UBICACIÓN -->
-  <div class="extra-grid" id="booking">
+  <!-- EXTRAS: GALERÍA, RESERVAS Y UBICACIÓN CON GOOGLE MAPS -->
+  <div class="extra-grid reveal-element" id="booking">
     <div>
       <h3 style="margin-bottom: 20px; font-size: 24px; font-family: 'Playfair Display', serif;">Galería Aroma</h3>
       <div class="gallery-grid">
-        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80" alt="Taza de cafe">
-        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Preparación barismo">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" alt="Espacio interior">
-        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=400&q=80" alt="Postres vitrina">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80" alt="Taza de cafe" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="Preparación barismo" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" alt="Espacio interior" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=400&q=80" alt="Postres vitrina" loading="lazy">
       </div>
     </div>
     
@@ -388,9 +414,9 @@
         <!-- Calendario Interactivo -->
         <div class="mini-calendar">
           <div class="calendar-header">
-            <button type="button" onclick="changeMonth(-1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;"><</button>
+            <button type="button" onclick="changeMonth(-1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;">&lt;</button>
             <span id="calendarMonthYear">Julio 2026</span>
-            <button type="button" onclick="changeMonth(1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;">></button>
+            <button type="button" onclick="changeMonth(1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;">&gt;</button>
           </div>
           <div class="calendar-days-grid" id="calendarGrid"></div>
         </div>
@@ -408,8 +434,8 @@
       </form>
     </div>
 
-    <!-- Mapa en Plaza del Maestro, Villa Fátima (La Paz) -->
-    <div class="map-box">
+    <!-- Mapa Interactivo en Plaza del Maestro, Villa Fátima (La Paz) -->
+    <div class="map-box reveal-element">
       <div class="map-bar">
         <span><i class="fas fa-map-marker-alt"></i> Plaza del Maestro, Villa Fátima (La Paz)</span>
         <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&destination=-16.4839,-68.1132" target="_blank">
@@ -417,7 +443,7 @@
         </a>
       </div>
       <div class="map-container">
-        <!-- Mapa de Google Maps centrado de forma adaptativa y automática en Plaza del Maestro, La Paz -->
+        <!-- Mapa de Google Maps centrado de forma adaptativa y automática -->
         <iframe src="https://maps.google.com/maps?q=-16.4839,-68.1132&amp;z=16&amp;output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
       </div>
     </div>
@@ -452,11 +478,11 @@
   </footer>
 
   <script>
-    // DATOS DE PRODUCTOS (PLAN 3 - SIN CARRITO)
+    // DATOS DE PRODUCTOS (PLAN 3)
     const productsData = [
       { name: 'Capuccino Tradicional', price: 18, category: 'cafes', img: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80' },
       { name: 'Latte Macchiato', price: 20, category: 'cafes', img: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80' },
-      { name: 'Espresso Intenso', price: 14, category: 'cafes', img: 'https://images.unsplash.com/photo-1510707577719-0d458b3dc4f4?auto=format&fit=crop&w=600&q=80' },
+      { name: 'Espresso Intenso', price: 14, category: 'cafes', img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80' },
       { name: 'Iced Latte Vainilla', price: 22, category: 'bebidas-frias', img: 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80' },
       { name: 'Frappé de Caramelo', price: 25, category: 'bebidas-frias', img: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80' },
       { name: 'Cheesecake New York', price: 22, category: 'postres', img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80' },
@@ -477,9 +503,9 @@
         if (!p.name.toLowerCase().includes(filterText.toLowerCase())) return;
 
         grid.innerHTML += `
-          <div class="card">
+          <div class="card reveal-element">
             <div class="img-container">
-              <img src="${p.img}" alt="${p.name}">
+              <img src="${p.img}" alt="${p.name}" loading="lazy">
             </div>
             <div class="card-body">
               <h3>${p.name}</h3>
@@ -492,12 +518,18 @@
             </div>
           </div>`;
       });
+
+      initScrollReveal();
     }
 
     function filterCategory(cat) {
       currentCategory = cat;
       document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
       event.target.classList.add('active');
+      renderProducts(document.getElementById('search').value);
+    }
+
+    function handleSearch() {
       renderProducts(document.getElementById('search').value);
     }
 
@@ -525,11 +557,10 @@
       const section = document.getElementById(id);
       if(section) {
         section.scrollIntoView({ behavior: 'smooth' });
-        document.getElementById('navbar').classList.remove('open'); // Cierra menú móvil al hacer click
+        document.getElementById('navbar').classList.remove('open');
         
-        // Actualiza clase activa en el nav
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-        const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => a.getAttribute('onclick').includes(id));
+        const activeLink = Array.from(document.querySelectorAll('nav a')).find(a => a.getAttribute('onclick') && a.getAttribute('onclick').includes(id));
         if(activeLink) activeLink.classList.add('active');
       }
     }
@@ -547,7 +578,6 @@
         });
       }
     });
-    // Forzar estrellas por defecto a 5 estrellas iluminadas al iniciar
     document.querySelectorAll('#ratingSelector i').forEach(s => s.classList.add('active'));
 
     function submitReview() {
@@ -561,7 +591,7 @@
 
       const grid = document.getElementById('reviewsGrid');
       const newCard = document.createElement('div');
-      newCard.className = 'review-card';
+      newCard.className = 'review-card reveal-element';
       newCard.innerHTML = `
         <div class="stars" style="color: #f1c40f; margin-bottom: 15px;">${starsHtml}</div>
         <p class="review-text">"${txt}"</p>
@@ -569,16 +599,16 @@
       `;
       grid.insertBefore(newCard, grid.firstChild);
       
-      // Resetear campo
       document.getElementById('reviewText').value = '';
       alert("¡Gracias! Tu reseña ha sido enviada con éxito.");
+      initScrollReveal();
     }
 
-    // MINI CALENDARIO INTERACTIVO - JULIO 2026 (Como ejemplo de Plan Corporativo)
+    // MINI CALENDARIO INTERACTIVO - JULIO 2026
     let currentMonthIdx = 6; // Julio (0-Indexed)
     const months2026 = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const daysInMonths2026 = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    const startDays2026 = [4, 0, 0, 3, 5, 1, 3, 6, 2, 4, 0, 2]; // Día de inicio de semana de cada mes (0=Dom, 1=Lun, etc.)
+    const startDays2026 = [4, 0, 0, 3, 5, 1, 3, 6, 2, 4, 0, 2];
 
     function renderCalendarDays() {
       const grid = document.getElementById('calendarGrid');
@@ -623,7 +653,6 @@
       const textoWhatsApp = `¡Hola Café Aroma! Quiero confirmar una reserva de mesa a nombre de: *${nombre}*. Fecha: *${selectedDay2026} de ${mesAnio}*. Hora: *${time}*. Por favor me confirman disponibilidad. ¡Muchas gracias!`;
       const urlWhatsApp = `https://wa.me/59176721293?text=${encodeURIComponent(textoWhatsApp)}`;
       
-      // Abrir WhatsApp
       window.open(urlWhatsApp, '_blank');
       
       alert(`Redirigiendo a WhatsApp para procesar tu reserva del día ${selectedDay2026} de ${mesAnio} a las ${time}.`);
@@ -632,21 +661,43 @@
       document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
     }
 
+    // LÓGICA DE DETECCIÓN DE SCROLL REVEAL
+    let revealObserver = null;
+    function initScrollReveal() {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('revealed'));
+        return;
+      }
+      
+      if (!revealObserver) {
+        revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      }
+
+      document.querySelectorAll('.reveal-element:not(.revealed)').forEach(el => {
+        revealObserver.observe(el);
+      });
+    }
+
     // INICIALIZACIÓN
     window.onload = function() {
       renderProducts();
       renderCalendarDays();
+      initScrollReveal();
       
-      // Rotación del Carrusel de Promociones (Informativo)
-      const slides = document.querySelectorAll('.carousel-slide');
+      // ROTACIÓN DEL CARRUSEL DE PROMOCIONES (Deslizante de lado a lado)
       let currentSlide = 0;
-      if (slides.length > 1) {
-        setInterval(() => {
-          slides[currentSlide].style.display = 'none';
-          currentSlide = (currentSlide + 1) % slides.length;
-          slides[currentSlide].style.display = 'flex';
-        }, 5000);
-      }
+      const track = document.getElementById('carouselTrack');
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % 2;
+        if(track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }, 5000);
     };
   </script>
 </body>
