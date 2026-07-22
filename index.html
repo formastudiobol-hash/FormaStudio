@@ -3,13 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Forma Studio | Portafolio de Soluciones Web</title>
+  <title>Forma Studio | Portafolio Premium de Soluciones Web</title>
   
-  <!-- Favicon Oficial de Forma Studio para la Pestaña del Navegador -->
-  <link rel="icon" type="image/png" href="1783482620590_1.png">
-  
+  <!-- FAVICON -->
+  <link rel="shortcut icon" href="1783482620590_1.png" type="image/png">
+  <link rel="icon" href="1783482620590_1.png" type="image/png">
+
   <!-- SEO de Marca para Forma Studio -->
-  <meta name="description" content="Diseño y desarrollo web a medida por Forma Studio. Explora nuestros planes y demostraciones interactivas de alta conversión.">
+  <meta name="description" content="Desarrollo y arquitectura web a medida por Forma Studio. Descubre nuestras soluciones digitales y explora demostraciones en vivo.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,32 +22,47 @@
   
   <style>
     :root {
-      /* Colores premium extraídos de tu logotipo */
-      --bg: #0b0b0a;
-      --surface: #121211;
-      --border: #242422;
-      --text: #f5f5f3;
-      --text-muted: #9c9c97;
-      --accent: #2d6086; /* Azul Acero de Forma Studio */
+      /* Paleta Corporativa Forma Studio */
+      --bg: #0e1114;
+      --surface: #151a1e;
+      --surface-card: #1a2026;
+      --border: #26303b;
+      --text: #f1f4f6;
+      --text-muted: #8ca0b0;
+      --accent: #2d6086;
       --accent-light: #6a8495;
-      --accent-glow: rgba(45, 96, 134, 0.2);
-      --shadow: rgba(0, 0, 0, 0.4);
-      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      
+      /* Colores de Acción Intensos (Azul Eléctrico Neón / Cyan Brillantísimo) */
+      --btn-primary-bg: linear-gradient(135deg, #0052ff 0%, #00d4ff 100%);
+      --btn-primary-hover: linear-gradient(135deg, #1a66ff 0%, #33e0ff 100%);
+      --btn-primary-glow: rgba(0, 212, 255, 0.45);
+      --btn-cyan: #00d4ff;
+
+      --shadow: rgba(5, 7, 9, 0.6);
+      --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="light"] {
-      --bg: #fafafa;
+      --bg: #f4f7f9;
       --surface: #ffffff;
-      --border: #e4e4e0;
-      --text: #1a1a19;
-      --text-muted: #6b6b66;
+      --surface-card: #f8fafc;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #475569;
       --accent: #2d6086;
       --accent-light: #3b749f;
-      --accent-glow: rgba(45, 96, 134, 0.05);
-      --shadow: rgba(0, 0, 0, 0.05);
+      --btn-primary-bg: linear-gradient(135deg, #0040e6 0%, #00b8e6 100%);
+      --btn-primary-hover: linear-gradient(135deg, #0052ff 0%, #00d4ff 100%);
+      --btn-primary-glow: rgba(0, 184, 230, 0.35);
+      --shadow: rgba(15, 23, 42, 0.08);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+    }
+
     body { 
       font-family: 'Plus Jakarta Sans', sans-serif; 
       background: var(--bg); 
@@ -56,18 +72,21 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      position: relative;
+      overflow-x: hidden;
     }
-    h1, h2, h3, .logo-text { font-family: 'Playfair Display', serif; }
+
+    h1, h2, h3 { 
+      font-family: 'Playfair Display', serif; 
+    }
 
     /* --- DECORACIÓN DE FONDO --- */
     .bg-glow {
       position: absolute;
       top: -10%;
       right: -10%;
-      width: 50vw;
-      height: 50vw;
-      background: radial-gradient(circle, rgba(45, 96, 134, 0.1) 0%, rgba(0,0,0,0) 70%);
+      width: 55vw;
+      height: 55vw;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.12) 0%, rgba(0,0,0,0) 70%);
       pointer-events: none;
       z-index: 0;
     }
@@ -91,41 +110,77 @@
       font-weight: 600;
       border: 1px solid var(--border);
     }
-    #customToast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #customToast.show { 
+      transform: translateX(-50%) translateY(0); 
+      opacity: 1; 
+    }
 
     /* --- CABECERA --- */
     header { 
-      padding: 18px 8%; 
+      padding: 16px 8%; 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
-      background: rgba(11, 11, 10, 0.5);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(21, 26, 30, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       position: sticky;
       top: 0;
       z-index: 1000;
       border-bottom: 1px solid var(--border);
       transition: var(--transition);
     }
-    header[data-theme="light"] { background: rgba(250, 250, 250, 0.5); }
+    header[data-theme="light"] { 
+      background: rgba(255, 255, 255, 0.85); 
+    }
 
-    .logo-container { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
-    
-    /* Estilo del Logo en Imagen */
-    .logo-img { 
-      height: 40px; 
-      width: auto; 
-      object-fit: contain;
-      border-radius: 6px;
+    .logo-container { 
+      display: flex; 
+      align-items: center; 
+      gap: 14px; 
+      text-decoration: none; 
+      color: var(--text); 
     }
     
-    .logo-text { font-size: 24px; font-weight: 700; letter-spacing: 0.5px; }
+    .logo-img { 
+      height: 46px; 
+      width: auto; 
+      border-radius: 8px;
+      transition: var(--transition);
+      object-fit: contain;
+    }
+    
+    .logo-text { 
+      font-size: 24px; 
+      font-weight: 800; 
+      letter-spacing: -0.5px; 
+      background: linear-gradient(135deg, var(--text) 30%, var(--accent-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-    .btn-icon { background: none; border: none; font-size: 18px; color: var(--text); cursor: pointer; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--border); transition: var(--transition); }
-    .btn-icon:hover { background: var(--surface); transform: rotate(15deg); }
+    .btn-icon { 
+      background: none; 
+      border: none; 
+      font-size: 18px; 
+      color: var(--text); 
+      cursor: pointer; 
+      width: 44px; 
+      height: 44px; 
+      display: grid; 
+      place-items: center; 
+      border-radius: 50%; 
+      border: 1px solid var(--border); 
+      transition: var(--transition); 
+    }
+    .btn-icon:hover { 
+      background: var(--surface); 
+      border-color: var(--accent-light);
+      color: var(--btn-cyan);
+      transform: rotate(15deg); 
+    }
 
-    /* --- PRESENTACIÓN HERO --- */
+    /* --- HERO SECTION --- */
     .hero-section {
       text-align: center;
       padding: 50px 20px 20px 20px;
@@ -133,54 +188,271 @@
     }
     .hero-tag {
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent-light);
-      margin-bottom: 12px;
+      letter-spacing: 2.5px;
+      color: var(--btn-cyan);
+      margin-bottom: 14px;
       display: inline-block;
+      background: rgba(0, 212, 255, 0.1);
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 212, 255, 0.25);
     }
     .hero-title {
-      font-size: clamp(32px, 5vw, 46px);
+      font-size: 44px;
       font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 16px;
+      line-height: 1.25;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, var(--text) 40%, var(--accent-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .hero-subtitle {
       font-size: 16px;
       color: var(--text-muted);
-      max-width: 650px;
+      max-width: 680px;
       margin: 0 auto;
       line-height: 1.6;
     }
 
     /* --- CONTENEDOR PRINCIPAL --- */
-    main { max-width: 1200px; width: 100%; margin: 0 auto; padding: 30px 20px 60px 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; z-index: 1; }
+    main { 
+      max-width: 1280px; 
+      width: 100%; 
+      margin: 0 auto; 
+      padding: 20px 20px 60px 20px; 
+      flex-grow: 1; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center;
+      z-index: 1;
+    }
 
     /* --- GRILLA DE PLANES --- */
-    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
-    .plan-card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; padding: 40px 28px; transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); min-height: 310px; }
-    .plan-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--text-muted); transition: var(--transition); }
-    .plan-card:hover { transform: translateY(-8px); border-color: var(--accent); box-shadow: 0 20px 40px var(--accent-glow); }
-    .plan-card:hover::before { background: var(--accent); }
+    .plans-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 28px; 
+      margin-top: 30px;
+    }
     
-    .plan-header { margin-bottom: 25px; }
-    .plan-badge { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: inline-block; }
-    .plan-title { font-size: 24px; font-weight: 700; color: var(--text); line-height: 1.3; }
-    .plan-desc { font-size: 14px; color: var(--text-muted); margin-top: 12px; line-height: 1.5; }
+    .plan-card { 
+      background: var(--surface-card); 
+      border: 1px solid var(--border); 
+      border-radius: 24px; 
+      padding: 32px 24px; 
+      transition: var(--transition); 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      position: relative; 
+      overflow: hidden; 
+      box-shadow: 0 10px 30px var(--shadow); 
+    }
+    
+    .plan-card::before { 
+      content: ''; 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 4px; 
+      background: var(--border); 
+      transition: var(--transition); 
+    }
+    
+    .plan-card:hover { 
+      transform: translateY(-8px); 
+      border-color: rgba(0, 212, 255, 0.5); 
+      box-shadow: 0 18px 45px rgba(0, 212, 255, 0.15); 
+    }
+    
+    .plan-card:hover::before { 
+      background: linear-gradient(90deg, #0052ff 0%, var(--btn-cyan) 100%); 
+    }
+    
+    .plan-header { 
+      margin-bottom: 16px; 
+    }
+    
+    .plan-badge { 
+      font-size: 11px; 
+      font-weight: 800; 
+      letter-spacing: 1.5px; 
+      text-transform: uppercase; 
+      color: var(--btn-cyan); 
+      margin-bottom: 8px; 
+      display: inline-block; 
+    }
+    
+    .plan-title { 
+      font-size: 22px; 
+      font-weight: 800; 
+      color: var(--text); 
+      line-height: 1.3; 
+      margin-bottom: 8px;
+    }
 
-    .btn-view-demo { width: 100%; background: transparent; color: var(--text); border: 1px solid var(--border); padding: 14px 20px; border-radius: 30px; font-size: 14px; font-weight: 700; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; min-height: 48px; }
-    .plan-card:hover .btn-view-demo { background: var(--text); color: var(--bg); border-color: var(--text); }
+    /* INDICADOR DE PLAN MEJORADO Y COMPLETO */
+    .upgrade-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--btn-cyan);
+      background: rgba(0, 212, 255, 0.08);
+      border: 1px dashed rgba(0, 212, 255, 0.3);
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.3;
+    }
+    
+    /* SECCIONES PROBLEMA Y SOLUCIÓN */
+    .block-box {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid var(--accent);
+      padding: 12px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 12px;
+    }
+    [data-theme="light"] .block-box {
+      background: rgba(0, 0, 0, 0.03);
+    }
+    
+    .block-label {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ff5555;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .block-label-solution {
+      color: var(--btn-cyan);
+    }
+
+    .block-text {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    /* INCLUYE (FEATURES) */
+    .features-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-light);
+      margin: 18px 0 10px 0;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .feature-item {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
+
+    .feature-item i {
+      color: var(--btn-cyan);
+      font-size: 13px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* BOTONES ACCIÓN (GRUPO DE 2 BOTONES) */
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    /* Botón Principal: Cotizar (Azul Eléctrico / Cyan Vibrante) */
+    .btn-action-primary {
+      width: 100%;
+      background: var(--btn-primary-bg);
+      color: #ffffff;
+      border: none;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px var(--btn-primary-glow);
+    }
+
+    .btn-action-primary:hover {
+      background: var(--btn-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px var(--btn-primary-glow);
+      color: #ffffff;
+    }
+
+    /* Botón Secundario: Ver Demostración */
+    .btn-action-secondary {
+      width: 100%;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-action-secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--btn-cyan);
+      color: var(--btn-cyan);
+    }
 
     /* --- FOOTER --- */
-    footer { border-top: 1px solid var(--border); padding: 30px 20px; text-align: center; background: var(--bg); transition: var(--transition); z-index: 1; }
-    footer p { font-size: 13px; color: var(--text-muted); }
+    footer { 
+      border-top: 1px solid var(--border); 
+      padding: 30px 20px; 
+      text-align: center; 
+      background: var(--bg); 
+      transition: var(--transition); 
+      z-index: 1;
+    }
+    footer p { 
+      font-size: 13px; 
+      color: var(--text-muted); 
+    }
 
     @media (max-width: 768px) {
-      header { padding: 18px 5%; }
-      main { padding: 40px 15px; }
-      .plans-grid { gap: 20px; }
+      header { padding: 14px 5%; }
       .hero-title { font-size: 32px; }
+      main { padding: 20px 15px; }
+      .plans-grid { gap: 20px; }
     }
   </style>
 </head>
@@ -192,7 +464,8 @@
   <!-- HEADER -->
   <header id="appHeader">
     <a href="#" class="logo-container">
-      <img src="1783482620590_1.png" alt="Forma Studio Logo" class="logo-img">
+      <img src="1783482620590_1.png" alt="Forma Studio Logo" class="logo-img" onerror="this.style.display='none'; document.getElementById('fallback-icon').style.display='grid'">
+      <div id="fallback-icon" class="btn-icon" style="display:none; width:36px; height:36px; font-weight:900; background:var(--accent); color:#fff; border:none; margin-right:4px;">F</div>
       <span class="logo-text">Forma Studio</span>
     </a>
     <div class="nav-actions">
@@ -204,65 +477,175 @@
 
   <!-- PRESENTACIÓN HERO -->
   <div class="hero-section">
-    <span class="hero-tag">Portafolio de Soluciones Web</span>
-    <h1 class="hero-title">Sitios Web de Alta Conversión</h1>
-    <p class="hero-subtitle">Diseños exclusivos, ultra rápidos y optimizados para impulsar los resultados de tu negocio. Elige un plan y explora su demostración interactiva en vivo.</p>
+    <span class="hero-tag">Desarrollo Web & Experiencias Digitales</span>
+    <h1 class="hero-title">Infraestructura Web de Alto Rendimiento</h1>
+    <p class="hero-subtitle">Diseñamos plataformas digitales estratégicas que transforman visitantes en clientes. Desde la presentación de una oferta clave hasta sistemas interactivos complejos, construimos la solución exacta que tu marca necesita.</p>
   </div>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main>
     <div class="plans-grid">
       
-      <!-- PLAN 1 -->
+      <!-- PLAN 01 (3 CARACTERÍSTICAS) -->
       <article class="plan-card">
-        <div class="plan-header">
-          <span class="plan-badge">Plan 01</span>
-          <h2 class="plan-title">Plan 1: Esencial / Landing Page</h2>
-          <p class="plan-desc">Perfecto para lanzar tu marca con una sola sección de alto impacto comercial y botones directos de contacto.</p>
+        <div>
+          <div class="plan-header">
+            <span class="plan-badge">Plan 01</span>
+            <h2 class="plan-title">Landing Page Directa</h2>
+          </div>
+
+          <div class="block-box" style="border-color: #ff5555;">
+            <span class="block-label">¿Cuál es el problema?</span>
+            <p class="block-text">¿Te cuesta captar la atención rápida de tus visitantes y los pierdes antes de que interactúen con tu oferta?</p>
+          </div>
+
+          <div class="block-box" style="border-color: var(--btn-cyan);">
+            <span class="block-label block-label-solution">La Solución Forma:</span>
+            <p class="block-text">Concentra toda la atención en tu propuesta principal y guía al cliente hacia una conversión directa.</p>
+          </div>
+
+          <span class="features-title">Incluye:</span>
+          <ul class="feature-list">
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Estructura de sección única orientada a resultados</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Llamadas a la acción estratégicas e inmediatas</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Carga ultra rápida optimizada para celulares</li>
+          </ul>
         </div>
-        <!-- Enlace relativo directo con apertura en pestaña nueva -->
-        <a class="btn-view-demo" href="landing_page.html" target="_blank" onclick="trackDemoClick('Plan 1')">
-          Ver Demostración <i class="fas fa-external-link-alt"></i>
-        </a>
+
+        <div class="card-actions">
+          <button class="btn-action-primary" onclick="requestQuote('Plan 01: Landing Page Directa')">
+            <i class="fas fa-paper-plane"></i> Pedir Cotización
+          </button>
+          <a class="btn-action-secondary" href="landing_page.html" target="_blank" onclick="trackDemoClick('Plan 1')">
+            Ver Demostración <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
       </article>
 
-      <!-- PLAN 2 -->
+      <!-- PLAN 02 (4 CARACTERÍSTICAS) -->
       <article class="plan-card">
-        <div class="plan-header">
-          <span class="plan-badge">Plan 02</span>
-          <h2 class="plan-title">Plan 2: Catálogo Digital</h2>
-          <p class="plan-desc">Exhibe de forma interactiva y elegante tus productos o servicios con menús dinámicos e intuitivos.</p>
+        <div>
+          <div class="plan-header">
+            <span class="plan-badge">Plan 02</span>
+            <h2 class="plan-title">Catálogo Digital</h2>
+          </div>
+
+          <div class="upgrade-tag">
+            <i class="fas fa-arrow-up"></i> Versión más completa y mejorada del Plan 01
+          </div>
+
+          <div class="block-box" style="border-color: #ff5555;">
+            <span class="block-label">¿Cuál es el problema?</span>
+            <p class="block-text">¿Envías catálogos pesados en PDF o fotos sueltas que tus clientes no leen ni revisan con atención?</p>
+          </div>
+
+          <div class="block-box" style="border-color: var(--btn-cyan);">
+            <span class="block-label block-label-solution">La Solución Forma:</span>
+            <p class="block-text">Organiza y exhibe toda tu oferta de forma dinámica, interactiva y accesible desde cualquier navegador.</p>
+          </div>
+
+          <span class="features-title">Incluye:</span>
+          <ul class="feature-list">
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Navegación organizada por categorías e interactiva</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Visualización limpia de fotos, descripciones y precios</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Buscador interno instantáneo para productos o ítems</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Botonera de consulta directa por ítem específico</li>
+          </ul>
         </div>
-        <!-- Enlace relativo directo con apertura en pestaña nueva -->
-        <a class="btn-view-demo" href="catalogo_digital.html" target="_blank" onclick="trackDemoClick('Plan 2')">
-          Ver Demostración <i class="fas fa-external-link-alt"></i>
-        </a>
+
+        <div class="card-actions">
+          <button class="btn-action-primary" onclick="requestQuote('Plan 02: Catálogo Digital')">
+            <i class="fas fa-paper-plane"></i> Pedir Cotización
+          </button>
+          <a class="btn-action-secondary" href="catalogo_digital.html" target="_blank" onclick="trackDemoClick('Plan 2')">
+            Ver Demostración <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
       </article>
 
-      <!-- PLAN 3 -->
+      <!-- PLAN 03 (5 CARACTERÍSTICAS) -->
       <article class="plan-card">
-        <div class="plan-header">
-          <span class="plan-badge">Plan 03</span>
-          <h2 class="plan-title">Plan 3: Corporativo Profesional</h2>
-          <p class="plan-desc">Una estructura robusta con múltiples secciones, galería interactiva de productos y sistema automatizado de reservas.</p>
+        <div>
+          <div class="plan-header">
+            <span class="plan-badge">Plan 03</span>
+            <h2 class="plan-title">Corporativo Profesional</h2>
+          </div>
+
+          <div class="upgrade-tag">
+            <i class="fas fa-arrow-up"></i> Versión más completa y mejorada del Plan 02
+          </div>
+
+          <div class="block-box" style="border-color: #ff5555;">
+            <span class="block-label">¿Cuál es el problema?</span>
+            <p class="block-text">¿Tu marca no proyecta la seriedad, autoridad y presencia institucional sólida para cerrar grandes clientes?</p>
+          </div>
+
+          <div class="block-box" style="border-color: var(--btn-cyan);">
+            <span class="block-label block-label-solution">La Solución Forma:</span>
+            <p class="block-text">Plataforma empresarial multipágina que transmite máxima confianza, presenta tu equipo y proyecta liderazgo.</p>
+          </div>
+
+          <span class="features-title">Incluye:</span>
+          <ul class="feature-list">
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Navegación multipágina (Inicio, Nosotros, Servicios, Contacto, etc.)</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Sección institucional con historia, equipo y propuesta de valor</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Galería visual de proyectos y testimonios de clientes</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Mapa interactivo con datos de ubicación geográfica</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Optimización SEO inicial para motores de búsqueda</li>
+          </ul>
         </div>
-        <!-- Enlace relativo directo con apertura en pestaña nueva -->
-        <a class="btn-view-demo" href="corporativo_profesional.html" target="_blank" onclick="trackDemoClick('Plan 3')">
-          Ver Demostración <i class="fas fa-external-link-alt"></i>
-        </a>
+
+        <div class="card-actions">
+          <button class="btn-action-primary" onclick="requestQuote('Plan 03: Corporativo Profesional')">
+            <i class="fas fa-paper-plane"></i> Pedir Cotización
+          </button>
+          <a class="btn-action-secondary" href="corporativo_profesional.html" target="_blank" onclick="trackDemoClick('Plan 3')">
+            Ver Demostración <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
       </article>
 
-      <!-- PLAN 4 -->
+      <!-- PLAN 04 (6 CARACTERÍSTICAS) -->
       <article class="plan-card">
-        <div class="plan-header">
-          <span class="plan-badge">Plan 04</span>
-          <h2 class="plan-title">Plan 4: E-Commerce Automatizado</h2>
-          <p class="plan-desc">La solución de ventas definitiva con un carrito de compras dinámico y pasarela automatizada directo a tu WhatsApp.</p>
+        <div>
+          <div class="plan-header">
+            <span class="plan-badge">Plan 04</span>
+            <h2 class="plan-title">E-Commerce Automatizado</h2>
+          </div>
+
+          <div class="upgrade-tag">
+            <i class="fas fa-arrow-up"></i> Versión más completa y mejorada del Plan 03
+          </div>
+
+          <div class="block-box" style="border-color: #ff5555;">
+            <span class="block-label">¿Cuál es el problema?</span>
+            <p class="block-text">¿Pierdes tiempo y ventas por la dificultad de calcular variantes de productos y armar pedidos manualmente?</p>
+          </div>
+
+          <div class="block-box" style="border-color: var(--btn-cyan);">
+            <span class="block-label block-label-solution">La Solución Forma:</span>
+            <p class="block-text">E-Commerce autónomo con motor de combinaciones, carrito dinámico y despacho instantáneo de comprobantes.</p>
+          </div>
+
+          <span class="features-title">Incluye:</span>
+          <ul class="feature-list">
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Carrito interactivo con motor de variantes y precios</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Generación automática de ticket de pedido y resumen de compra</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Módulo personalizado de pago rápido con código QR</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Creador interactivo de combinaciones y armado de productos</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Filtros dinámicos de selección avanzada</li>
+            <li class="feature-item"><i class="fas fa-check-circle"></i> Navegación fluida tipo aplicación web sin recargas lentas</li>
+          </ul>
         </div>
-        <!-- Enlace relativo directo con apertura en pestaña nueva -->
-        <a class="btn-view-demo" href="e-commerce.html" target="_blank" onclick="trackDemoClick('Plan 4')">
-          Ver Demostración <i class="fas fa-external-link-alt"></i>
-        </a>
+
+        <div class="card-actions">
+          <button class="btn-action-primary" onclick="requestQuote('Plan 04: E-Commerce Automatizado')">
+            <i class="fas fa-paper-plane"></i> Pedir Cotización
+          </button>
+          <a class="btn-action-secondary" href="e-commerce.html" target="_blank" onclick="trackDemoClick('Plan 4')">
+            Ver Demostración <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
       </article>
 
     </div>
@@ -278,11 +661,24 @@
       const toast = document.getElementById('customToast');
       toast.textContent = msg;
       toast.classList.add('show');
-      setTimeout(() => { toast.classList.remove('show'); }, 3500);
+      setTimeout(() => { toast.classList.remove('show'); }, 3200);
     }
 
     function trackDemoClick(planName) {
-      showToast(`Abriendo demostración: ${planName}`);
+      showToast(`Abriendo demostración de ${planName}...`);
+    }
+
+    // SOLICITAR COTIZACIÓN POR WHATSAPP AL +591 69879812
+    function requestQuote(planName) {
+      const phone = "59169879812";
+      const message = `Hola Forma Studio, quisiera recibir una cotización personalizada para el *${planName}*.`;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+      
+      showToast(`Redirigiendo a WhatsApp para cotizar ${planName}...`);
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 600);
     }
 
     // THEME TOGGLE
