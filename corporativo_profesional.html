@@ -831,8 +831,9 @@
         padding: 12px 4%;
         gap: 10px;
       }
-      .nav-center-area { width: 100%; overflow-x: auto; padding-bottom: 4px; }
-      .nav-links { flex-wrap: nowrap; }
+      .nav-center-area { width: 100%; overflow-x: visible; padding-bottom: 0; }
+      .nav-links { flex-wrap: wrap; justify-content: center; gap: 6px; }
+      .nav-link { font-size: 12px; padding: 6px 10px; }
       .hero, .about-wrapper, .map-section-wrapper { grid-template-columns: 1fr; }
     }
 
