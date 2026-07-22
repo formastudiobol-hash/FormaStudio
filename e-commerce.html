@@ -1,1015 +1,2377 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cafetería Aroma Premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- Descripción para optimización SEO en buscadores -->
-  <meta name="description" content="Disfruta del mejor café premium en Cafetería Aroma. Ofrecemos espressos, repostería artesanal, pedidos en línea con entrega y reservas de mesa. ¡Visítanos!">
+  <title>Cafetería Aroma | Plan 3 - Experiencia e Interacción</title>
+  <meta name="description" content="Cafetería Aroma en La Paz. Descubre nuestro menú, quiz de café personalizado, combos del día, galería, reseñas y ubicación interactiva.">
 
-  <!-- Etiquetas Open Graph para compartir en Redes Sociales -->
-  <meta property="og:title" content="Cafetería Aroma Premium">
-  <meta property="og:description" content="Disfruta del mejor café premium en Cafetería Aroma. Ofrecemos espressos, repostería artesanal, compras con carrito y reservas en línea.">
-  <meta property="og:image" content="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80">
-  <meta property="og:type" content="website">
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 
-  <!-- Google Fonts -->
+  <!-- Fuentes tipográficas -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome e Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Leaflet CSS para Mapa Interactivo profesional -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
   <style>
     :root {
-      --primary: #4e342e;
-      --primary-light: #7b5e57;
-      --accent: #c7a17a;
-      --bg: #fdfbf7;
-      --surface: #ffffff;
-      --text: #2c2523;
-      --text-muted: #706461;
-      --border: #eeded1;
-      --shadow: rgba(78, 52, 46, 0.08);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --bg: #0b0705;
+      --surface: #140e0b;
+      --surface-card: #1c1410;
+      --border: #2a1e17;
+      --text: #f5f0ed;
+      --text-muted: #a8968d;
+      --accent: #d4a373;
+      --accent-light: #e6ccb2;
+      --accent-glow: rgba(212, 163, 115, 0.18);
+      --shadow: rgba(0, 0, 0, 0.6);
+      --header-bg: rgba(11, 7, 5, 0.92);
+      --quiz-bg: linear-gradient(135deg, #1f1510 0%, #120b08 100%);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
-    [data-theme="dark"] {
-      --primary: #d7ccc8;
-      --primary-light: #b0bec5;
-      --accent: #e5c158;
-      --bg: #12100f;
-      --surface: #1e1a18;
-      --text: #f5f2f0;
-      --text-muted: #a19390;
-      --border: #3a3230;
-      --shadow: rgba(0, 0, 0, 0.4);
+    [data-theme="light"] {
+      --bg: #fbf8f5;
+      --surface: #ffffff;
+      --surface-card: #f4ece6;
+      --border: #e2d3c7;
+      --text: #2b1f18;
+      --text-muted: #6e5e54;
+      --accent: #b87333;
+      --accent-light: #d89658;
+      --accent-glow: rgba(184, 115, 51, 0.18);
+      --shadow: rgba(100, 70, 40, 0.12);
+      --header-bg: rgba(251, 248, 245, 0.92);
+      --quiz-bg: linear-gradient(135deg, #f7efe7 0%, #eae0d5 100%);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); transition: var(--transition); overflow-x: hidden; }
-    h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
-
-    /* --- ANIMACIÓN SCROLL REVEAL (Aparición progresiva al bajar) --- */
-    .reveal-element {
-      opacity: 0;
-      transform: translateY(35px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
-    }
-    .reveal-element.revealed {
-      opacity: 1;
-      transform: translateY(0);
+    
+    html {
+      max-width: 100vw;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
-    /* --- NOTIFICACIONES TOAST ELEGANTES --- */
-    #customToast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--primary);
-      color: #fff;
-      padding: 14px 28px;
-      border-radius: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      z-index: 3000;
-      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
-      opacity: 0;
-      pointer-events: none;
-      font-size: 14px;
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: var(--bg); 
+      color: var(--text); 
+      line-height: 1.6;
+      max-width: 100vw;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3, .logo, .brand-font { font-family: 'Playfair Display', serif; }
+
+    header { 
+      position: sticky; 
+      top: 0; 
+      display: grid; 
+      grid-template-columns: auto 1fr auto;
+      align-items: center; 
+      padding: 14px 4%; 
+      background: var(--header-bg); 
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000; 
+      transition: var(--transition);
+      gap: 15px;
+    }
+    
+    .logo { 
+      font-size: clamp(18px, 2.2vw, 22px); 
+      font-weight: 800; 
+      color: var(--text); 
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .logo span { color: var(--accent); }
+
+    .nav-center-area {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-link {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 13px;
       font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--accent);
+      background: var(--surface-card);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .theme-toggle-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 16px;
+    }
+    .theme-toggle-btn:hover {
+      transform: rotate(20deg) scale(1.08);
+      border-color: var(--accent);
+    }
+
+    .cart-btn-header {
+      position: relative;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 16px;
+    }
+    .cart-btn-header:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .cart-count-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--accent);
+      color: #0b0705;
+      font-size: 10px;
+      font-weight: 800;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Animación ultraligera para añadir al carrito */
+    .fly-coffee-particle {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      font-size: 22px;
+      transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.75s ease;
+      will-change: transform, opacity;
+    }
+
+    .btn-contact {
+      padding: 8px 16px; 
+      font-size: 12.5px; 
+      border-radius: 30px; 
+      border: none;
+      color: #0b0705; 
+      background: var(--accent); 
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-contact:hover {
+      background: var(--accent-light);
+      transform: translateY(-2px);
+    }
+
+    main { flex: 1; }
+    
+    .view-section {
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    
+    .view-section.active {
+      display: block;
+    }
+
+    section {
+      padding: 70px 6%;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .section-title {
       text-align: center;
-      border: 1px solid var(--accent);
+      margin-bottom: 45px;
     }
-    #customToast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
+    .section-title h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
     }
-
-    /* --- HEADER & NAV --- */
-    header { position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center; padding: 16px 6%; background: var(--surface); box-shadow: 0 2px 20px var(--shadow); z-index: 100; transition: var(--transition); }
-    .logo { font-size: 24px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    nav { display: flex; gap: 30px; }
-    nav a { text-decoration: none; color: var(--text-muted); font-weight: 500; cursor: pointer; transition: var(--transition); }
-    nav a:hover, nav a.active { color: var(--primary); }
-    .nav-actions { display: flex; align-items: center; gap: 15px; }
-    .btn-icon { background: none; border: none; font-size: 20px; color: var(--text); cursor: pointer; position: relative; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; transition: var(--transition); }
-    .btn-icon:hover { background: var(--border); }
-    #count { position: absolute; top: 2px; right: 2px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 10px; font-family: sans-serif; }
-    .menu-toggle { display: none; }
-
-    /* --- HERO --- */
-    .hero { height: 65vh; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80') center/cover fixed; display: grid; place-items: center; color: #fff; text-align: center; padding: 20px; }
-    .hero-content h1 { font-size: 48px; margin-bottom: 16px; letter-spacing: 1px; }
-    .hero-content p { font-size: 18px; font-weight: 300; opacity: 0.9; }
-
-    /* --- DESTACADOS (CARRUSEL AUTOMÁTICO) --- */
-    .promo-carousel { max-width: 1200px; margin: 40px auto; padding: 0 20px; position: relative; overflow: hidden; }
-    .carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
-    .carousel-slide { min-width: 100%; display: flex; align-items: center; background: var(--surface); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 30px var(--shadow); border: 1px solid var(--border); }
-    .carousel-img { width: 50%; height: 350px; object-fit: cover; }
-    .carousel-info { padding: 40px; width: 50%; }
-    .carousel-info h3 { font-size: 28px; margin-bottom: 10px; color: var(--primary); }
-    .carousel-info p { color: var(--text-muted); margin-bottom: 20px; }
-    .badge { background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; margin-bottom: 10px; }
-
-    /* --- CATEGORÍAS & BUSCADOR --- */
-    .shop-controls { max-width: 1200px; margin: 40px auto 20px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-    .categories { display: flex; gap: 10px; flex-wrap: wrap; }
-    .cat-btn { background: var(--surface); border: 1px solid var(--border); padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: 500; color: var(--text-muted); transition: var(--transition); }
-    .cat-btn.active, .cat-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
-    .search-wrapper { position: relative; width: 300px; }
-    .search-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-    #search { width: 100%; padding: 12px 15px 12px 42px; border-radius: 30px; border: 1px solid var(--border); background: var(--surface); color: var(--text); outline: none; transition: var(--transition); }
-    #search:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(199, 161, 122, 0.2); }
-
-    /* --- PRODUCTOS GRID --- */
-    .grid { max-width: 1200px; margin: 0 auto 40px; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
-    .card { background: var(--surface); border-radius: 24px; overflow: hidden; box-shadow: 0 10px 30px var(--shadow); border: 1px solid var(--border); transition: var(--transition); display: flex; flex-direction: column; }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 16px 35px rgba(78, 52, 46, 0.15); }
-    .img-container { position: relative; overflow: hidden; height: 200px; }
-    .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--transition); }
-    .card:hover img { transform: scale(1.06); }
-    .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
-    .card-body h3 { font-size: 20px; margin-bottom: 8px; }
-    .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; }
-    .price { font-size: 22px; font-weight: 700; color: var(--primary); }
-    .btn-add { background: var(--primary); color: #fff; border: none; padding: 10px 16px; border-radius: 30px; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 8px; }
-    .btn-add:hover { background: var(--accent); }
-
-    /* --- BANNER INTERACTIVO RESERVAR MESA --- */
-    .booking-cta-banner {
-      max-width: 1160px;
-      margin: 0 auto 60px;
-      padding: 40px;
-      background: var(--surface);
-      border-radius: 24px;
-      border: 1.5px dashed var(--accent);
-      text-align: center;
-      box-shadow: 0 10px 30px var(--shadow);
-    }
-    .booking-cta-banner h3 {
-      font-size: 26px;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-    .booking-cta-banner p {
+    .section-title p {
       color: var(--text-muted);
       font-size: 15px;
-      margin-bottom: 22px;
-      max-width: 650px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
+      max-width: 580px;
+      margin: 0 auto;
     }
-    .booking-cta-banner .btn-cta {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-      padding: 12px 28px;
+
+    .hero { 
+      min-height: 82vh;
+      display: grid; 
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 40px;
+      padding-top: 40px;
+      padding-bottom: 60px;
+    }
+
+    .hero-content h1 { 
+      font-size: clamp(36px, 5.2vw, 58px); 
+      font-weight: 800;
+      margin-bottom: 20px; 
+      line-height: 1.12;
+    }
+
+    .hero-content h1 span {
+      color: var(--accent);
+      font-style: italic;
+    }
+    
+    .hero-content p { 
+      font-size: clamp(15px, 1.8vw, 18px); 
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0b0705;
+      padding: 14px 28px;
       border-radius: 30px;
       font-weight: 700;
       font-size: 14px;
+      border: none;
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 10px;
+      text-decoration: none;
+      box-shadow: 0 10px 25px var(--accent-glow);
     }
-    .booking-cta-banner .btn-cta:hover {
+    .btn-primary:hover {
+      background: var(--accent-light);
+      transform: translateY(-3px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--surface);
+    }
+
+    .hero-visual {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .hero-card-floating {
+      width: 100%;
+      max-width: 340px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 25px 60px var(--shadow);
+      position: relative;
+      z-index: 2;
+      animation: floatCard 6s ease-in-out infinite;
+    }
+    .hero-card-floating img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-bottom: 18px;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .menu-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+    }
+    .search-box i {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    .search-input {
+      width: 100%;
+      padding: 14px 20px 14px 50px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: var(--transition);
+    }
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+    .filter-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 9px 20px;
+      border-radius: 25px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    .filter-pill.active, .filter-pill:hover {
       background: var(--accent);
-      transform: translateY(-2px);
+      color: #0b0705;
+      border-color: var(--accent);
     }
 
-    /* --- SOBRE NOSOTROS --- */
-    .about-section { background: var(--surface); padding: 80px 6%; display: flex; align-items: center; gap: 50px; max-width: 1200px; margin: 40px auto; border-radius: 30px; box-shadow: 0 10px 30px var(--shadow); }
-    .about-content { flex: 1; }
-    .about-content h2 { font-size: 36px; margin-bottom: 20px; color: var(--primary); }
-    .about-content p { color: var(--text-muted); line-height: 1.7; margin-bottom: 15px; }
-    .about-img { flex: 1; border-radius: 20px; overflow: hidden; height: 350px; }
-    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .menu-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      box-shadow: 0 10px 30px var(--shadow);
+    }
+    .menu-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+    .menu-card-img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+    }
+    .menu-card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+    .menu-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .menu-card-title { font-size: 17px; font-weight: 700; }
+    .menu-card-price { font-size: 16px; font-weight: 800; color: var(--accent); }
+    .menu-card-desc { font-size: 13.5px; color: var(--text-muted); margin-bottom: 15px; }
 
-    /* --- RESEÑAS & FORMULARIO --- */
-    .reviews-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; text-align: center; }
-    .reviews-section h2 { font-size: 36px; margin-bottom: 25px; }
-    .review-form-container { max-width: 600px; margin: 0 auto 40px; background: var(--surface); padding: 25px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 5px 20px var(--shadow); text-align: left; }
-    .review-form-container h3 { margin-bottom: 15px; font-size: 20px; color: var(--primary); }
-    .rating-selector { display: flex; gap: 8px; margin-bottom: 15px; font-size: 22px; cursor: pointer; color: #ccc; }
-    .rating-selector i.active { color: #f1c40f; }
-    .review-form-container textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-family: inherit; outline: none; resize: vertical; height: 80px; margin-bottom: 15px; }
-    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-    .review-card { background: var(--surface); padding: 30px; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 5px 20px var(--shadow); text-align: left; }
-    .stars { color: #f1c40f; margin-bottom: 15px; }
-    .review-text { font-style: italic; color: var(--text-muted); margin-bottom: 15px; }
-    .review-user { font-weight: 600; font-size: 14px; color: var(--primary); }
+    .btn-add-cart {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-add-cart:hover {
+      background: var(--accent);
+      color: #0b0705;
+      border-color: var(--accent);
+    }
 
-    /* --- EXTRAS: GALERÍA Y RESERVAS + MAPA --- */
-    .extra-grid { max-width: 1200px; margin: 60px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .gallery-grid img { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; transition: var(--transition); border: 1px solid var(--border); }
-    .gallery-grid img:hover { transform: scale(1.04); }
+    /* --- CONSTRUCTOR MODO BARISTA PRO --- */
+    .barista-builder {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 40px;
+      box-shadow: 0 20px 50px var(--shadow);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .barista-step-group {
+      margin-bottom: 30px;
+    }
+    .barista-step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .barista-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .barista-chip {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+    .barista-chip.selected {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+    .barista-summary-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* --- CARRITO DRAWER Y CHECKOUT --- */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -420px;
+      width: 100%;
+      max-width: 400px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -10px 0 40px var(--shadow);
+      z-index: 2000;
+      transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 25px;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .cart-items-list {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface-card);
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+    .cart-item-info h5 { font-size: 14px; font-weight: 700; }
+    .cart-item-info p { font-size: 12.5px; color: var(--accent); font-weight: 700; }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .qty-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .cart-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      margin-top: 15px;
+    }
+    .cart-total-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    /* Modal Checkout */
+    .checkout-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .checkout-modal.active { display: flex; animation: fadeIn 0.3s ease forwards; }
+    .checkout-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 25px 60px var(--shadow);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .form-group-clean {
+      margin-bottom: 16px;
+    }
+    .form-group-clean label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-control-clean {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .ticket-display {
+      background: var(--surface-card);
+      border: 1px dashed var(--accent);
+      border-radius: 16px;
+      padding: 18px;
+      font-family: monospace;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+      margin: 15px 0;
+    }
+
+    /* --- SISTEMA DE RESERVA DE MESAS MEJORADO --- */
+    .booking-box-clean {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 35px;
+      max-width: 650px;
+      margin: 0 auto;
+      box-shadow: 0 20px 50px var(--shadow);
+    }
+    .booking-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    .btn-booking-trigger {
+      width: 100%;
+      padding: 14px;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-booking-trigger i { color: var(--accent); font-size: 18px; }
+    .btn-booking-trigger:hover { border-color: var(--accent); }
+
+    .people-counter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 16px;
+    }
+    .btn-people-step {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .time-pills-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .time-pill-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .time-pill-btn.active, .time-pill-btn:hover {
+      background: var(--accent);
+      color: #0b0705;
+      border-color: var(--accent);
+    }
+
+    .quiz-section {
+      background: var(--quiz-bg);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 45px;
+      margin-top: 60px;
+      box-shadow: 0 20px 50px var(--shadow);
+    }
+    .quiz-header { text-align: center; margin-bottom: 35px; }
+    .quiz-header h3 { font-size: 28px; margin-bottom: 8px; }
+    .quiz-header p { color: var(--text-muted); font-size: 14.5px; }
+    .quiz-step { display: none; text-align: center; }
+    .quiz-step.active { display: block; animation: fadeIn 0.4s ease forwards; }
+    .quiz-question { font-size: 18px; font-weight: 700; margin-bottom: 25px; }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .quiz-option-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 18px 22px;
+      border-radius: 20px;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-family: inherit;
+    }
+    .quiz-option-btn i { font-size: 24px; color: var(--accent); }
+    .quiz-option-btn:hover { border-color: var(--accent); background: var(--surface-card); transform: translateY(-2px); }
     
-    .booking-form { background: var(--surface); padding: 30px; border-radius: 24px; border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow); }
-    .booking-form h3 { margin-bottom: 20px; font-size: 24px; color: var(--primary); }
-    .form-group { margin-bottom: 15px; }
-    .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg); color: var(--text); outline: none; }
+    .quiz-result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 25px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .quiz-result-card img { width: 100px; height: 100px; object-fit: cover; border-radius: 16px; }
+
+    .tagline-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 1px solid var(--border);
+    }
+
+    .promo-single-wrapper {
+      max-width: 440px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .promo-card-single {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 30px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+      box-shadow: 0 20px 50px var(--shadow);
+      position: relative;
+    }
+    .promo-card-single.active {
+      display: block;
+    }
+    .promo-badge-tag {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: #0b0705;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 12px;
+      text-transform: uppercase;
+    }
+    .promo-card-single img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .promo-card-single h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    .promo-card-single p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .promo-price-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      background: var(--surface-card);
+      padding: 12px 20px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #e74c3c;
+      font-size: 18px;
+      font-weight: 700;
+      opacity: 0.9;
+      text-decoration-thickness: 2.5px;
+      font-variant-numeric: tabular-nums;
+    }
+    .new-price {
+      color: var(--accent);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 10px var(--accent-glow);
+      font-variant-numeric: tabular-nums;
+    }
+    .savings-pill {
+      font-size: 12px;
+      font-weight: 800;
+      background: var(--accent-glow);
+      color: var(--accent);
+      padding: 5px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .faq-container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .accordion-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+    .accordion-header {
+      padding: 18px 22px;
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 15.5px;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    .accordion-header:hover {
+      color: var(--accent);
+    }
+    .accordion-header i {
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      padding: 0 22px;
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.7;
+      transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease, padding 0.35s ease;
+    }
+    .accordion-item.active .accordion-body {
+      max-height: 300px;
+      opacity: 1;
+      padding: 0 22px 20px;
+    }
+    .accordion-item.active .accordion-header i { transform: rotate(180deg); }
+
+    .slider-nav-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .slider-nav-btn:hover { background: var(--accent); color: #0b0705; }
+
+    .about-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-text h3 {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+    .about-text p {
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      font-size: 15px;
+    }
+
+    .about-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 25px;
+    }
+    .highlight-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 16px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .highlight-box i { font-size: 22px; color: var(--accent); }
+    .highlight-box span { font-size: 13.5px; font-weight: 600; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .gallery-item {
+      height: 180px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    .gallery-item:hover img { transform: scale(1.08); }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 22px;
+      margin-top: 40px;
+    }
+
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stars { color: #f39c12; font-size: 14px; margin-bottom: 12px; }
+    .review-text { font-size: 14px; color: var(--text-muted); font-style: italic; margin-bottom: 18px; }
     
-    /* Mini Calendario Custom 2026 */
-    .mini-calendar { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-weight: bold; font-size: 14px; color: var(--primary); }
-    .calendar-days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 12px; }
-    .day-name { font-weight: 600; color: var(--text-muted); padding-bottom: 5px; }
-    .calendar-day { padding: 6px; border-radius: 6px; cursor: pointer; transition: var(--transition); color: var(--text); }
-    .calendar-day:hover:not(.empty) { background: var(--border); }
-    .calendar-day.selected { background: var(--primary) !important; color: #fff !important; font-weight: bold; }
-    .calendar-day.empty { cursor: default; }
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .reviewer-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #0b0705;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .reviewer-name { font-weight: 700; font-size: 14px; }
+    .reviewer-tag { font-size: 12px; color: var(--text-muted); }
 
-    .btn-submit { width: 100%; background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: var(--transition); }
-    .btn-submit:hover { background: var(--accent); }
-    
-    /* Mapa con Centrado Inteligente y sin cortes */
-    .map-box { grid-column: span 2; background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 10px 30px var(--shadow); display: flex; flex-direction: column; }
-    .map-bar { padding: 15px 20px; background: var(--primary); color: white; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-    .map-bar span { font-weight: 600; display: flex; align-items: center; gap: 8px; }
-    .btn-directions { background: var(--accent); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; text-decoration: none; font-size: 13px; transition: var(--transition); display: flex; align-items: center; gap: 6px; cursor: pointer; }
-    .btn-directions:hover { background: #fff; color: var(--primary); }
-    .map-container { height: 380px; width: 100%; }
-    .map-container iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .map-section-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 30px;
+      overflow: hidden;
+    }
 
-    /* --- CARRITO / DRAWER --- */
-    #drawer { position: fixed; right: -380px; top: 0; width: 360px; height: 100%; background: var(--surface); transition: cubic-bezier(0.4, 0, 0.2, 1) 0.4s; padding: 25px; box-shadow: -10px 0 30px var(--shadow); overflow-y: auto; z-index: 1000; display: flex; flex-direction: column; }
-    #drawer.open { right: 0; }
-    .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
-    .drawer-close-btn { background: none; border: none; font-size: 15px; color: var(--text-muted); cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 5px; font-weight: 600; }
-    .drawer-close-btn:hover { color: var(--primary); }
-    #list { flex-grow: 1; overflow-y: auto; }
-    .cart-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
-    .cart-item-img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; }
-    .cart-item-details { flex-grow: 1; }
-    .cart-item-title { font-weight: 600; font-size: 15px; }
-    .cart-item-price { color: var(--accent); font-weight: 700; font-size: 14px; }
-    .quantity-controls { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-    .qty-btn { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg); color: var(--text); cursor: pointer; font-weight: bold; display: grid; place-items: center; }
-    .btn-delete { background: none; border: none; color: #e74c3c; cursor: pointer; font-size: 16px; padding: 5px; transition: var(--transition); }
-    .btn-delete:hover { transform: scale(1.1); }
-    .summary-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; color: var(--text-muted); }
-    .summary-total { font-size: 20px; color: var(--primary); font-weight: 700; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--border); }
-    #pay { width: 100%; background: var(--primary); color: #fff; border: none; padding: 15px; border-radius: 30px; font-size: 16px; font-weight: 600; margin-top: 15px; cursor: pointer; transition: var(--transition); }
-    #pay:hover { background: var(--accent); }
+    #interactiveMap {
+      width: 100%;
+      height: 380px;
+      border-radius: 20px;
+      z-index: 1;
+    }
 
-    /* --- CHECKOUT DIALOG (MULTI-PANTALLA) --- */
-    dialog { border: none; border-radius: 24px; padding: 30px; max-width: 450px; width: 90%; margin: auto; background: var(--surface); color: var(--text); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-    dialog::backdrop { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
-    .step { display: none; }
-    .step.active { display: block; }
-    .step h2 { margin-bottom: 15px; font-size: 26px; color: var(--primary); }
-    .radio-group { margin: 15px 0; }
-    .radio-label { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: var(--transition); }
-    .radio-label:hover { background: var(--bg); }
-    .dialog-footer { display: flex; justify-content: space-between; margin-top: 25px; gap: 10px; }
-    .btn-dialog { flex: 1; padding: 12px; border-radius: 30px; border: none; font-weight: 600; cursor: pointer; transition: var(--transition); }
-    .btn-dialog.next { background: var(--primary); color: #fff; }
-    .btn-dialog.next:hover { background: var(--accent); }
-    .btn-dialog.cancel { background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
-    
-    /* --- COMPROBANTE DE PAGO --- */
-    .receipt { background: var(--bg); padding: 20px; border-radius: 12px; border: 1px dashed var(--accent); font-family: monospace; font-size: 14px; margin-top: 15px; max-height: 250px; overflow-y: auto; }
-    .btn-download-receipt { width: 100%; background: #27ae60; color: white; border: none; padding: 12px; border-radius: 30px; font-weight: 600; margin-top: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); }
-    .btn-download-receipt:hover { background: #219653; }
+    .location-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+    }
 
-    /* --- FLOATING EFFECT & FLOATING WHATSAPP --- */
-    .fly { position: fixed; pointer-events: none; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-size: 24px; z-index: 2000; }
-    .whatsapp-btn { position: fixed; bottom: 30px; right: 30px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; font-size: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-decoration: none; z-index: 99; transition: var(--transition); }
-    .whatsapp-btn:hover { transform: scale(1.1); background: #20ba5a; }
+    .location-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .location-detail i {
+      font-size: 22px;
+      color: var(--accent);
+      margin-top: 3px;
+    }
 
-    /* --- FOOTER --- */
-    footer { background: #1e1a18; color: #ae9f9a; padding: 50px 6% 20px; font-size: 14px; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
-    .footer-col h4 { color: #fff; font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 20px; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 10px; cursor: pointer; transition: var(--transition); }
-    .footer-col ul li:hover { color: var(--accent); }
-    .footer-bottom { border-top: 1px solid #322b28; padding-top: 20px; text-align: center; font-size: 12px; }
+    .info-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 40px;
+    }
 
-    /* --- RESPONSIVE --- */
-    @media (max-width: 768px) {
-      nav { display: none; }
-      .menu-toggle { display: block; font-size: 22px; background: none; border: none; color: var(--text); cursor: pointer; }
-      .about-section { flex-direction: column; padding: 40px 20px; }
-      .extra-grid { grid-template-columns: 1fr; }
-      .map-box { grid-column: span 1; }
-      .carousel-slide { flex-direction: column; }
-      .carousel-img, .carousel-info { width: 100%; height: auto; }
-      .carousel-info { padding: 25px; }
+    .info-card-clean {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 28px;
+    }
+    .info-card-clean i { font-size: 28px; color: var(--accent); margin-bottom: 14px; }
+    .info-card-clean h3 { font-size: 18px; margin-bottom: 10px; }
+    .info-card-clean ul { list-style: none; font-size: 14px; color: var(--text-muted); }
+    .info-card-clean ul li { margin-bottom: 8px; }
+
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 35px 6%;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      margin-top: auto;
+    }
+
+    .floating-wa {
+      position: fixed;
+      bottom: 24px; 
+      right: 24px;
+      background: #25d366; 
+      color: #fff;
+      width: 56px; 
+      height: 56px; 
+      border-radius: 50%;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      font-size: 28px; 
+      text-decoration: none;
+      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+      z-index: 1000;
+      transition: var(--transition);
+    }
+    .floating-wa:hover { transform: scale(1.1); }
+
+    @media (max-width: 950px) {
+      header {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        padding: 12px 4%;
+        gap: 10px;
+      }
+      .nav-center-area { width: 100%; overflow-x: visible; padding-bottom: 0; }
+      .nav-links { flex-wrap: wrap; justify-content: center; gap: 6px; }
+      .nav-link { font-size: 12px; padding: 6px 10px; }
+      .hero, .about-wrapper, .map-section-wrapper { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      section { padding: 45px 4%; }
+      .hero-content h1 { font-size: 32px; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .quiz-section { padding: 25px 18px; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .quiz-result-card { flex-direction: column; text-align: center; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOAST DE ALERTA PERSONALIZADO -->
-  <div id="customToast">Notificación</div>
-
-  <!-- HEADER -->
   <header>
-    <a href="#" class="logo">☕ Café Aroma</a>
-    <nav id="navbar">
-      <a onclick="scrollToSection('hero')" class="active">Inicio</a>
-      <a onclick="scrollToSection('shop-controls')">Menú</a>
-      <a onclick="scrollToSection('about')">Sobre Nosotros</a>
-      <a onclick="scrollToSection('booking')">Reservar Mesa</a>
-    </nav>
-    <div class="nav-actions">
-      <button class="btn-icon" id="themeBtn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
-      <button class="btn-icon" id="cartBtn">
+    <div class="logo" onclick="switchView('inicio')">
+      <i class="fas fa-mug-hot"></i> Cafetería Aroma<span>.</span>
+    </div>
+
+    <div class="nav-center-area">
+      <nav>
+        <ul class="nav-links">
+          <li><button class="nav-link active" id="nav-inicio" onclick="switchView('inicio')">Inicio</button></li>
+          <li><button class="nav-link" id="nav-menu" onclick="switchView('menu')">Menú</button></li>
+          <li><button class="nav-link" id="nav-barista" onclick="switchView('barista')">Arma tu propio café</button></li>
+          <li><button class="nav-link" id="nav-reserva" onclick="switchView('reserva')">Reserva tu Mesa</button></li>
+          <li><button class="nav-link" id="nav-promociones" onclick="switchView('promociones')">Promociones</button></li>
+          <li><button class="nav-link" id="nav-faq" onclick="switchView('faq')">Preguntas Frecuentes</button></li>
+          <li><button class="nav-link" id="nav-nosotros" onclick="switchView('nosotros')">Nosotros</button></li>
+          <li><button class="nav-link" id="nav-informacion" onclick="switchView('informacion')">Información</button></li>
+          <li><button class="nav-link" id="nav-ubicacion" onclick="switchView('ubicacion')">Ubicación</button></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="header-actions">
+      <button class="cart-btn-header" id="cartHeaderBtn" onclick="toggleCartDrawer()" title="Ver Pedido">
         <i class="fas fa-shopping-bag"></i>
-        <span id="count">0</span>
+        <span class="cart-count-badge" id="cartBadgeCount">0</span>
       </button>
-      <button class="menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+
+      <button class="theme-toggle-btn" id="themeToggle" title="Cambiar Tema" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+      </button>
+
+      <a href="https://wa.me/59176721293?text=¡Hola!%20Quisiera%20hacer%20una%20consulta%20sobre%20Cafetería%20Aroma." target="_blank" class="btn-contact">
+        <i class="fab fa-whatsapp"></i> Contactar
+      </a>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-content">
-      <h1>Cada taza cuenta una historia</h1>
-      <p>Café de especialidad artesanal, repostería fina y momentos memorables.</p>
-    </div>
-  </section>
-
-  <!-- DESTACADOS / CARRUSEL -->
-  <section class="promo-carousel reveal-element">
-    <div class="carousel-track" id="carouselTrack">
-      <div class="carousel-slide">
-        <img class="carousel-img" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80" alt="Promo 1">
-        <div class="carousel-info">
-          <span class="badge">Especial del Mes</span>
-          <h3>Café Moca Avellana</h3>
-          <p>Un perfecto balance entre espresso premium, leche cremosa, chocolate oscuro y un toque sutil de avellanas tostadas.</p>
-          <strong>¡Pruébalo hoy por solo Bs 24!</strong>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <img class="carousel-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80" alt="Promo 2">
-        <div class="carousel-info">
-          <span class="badge">Nuevos Sabores</span>
-          <h3>Tarde de Latte & Tarta</h3>
-          <p>Disfruta de cualquier tarta de nuestra vitrina y acompáñala con un Latte mediano cremoso recién hecho.</p>
-          <strong>Disponibles de 16:00 a 19:00.</strong>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTROLES TIENDA (BUSCADOR Y CATEGORÍAS) -->
-  <div class="shop-controls reveal-element" id="shop-controls">
-    <div class="categories" id="categoriesContainer">
-      <button class="cat-btn active" onclick="filterCategory('todos')">Todos</button>
-      <button class="cat-btn" onclick="filterCategory('cafes')">Cafés</button>
-      <button class="cat-btn" onclick="filterCategory('bebidas-frias')">Bebidas Frías</button>
-      <button class="cat-btn" onclick="filterCategory('postres')">Postres</button>
-    </div>
-    <div class="search-wrapper">
-      <i class="fas fa-search"></i>
-      <input id="search" placeholder="Buscar en el menú...">
-    </div>
-  </div>
-
-  <!-- PRODUCTOS GRID -->
-  <div id="products" class="grid"></div>
-
-  <!-- BANNER INTERACTIVO RESERVAS (BENEATH PRODUCTS) -->
-  <div class="booking-cta-banner reveal-element">
-    <h3>¿Quieres asegurar tu espacio ideal en nuestro salón?</h3>
-    <p>Disfruta de tus espressos favoritos y repostería artesanal en la zona perfecta. Garantiza tu mesa reservando con antelación desde nuestro calendario dinámico.</p>
-    <button class="btn-cta" onclick="scrollToSection('booking')">
-      <i class="far fa-calendar-check"></i> Reservar Mesa Ahora
-    </button>
-  </div>
-
-  <!-- SOBRE NOSOTROS -->
-  <section class="about-section reveal-element" id="about">
-    <div class="about-content">
-      <h2>Nuestra Pasión por el Grano</h2>
-      <p>En Café Aroma seleccionamos meticulosamente granos de origen local e internacional para asegurar notas aromáticas únicas en cada tostado.</p>
-      <p>Creamos un santuario urbano donde el aroma del buen café se entrelaza con conversaciones inspiradoras y momentos de calma.</p>
-    </div>
-    <div class="about-img">
-      <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=700&q=80" alt="Nosotros" loading="lazy">
-    </div>
-  </section>
-
-  <!-- RESEÑAS -->
-  <section class="reviews-section reveal-element">
-    <h2>Lo que dicen nuestros Coffee Lovers</h2>
-    
-    <!-- Barra para dejar Reseñas y Puntuar -->
-    <div class="review-form-container">
-      <h3>Califica tu experiencia</h3>
-      <div class="rating-selector" id="ratingSelector">
-        <i class="fas fa-star" data-value="1"></i>
-        <i class="fas fa-star" data-value="2"></i>
-        <i class="fas fa-star" data-value="3"></i>
-        <i class="fas fa-star" data-value="4"></i>
-        <i class="fas fa-star" data-value="5"></i>
-      </div>
-      <textarea id="reviewText" placeholder="Escribe tu opinión aquí..."></textarea>
-      <button class="btn-submit" onclick="submitReview()">Publicar Reseña</button>
-    </div>
-
-    <div class="reviews-grid" id="reviewsGrid">
-      <div class="review-card">
-        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-        <p class="review-text">"El Capuccino tiene la textura de espuma perfecta. El ambiente es super premium y tranquilo para trabajar."</p>
-        <div class="review-user">- Mariana V.</div>
-      </div>
-      <div class="review-card">
-        <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-        <p class="review-text">"¡El Cheesecake de frutos rojos es de otro planeta! Y la atención al cliente siempre es de primera."</p>
-        <div class="review-user">- Alejandro M.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- EXTRAS: GALERÍA Y RESERVAS + MAPA -->
-  <div class="extra-grid reveal-element" id="booking">
-    <div>
-      <h3 style="margin-bottom: 20px; font-size: 24px;">Galería Aroma</h3>
-      <div class="gallery-grid">
-        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=400&q=80" alt="1" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80" alt="2" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80" alt="3" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&w=400&q=80" alt="4" loading="lazy">
-      </div>
-    </div>
-    
-    <div class="booking-form">
-      <h3>Reservar Mesa (Año 2026)</h3>
-      <form onsubmit="handleReserve(event)">
-        <div class="form-group"><input type="text" placeholder="Nombre completo" required></div>
-        
-        <!-- Mini Calendario Interactivo 2026 -->
-        <div class="mini-calendar">
-          <div class="calendar-header">
-            <button type="button" onclick="changeMonth(-1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;">&lt;</button><span id="calendarMonthYear">Julio 2026</span><button type="button" onclick="changeMonth(1)" class="cat-btn" style="padding: 2px 8px; font-size: 12px;">&gt;</button>
-          </div>
-          <div class="calendar-days-grid" id="calendarGrid">
-            <!-- Rellenado dinámicamente por JS -->
+  <main>
+    <div class="view-section active" id="view-inicio">
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Donde cada taza cuenta una <span>historia inolvidable.</span></h1>
+          <p>Siente el aroma del mejor grano recién tostado en Plaza del Maestro. Explora nuestra carta, arma tu café en vivo o reserva tu mesa en segundos.</p>
+          
+          <div class="hero-cta-group">
+            <button class="btn-primary" onclick="switchView('menu')">
+              <i class="fas fa-utensils"></i> Ver Carta Digital
+            </button>
+            <button class="btn-outline" onclick="switchView('barista')">
+              <i class="fas fa-wand-magic-sparkles"></i> Arma tu propio café
+            </button>
           </div>
         </div>
-        
-        <div class="form-group">
-          <select id="bookingTime"><option>07:30</option><option>08:00</option><option>08:30</option><option>09:00</option><option>09:30</option><option>10:00</option><option>10:30</option><option>11:00</option><option>11:30</option><option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option><option>14:00</option><option>14:30</option><option>15:00</option><option>15:30</option><option>16:00</option><option>16:30</option><option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option></select>
-        </div>
-        <button type="submit" class="btn-submit">Confirmar Reserva de Mesa</button>
-      </form>
-    </div>
 
-    <!-- Caja del Mapa de Google Maps Integrada (Centrado Inteligente sin cortes) -->
-    <div class="map-box reveal-element">
-      <div class="map-bar">
-        <span><i class="fas fa-map-marker-alt"></i> Plaza del Maestro, Villa Fátima (La Paz)</span>
-        <!-- Enlace real a Google Maps configurado para dar indicaciones (Directions) directo a la ubicación -->
-        <a class="btn-directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=-16.4839,-68.1132" target="_blank">
-          <i class="fas fa-route"></i> Cómo llegar / Indicaciones
-        </a>
-      </div>
-      <div class="map-container">
-        <!-- Mapa de Google Maps centrado de forma adaptativa y automática en Plaza del Maestro, La Paz -->
-        <iframe src="https://maps.google.com/maps?q=-16.4839,-68.1132&amp;z=16&amp;output=embed" allowfullscreen="" loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
-
-  <!-- CARRITO / DRAWER -->
-  <div id="drawer">
-    <div class="drawer-header">
-      <h2>Tu Carrito</h2>
-      <button class="drawer-close-btn" id="closeDrawerBtn">
-         Volver <i class="fas fa-arrow-right"></i>
-      </button>
-    </div>
-    <div id="list">Carrito vacío</div>
-    
-    <div style="margin-top:20px;">
-      <div class="summary-line"><span>Subtotal:</span><span id="subtotalLabel">Bs 0</span></div>
-      <div class="summary-line"><span>Impuestos (IVA 13%):</span><span id="taxLabel">Bs 0</span></div>
-      <div class="summary-line summary-total"><span>Total:</span><span id="totalLabel">Bs 0</span></div>
-      <button id="pay">Proceder al Pago</button>
-    </div>
-  </div>
-
-  <!-- DIALOG CHECKOUT MULTI-PANTALLA -->
-  <dialog id="dlg">
-    <!-- Pantalla 1: Método de Pago -->
-    <div class="step active" id="step1">
-      <h2>Método de Pago</h2>
-      <p>Selecciona la opción de tu preferencia:</p>
-      <div class="radio-group">
-        <label class="radio-label"><input type="radio" name="payMethod" value="Tarjeta" checked onclick="updatePaymentForm('Tarjeta')"> <i class="fas fa-credit-card"></i> Tarjeta de Crédito/Débito</label>
-        <label class="radio-label"><input type="radio" name="payMethod" value="QR" onclick="updatePaymentForm('QR')"> <i class="fas fa-qrcode"></i> Código QR Sin Contacto</label>
-        <label class="radio-label"><input type="radio" name="payMethod" value="Efectivo" onclick="updatePaymentForm('Efectivo')"> <i class="fas fa-money-bill-wave"></i> Efectivo en Caja</label>
-      </div>
-      
-      <!-- Campos para programar fecha/hora de retiro cuando es Efectivo en Caja -->
-      <div id="cashPickupContainer" style="display: none; margin-top: 15px; padding: 12px; background: #fdfbf7; border: 1px solid #eeded1; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif;">
-        <p style="margin: 0 0 10px 0; font-size: 12px; color: #4e342e; font-weight: bold;"><i class="fas fa-clock"></i> Programar fecha y hora de recogida</p>
-        <div style="display: table; width: 100%;">
-          <div style="display: table-cell; width: 50%; padding-right: 4px;">
-            <label style="font-size:11px; color:#706461; display:block; margin-bottom:3px;">Fecha de retiro:</label>
-            <input type="date" id="pickupDate" style="width:100%; padding:8px; border:1px solid #eeded1; border-radius:6px; font-size:13px;" value="2026-07-04">
-          </div>
-          <div style="display: table-cell; width: 50%; padding-left: 4px;">
-            <label style="font-size:11px; color:#706461; display:block; margin-bottom:3px;">Hora de retiro:</label>
-            <input type="time" id="pickupTime" style="width:100%; padding:8px; border:1px solid #eeded1; border-radius:6px; font-size:13px;" value="16:30">
+        <div class="hero-visual">
+          <div class="hero-card-floating">
+            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" alt="Capuccino insignia">
+            <h3 class="brand-font" style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Aroma Blend</h3>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Cappuccino insignia de la casa</p>
           </div>
         </div>
-      </div>
+      </section>
+    </div>
 
-      <!-- Campos de tarjeta simulados para máxima profesionalidad -->
-      <div id="cardFieldsContainer" style="margin-top: 15px; padding: 12px; background: #fdfbf7; border: 1px solid #eeded1; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif;">
-        <p style="margin: 0 0 10px 0; font-size: 12px; color: #4e342e; font-weight: bold;"><i class="fas fa-lock"></i> Pago Seguro de Prueba (Simulado)</p>
-        <div style="margin-bottom: 8px;">
-          <input type="text" id="mockCardNumber" placeholder="Número de Tarjeta (4500 0000 0000 0000)" style="width:100%; padding:8px; border:1px solid #eeded1; border-radius:6px; font-size:13px;" maxlength="19" value="4552 8741 0024 9632">
+    <!-- VISTA: MODO BARISTA PRO (ARMA TU PROPIO CAFÉ) -->
+    <div class="view-section" id="view-barista">
+      <section>
+        <div class="section-title">
+          <h2>Modo Barista Pro</h2>
+          <p>Personaliza tu combinación favorita paso a paso y te la preparamos al instante</p>
         </div>
-        <div style="display: table; width: 100%;">
-          <div style="display: table-cell; width: 50%; padding-right: 4px;">
-            <input type="text" id="mockCardExpiry" placeholder="MM/AA" style="width:100%; padding:8px; border:1px solid #eeded1; border-radius:6px; font-size:13px;" maxlength="5" value="12/29">
-          </div>
-          <div style="display: table-cell; width: 50%; padding-left: 4px;">
-            <input type="password" id="mockCardCvv" placeholder="CVV" style="width:100%; padding:8px; border:1px solid #eeded1; border-radius:6px; font-size:13px;" maxlength="3" value="385">
-          </div>
-        </div>
-      </div>
-      <div class="dialog-footer">
-        <button class="btn-dialog cancel" onclick="closeCheckout()">Cancelar</button>
-        <button class="btn-dialog next" onclick="goToStep(2)">Continuar</button>
-      </div>
-    </div>
 
-    <!-- Pantalla 2: Resumen y Confirmación con opción de Descarga -->
-    <div class="step" id="step2">
-      <h2>Confirmación</h2>
-      <p>Tu orden ha sido aprobada con éxito.</p>
-      <div class="receipt" id="receiptContent"></div>
-      <button class="btn-download-receipt" onclick="downloadReceiptFile()">
-        <i class="fas fa-download"></i> Descargar Comprobante Digital
-      </button>
-      <div class="dialog-footer">
-        <button class="btn-dialog cancel" onclick="goToStep(1)">Atrás</button>
-        <button class="btn-dialog next" onclick="processOrderEnd()">Finalizar</button>
-      </div>
-    </div>
-  </dialog>
-
-  <!-- WHATSAPP FLOATING BUTTON -->
-  <a href="https://wa.me/59176721293?text=Hola!%20Me%20gustaría%20hacer%20un%20pedido%20de%20Café%20Aroma." class="whatsapp-btn" target="_blank" aria-label="WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4>Café Aroma</h4>
-        <p>Experiencias de café prémium todos los días de la semana.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Horarios</h4>
-        <p>Lunes a Viernes: 7:30 - 21:30</p>
-        <p>Sábados y Domingos: 8:30 - 22:00</p>
-      </div>
-      <div class="footer-col">
-        <h4>Contacto</h4>
-        <p><i class="fas fa-phone"></i> +591 70000000</p>
-        <p><i class="fas fa-envelope"></i> info@cafearoma.com</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; 2026 Café Aroma Premium. Todos los derechos reservados.
-    </div>
-  </footer>
-
-  <script>
-    const data = [
-      ['Capuccino Tradicional', 18, 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80', 'cafes'],
-      ['Latte Macchiato', 20, 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80', 'cafes'],
-      ['Espresso Intenso', 14, 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', 'cafes'],
-      ['Iced Latte Vainilla', 22, 'https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80', 'bebidas-frias'],
-      ['Frappé de Caramelo', 25, 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=600&q=80', 'bebidas-frias'],
-      ['Cheesecake New York', 22, 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80', 'postres'],
-      ['Croissant de Almendras', 16, 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80', 'postres']
-    ];
-
-    let cart = {};
-    let currentCategory = 'todos';
-    let selectedRating = 5;
-    let selectedDay2026 = null;
-
-    // SISTEMA DE ALERTA TOAST PREMIUM (SIN POPUPS NATIVOS CORTADOS EN IFRAME)
-    function showToast(msg) {
-      const toast = document.getElementById('customToast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3500);
-    }
-
-    // RENDERIZAR PRODUCTOS
-    function paint(filterText = '') {
-      const grid = document.getElementById('products');
-      if(!grid) return;
-      grid.innerHTML = '';
-      
-      data.forEach((p, i) => {
-        if (currentCategory !== 'todos' && p[3] !== currentCategory) return;
-        if (!p[0].toLowerCase().includes(filterText.toLowerCase())) return;
-
-        grid.innerHTML += `
-          <div class="card reveal-element">
-            <div class="img-container">
-              <img src="${p[2]}" alt="${p[0]}" loading="lazy">
+        <div class="barista-builder">
+          <div class="barista-step-group">
+            <div class="barista-step-title"><i class="fas fa-mug-hot"></i> 1. Elige tu Base de Café</div>
+            <div class="barista-options-grid" id="baristaBases">
+              <div class="barista-chip selected" onclick="selectBaristaOption('base', 'Espresso Doble', 14, this)">
+                <span>Espresso Doble</span> <span>Bs 14</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('base', 'Café Filtrado V60', 16, this)">
+                <span>Filtrado V60</span> <span>Bs 16</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('base', 'Cold Brew Concentrado', 18, this)">
+                <span>Cold Brew</span> <span>Bs 18</span>
+              </div>
             </div>
-            <div class="card-body">
-              <h3>${p[0]}</h3>
-              <div class="price-row">
-                <span class="price">Bs ${p[1]}</span>
-                <button class="btn-add" onclick="addToCart(${i}, event)">
-                  <i class="fas fa-plus"></i> Agregar
+          </div>
+
+          <div class="barista-step-group">
+            <div class="barista-step-title"><i class="fas fa-cow"></i> 2. Elige tu Leche o Base Líquida</div>
+            <div class="barista-options-grid" id="baristaMilk">
+              <div class="barista-chip selected" onclick="selectBaristaOption('milk', 'Leche Entera Cremosa', 0, this)">
+                <span>Leche Entera</span> <span>+Bs 0</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('milk', 'Leche de Almendras', 4, this)">
+                <span>Almendras</span> <span>+Bs 4</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('milk', 'Leche de Soya', 3, this)">
+                <span>Soya Orgánica</span> <span>+Bs 3</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="barista-step-group">
+            <div class="barista-step-title"><i class="fas fa-bottle-droplet"></i> 3. Elige tu Sabor o Sirope</div>
+            <div class="barista-options-grid" id="baristaSyrup">
+              <div class="barista-chip selected" onclick="selectBaristaOption('syrup', 'Sin Sirope Especial', 0, this)">
+                <span>Sin Sirope</span> <span>+Bs 0</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('syrup', 'Vainilla Francesa', 3, this)">
+                <span>Vainilla</span> <span>+Bs 3</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('syrup', 'Caramelo Salado', 3, this)">
+                <span>Caramelo Salado</span> <span>+Bs 3</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('syrup', 'Avellana Tostada', 4, this)">
+                <span>Avellana</span> <span>+Bs 4</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="barista-step-group">
+            <div class="barista-step-title"><i class="fas fa-cookie"></i> 4. Topping Especial</div>
+            <div class="barista-options-grid" id="baristaTopping">
+              <div class="barista-chip selected" onclick="selectBaristaOption('topping', 'Lluvia de Cacao Fino', 0, this)">
+                <span>Cacao Fino</span> <span>+Bs 0</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('topping', 'Crema Batida Artesanal', 3, this)">
+                <span>Crema Batida</span> <span>+Bs 3</span>
+              </div>
+              <div class="barista-chip" onclick="selectBaristaOption('topping', 'Chips de Chocolate 70%', 4, this)">
+                <span>Chips 70%</span> <span>+Bs 4</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="barista-summary-box">
+            <div>
+              <span style="font-size: 12px; color: var(--accent); font-weight: 700; text-transform: uppercase;">Tu Creación Única</span>
+              <h4 id="baristaCustomName" style="font-size: 18px; font-weight: 800; margin-top: 2px;">Espresso Doble + Leche Entera</h4>
+              <p id="baristaCustomDetails" style="font-size: 13px; color: var(--text-muted);">Sin Sirope | Lluvia de Cacao Fino</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 15px;">
+              <span id="baristaPriceDisplay" style="font-size: 26px; font-weight: 800; color: var(--accent);">Bs 14</span>
+              <button class="btn-primary" onclick="addCustomCoffeeToCart(event)">
+                <i class="fas fa-plus"></i> Añadir a mi Pedido
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: MENÚ DIGITAL COMPLETO -->
+    <div class="view-section" id="view-menu">
+      <section>
+        <div class="section-title">
+          <h2>Nuestra Carta Digital</h2>
+          <p>Selección artesanal de cafés, bebidas frías y repostería horneada diariamente</p>
+        </div>
+
+        <div class="menu-controls">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar cappuccino, croissant, té..." oninput="filterProducts()">
+          </div>
+
+          <div class="filter-pills">
+            <button class="filter-pill active" onclick="setCategory('all', this)">Todos</button>
+            <button class="filter-pill" onclick="setCategory('caliente', this)">Cafés Calientes</button>
+            <button class="filter-pill" onclick="setCategory('frio', this)">Bebidas Frías</button>
+            <button class="filter-pill" onclick="setCategory('reposteria', this)">Repostería</button>
+          </div>
+        </div>
+
+        <div class="menu-grid" id="menuGrid">
+          <!-- Renderizado dinámico desde JS -->
+        </div>
+
+        <!-- Sección Quiz -->
+        <div class="quiz-section" id="quiz">
+          <div class="quiz-header">
+            <span class="tagline-badge" style="margin-bottom: 8px;"><i class="fas fa-wand-magic-sparkles"></i> Quiz Interactivo</span>
+            <h3>¿Qué café eres?</h3>
+            <p>Responde 3 sencillas preguntas y te recomendaremos el café perfecto de nuestra carta</p>
+          </div>
+
+          <div class="quiz-container">
+            <div class="quiz-step active" id="quiz-step-1">
+              <div class="quiz-question">1. ¿Qué temperatura prefieres para tu bebida?</div>
+              <div class="quiz-options">
+                <button class="quiz-option-btn" onclick="answerQuiz(1, 'caliente')">
+                  <i class="fas fa-fire"></i>
+                  Caliente y reconfortante
+                </button>
+                <button class="quiz-option-btn" onclick="answerQuiz(1, 'frio')">
+                  <i class="fas fa-snowflake"></i>
+                  Frío y refrescante
                 </button>
               </div>
             </div>
-          </div>`;
-      });
 
-      // Reconectar el observador de scroll para las tarjetas renderizadas dinámicamente
-      initScrollReveal();
-    }
-
-    function filterCategory(cat) {
-      currentCategory = cat;
-      document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
-      if(event && event.target) event.target.classList.add('active');
-      paint(document.getElementById('search').value);
-    }
-
-    function addToCart(i, e) {
-      cart[i] = (cart[i] || 0) + 1;
-      
-      const b = e.target.getBoundingClientRect();
-      const f = document.createElement('div');
-      f.className = 'fly';
-      f.textContent = '☕';
-      f.style.left = b.left + 'px';
-      f.style.top = b.top + 'px';
-      document.body.appendChild(f);
-      
-      setTimeout(() => {
-        f.style.left = (window.innerWidth - 50) + 'px';
-        f.style.top = '20px';
-        f.style.opacity = 0;
-        f.style.transform = 'scale(0.3)';
-      }, 20);
-      
-      setTimeout(() => f.remove(), 800);
-      renderCart();
-    }
-
-    function changeQty(i, amt) {
-      if (!cart[i]) return;
-      cart[i] += amt;
-      if (cart[i] <= 0) delete cart[i];
-      renderCart();
-    }
-
-    function deleteItem(i) {
-      delete cart[i];
-      renderCart();
-    }
-
-    // CALCULO DE CARRITO
-    function renderCart() {
-      let html = '', subtotal = 0, totalItems = 0;
-
-      for (let k in cart) {
-        let q = cart[k], p = data[k];
-        let s = q * p[1];
-        subtotal += s;
-        totalItems += q;
-
-        html += `
-          <div class="cart-item">
-            <img src="${p[2]}" class="cart-item-img">
-            <div class="cart-item-details">
-              <div class="cart-item-title">${p[0]}</div>
-              <div class="cart-item-price">Bs ${s}</div>
-              <div class="quantity-controls">
-                <button class="qty-btn" onclick="changeQty(${k}, -1)">-</button>
-                <span>${q}</span>
-                <button class="qty-btn" onclick="changeQty(${k}, 1)">+</button>
+            <div class="quiz-step" id="quiz-step-2">
+              <div class="quiz-question">2. ¿Cómo prefieres la intensidad del sabor?</div>
+              <div class="quiz-options">
+                <button class="quiz-option-btn" onclick="answerQuiz(2, 'intenso')">
+                  <i class="fas fa-bolt"></i>
+                  Intenso y puro
+                </button>
+                <button class="quiz-option-btn" onclick="answerQuiz(2, 'dulce')">
+                  <i class="fas fa-cookie-bite"></i>
+                  Dulce y cremoso
+                </button>
               </div>
             </div>
-            <button class="btn-delete" onclick="deleteItem(${k})"><i class="fas fa-trash-alt"></i></button>
-          </div>`;
+
+            <div class="quiz-step" id="quiz-step-3">
+              <div class="quiz-question">3. ¿Para qué momento del día es?</div>
+              <div class="quiz-options">
+                <button class="quiz-option-btn" onclick="answerQuiz(3, 'energia')">
+                  <i class="fas fa-sun"></i>
+                  Empezar la mañana con energía
+                </button>
+                <button class="quiz-option-btn" onclick="answerQuiz(3, 'relax')">
+                  <i class="fas fa-cloud-moon"></i>
+                  Un momento de relax o tarde dulce
+                </button>
+              </div>
+            </div>
+
+            <div class="quiz-step" id="quiz-result">
+              <h4 style="font-size: 20px; color: var(--accent); margin-bottom: 12px;">¡Tu match perfecto es!</h4>
+              <div class="quiz-result-card" id="quizResultCard">
+                <!-- Renderizado dinámico -->
+              </div>
+              <button class="btn-outline" style="margin-top: 20px;" onclick="resetQuiz()">
+                <i class="fas fa-rotate-right"></i> Repetir Quiz
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: SISTEMA DE RESERVAS DE MESAS INTERACTIVO -->
+    <div class="view-section" id="view-reserva">
+      <section>
+        <div class="section-title">
+          <h2>Reserva tu Mesa</h2>
+          <p>Elige tu día, hora y número de personas. Nos adaptamos a los horarios oficiales de apertura.</p>
+        </div>
+
+        <div class="booking-box-clean">
+          <div class="booking-controls-grid">
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 6px; text-transform: uppercase;">1. Fecha de Visita</label>
+              <button class="btn-booking-trigger" onclick="document.getElementById('bookingDatePicker').showPicker()">
+                <span id="displaySelectedDate"><i class="far fa-calendar-check" style="margin-right: 8px;"></i> Elegir Fecha</span>
+                <i class="fas fa-calendar-alt"></i>
+              </button>
+              <input type="date" id="bookingDatePicker" style="opacity: 0; width: 0; height: 0; display: block;" onchange="handleBookingDateChange(this.value)">
+            </div>
+
+            <div>
+              <label style="font-size: 12px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 6px; text-transform: uppercase;">2. Número de Personas</label>
+              <div class="people-counter">
+                <button class="btn-people-step" onclick="changePeopleCount(-1)">-</button>
+                <span id="peopleCountDisplay" style="font-weight: 800; font-size: 15px;"><i class="fas fa-users" style="color: var(--accent); margin-right: 6px;"></i> 2 Personas</span>
+                <button class="btn-people-step" onclick="changePeopleCount(1)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 25px;">
+            <label style="font-size: 12px; font-weight: 700; color: var(--accent); display: block; margin-bottom: 6px; text-transform: uppercase;"><i class="far fa-clock" style="margin-right: 6px;"></i> 3. Horarios Disponibles</label>
+            <div class="time-pills-container" id="availableTimePills">
+              <!-- Se cargan dinámicamente según el día (Semana o Fin de semana) -->
+            </div>
+          </div>
+
+          <div class="form-group-clean">
+            <label>Nombre a quien estará la reserva</label>
+            <input type="text" id="bookingClientName" class="form-control-clean" placeholder="Ej. Carlos Mendoza">
+          </div>
+
+          <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" onclick="sendTableReservation()">
+            <i class="fab fa-whatsapp"></i> Confirmar Reserva
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: PROMOCIONES Y COMBOS -->
+    <div class="view-section" id="view-promociones">
+      <section>
+        <div class="section-title">
+          <h2>Promociones y Combos</h2>
+          <p>Desliza para ver nuestros paquetes especiales con descuentos exclusivos</p>
+        </div>
+
+        <div class="promo-single-wrapper">
+          <div class="promo-card-single active" data-index="0">
+            <span class="promo-badge-tag">Ahorra 20%</span>
+            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" alt="Combo Mañanero">
+            <h3>Combo Mañanero</h3>
+            <p>Capuccino Tradicional + Croissant de Almendras para empezar el día con el mejor pie.</p>
+            <div class="promo-price-box">
+              <span class="old-price">Bs 34</span>
+              <span class="new-price">Bs 28</span>
+              <span class="savings-pill"><i class="fas fa-tag"></i> Ahorras Bs 6</span>
+            </div>
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart('Combo Mañanero', 28, event)">
+              <i class="fas fa-cart-plus"></i> Agregar al Pedido
+            </button>
+          </div>
+
+          <div class="promo-card-single" data-index="1">
+            <span class="promo-badge-tag">Especial Tarde</span>
+            <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80" alt="Dúo Dulce Tarde">
+            <h3>Dúo Dulce Tarde</h3>
+            <p>2 Iced Lattes de Vainilla + 1 Porción de Cheesecake de Frutos Rojos para compartir.</p>
+            <div class="promo-price-box">
+              <span class="old-price">Bs 66</span>
+              <span class="new-price">Bs 55</span>
+              <span class="savings-pill"><i class="fas fa-tag"></i> Ahorras Bs 11</span>
+            </div>
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart('Dúo Dulce Tarde', 55, event)">
+              <i class="fas fa-cart-plus"></i> Agregar al Pedido
+            </button>
+          </div>
+
+          <div class="promo-card-single" data-index="2">
+            <span class="promo-badge-tag">Barista Choice</span>
+            <img src="https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=500&q=80" alt="Combo Espresso Doble">
+            <h3>Espresso Experience</h3>
+            <p>Double Shot Espresso de Origen + Galleta de Avellana artesanal recién horneada.</p>
+            <div class="promo-price-box">
+              <span class="old-price">Bs 26</span>
+              <span class="new-price">Bs 20</span>
+              <span class="savings-pill"><i class="fas fa-tag"></i> Ahorras Bs 6</span>
+            </div>
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart('Espresso Experience', 20, event)">
+              <i class="fas fa-cart-plus"></i> Agregar al Pedido
+            </button>
+          </div>
+
+          <div class="promo-controls" style="display: flex; justify-content: center; gap: 12px; margin-top: 20px;">
+            <button class="slider-nav-btn" onclick="slidePromo(-1)"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-nav-btn" onclick="slidePromo(1)"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: PREGUNTAS FRECUENTES -->
+    <div class="view-section" id="view-faq">
+      <section>
+        <div class="section-title">
+          <h2>Preguntas Frecuentes</h2>
+          <p>Resolvemos tus dudas antes de tu visita con respuestas detalladas</p>
+        </div>
+
+        <div class="faq-container">
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleFaq(this)">
+              ¿Tienen alternativas de leche vegetal o café descafeinado?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body">
+              Contamos con leche de almendras y de soya, además de opciones de grano descafeinado para todas nuestras bebidas calientes y frías.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleFaq(this)">
+              ¿Cuáles son las formas de pago aceptadas en el local?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body">
+              Aceptamos pago en efectivo, transferencias mediante código QR y tarjetas de débito/crédito.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleFaq(this)">
+              ¿Tienen servicio de Wi-Fi para trabajar o estudiar?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body">
+              Sí, disponemos de conexión Wi-Fi de alta velocidad para nuestros clientes y enchufes disponibles en varias mesas.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleFaq(this)">
+              ¿Se pueden realizar reservas de mesas?
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="accordion-body">
+              Atendemos por orden de llegada y también aceptamos reservas desde nuestra pestaña especial en esta página.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: NOSOTROS Y GALERÍA -->
+    <div class="view-section" id="view-nosotros">
+      <section>
+        <div class="about-wrapper">
+          <div class="about-text">
+            <span class="tagline-badge">Nuestra Esencia</span>
+            <h3>Un rincón diseñado para desconectar y disfrutar</h3>
+            <p>En Cafetería Aroma, seleccionamos los mejores granos de pequeños productores de Los Yungas y Caranavi. Cada taza se prepara cuidando la temperatura, molienda y extracción perfecta.</p>
+            <p>Ya sea que busques un espacio tranquilo para trabajar con tu laptop, reunirte con amigos o disfrutar un momento a solas, nuestras instalaciones están pensadas para tu comodidad.</p>
+            
+            <div class="about-highlights">
+              <div class="highlight-box">
+                <i class="fas fa-wifi"></i>
+                <span>Wi-Fi Fibra Óptica</span>
+              </div>
+              <div class="highlight-box">
+                <i class="fas fa-plug"></i>
+                <span>Enchufes en Mesas</span>
+              </div>
+              <div class="highlight-box">
+                <i class="fas fa-paw"></i>
+                <span>Espacio Pet Friendly</span>
+              </div>
+              <div class="highlight-box">
+                <i class="fas fa-seedling"></i>
+                <span>Café 100% Orgánico</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80" alt="Interior del Local" loading="lazy">
+            </div>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" alt="Barista preparando café" loading="lazy">
+            </div>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80" alt="Ambiente acogedor" loading="lazy">
+            </div>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Zona de lectura" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top: 80px;">
+          <h2>Lo que dicen nuestros clientes</h2>
+          <p>Reseñas reales de apasionados del buen café que nos visitan a diario</p>
+        </div>
+
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div>
+              <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p class="review-text">"El mejor espresso de Villa Fátima sin duda. El ambiente es super tranquilo para trabajar en las tardes con la laptop."</p>
+            </div>
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">CP</div>
+              <div>
+                <div class="reviewer-name">Carlos Paredes</div>
+                <div class="reviewer-tag">Cliente Frecuente</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div>
+              <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p class="review-text">"El cheesecake de frutos rojos es exquisito y la atención de los chicos baristas es muy amable. Volveré pronto."</p>
+            </div>
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">AM</div>
+              <div>
+                <div class="reviewer-name">Andrea Mendoza</div>
+                <div class="reviewer-tag">Google Reviewer</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div>
+              <div class="stars">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              </div>
+              <p class="review-text">"Excelente opción de Iced Latte para los días calurosos. Además me encanta que sea un espacio pet friendly."</p>
+            </div>
+            <div class="reviewer-info">
+              <div class="reviewer-avatar">RG</div>
+              <div>
+                <div class="reviewer-name">Roberto Gómez</div>
+                <div class="reviewer-tag">Cliente Verificado</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: INFORMACIÓN Y HORARIOS -->
+    <div class="view-section" id="view-informacion">
+      <section>
+        <div class="section-title">
+          <h2>Información y Horarios</h2>
+          <p>Todo lo que necesitas saber para tu visita a Cafetería Aroma</p>
+        </div>
+
+        <div class="info-cards-grid">
+          <div class="info-card-clean">
+            <i class="fas fa-clock"></i>
+            <h3>Horarios de Atención</h3>
+            <ul>
+              <li><strong>Lunes a Viernes:</strong> 07:30 – 21:30</li>
+              <li><strong>Sábados y Domingos:</strong> 08:30 – 21:00</li>
+            </ul>
+          </div>
+
+          <div class="info-card-clean">
+            <i class="fas fa-credit-card"></i>
+            <h3>Métodos de Pago</h3>
+            <ul>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Efectivo</li>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Transferencia QR</li>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Tarjetas de Débito/Crédito</li>
+            </ul>
+          </div>
+
+          <div class="info-card-clean">
+            <i class="fas fa-mug-hot"></i>
+            <h3>Opciones de Servicio</h3>
+            <ul>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Consumo en el local</li>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Para llevar (Take away)</li>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Opciones de leche vegetal</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- VISTA: UBICACIÓN Y MAPA -->
+    <div class="view-section" id="view-ubicacion">
+      <section>
+        <div class="section-title">
+          <h2>Ubicación y Cómo Llegar</h2>
+          <p>Encuéntranos fácilmente en el corazón de Villa Fátima</p>
+        </div>
+
+        <div class="map-section-wrapper">
+          <div id="interactiveMap"></div>
+
+          <div class="location-info">
+            <h3 class="brand-font" style="font-size: 26px;">Plaza del Maestro</h3>
+            
+            <div class="location-detail">
+              <i class="fas fa-location-dot"></i>
+              <div>
+                <strong>Dirección:</strong>
+                <p style="color: var(--text-muted); font-size: 14px;">Plaza del Maestro, Villa Fátima. La Paz, Bolivia.</p>
+              </div>
+            </div>
+
+            <div class="location-detail">
+              <i class="fas fa-bus"></i>
+              <div>
+                <strong>Referencias cercanas:</strong>
+                <p style="color: var(--text-muted); font-size: 14px;">A pasos de la parada del PumaKatari y parada de minibuses hacia el centro.</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 10px; display: flex; gap: 12px; flex-wrap: wrap;">
+              <a href="https://maps.google.com/?q=-16.4885,-68.1182" target="_blank" class="btn-primary">
+                <i class="fas fa-diamond-turn-right"></i> Abrir en Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- PANEL CARRITO DESPLEGABLE -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3 style="font-size: 18px; font-weight: 800;"><i class="fas fa-shopping-bag" style="color: var(--accent); margin-right: 8px;"></i> Tu Pedido</h3>
+      <button class="theme-toggle-btn" onclick="toggleCartDrawer()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="cart-items-list" id="cartDrawerItems">
+      <!-- Elementos del carrito -->
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-total-line">
+        <span>Total:</span>
+        <span id="cartDrawerTotal" style="color: var(--accent);">Bs 0</span>
+      </div>
+      <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="openCheckoutModal()">
+        Proceder con el Pago
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL CHECKOUT AUTOMATIZADO -->
+  <div class="checkout-modal" id="checkoutModal">
+    <div class="checkout-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="font-size: 20px; font-weight: 800;">Detalles de Despacho y Pago</h3>
+        <button class="theme-toggle-btn" onclick="closeCheckoutModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="form-group-clean">
+        <label>Modalidad del Pedido</label>
+        <select id="checkoutType" class="form-control-clean" onchange="toggleCheckoutFields(this.value)">
+          <option value="delivery">Envío a Domicilio (Delivery)</option>
+          <option value="pickup">Recojo en Caja (Pickup)</option>
+        </select>
+      </div>
+
+      <div class="form-group-clean">
+        <label>Nombre Completo</label>
+        <input type="text" id="checkoutClientName" class="form-control-clean" placeholder="Ej. Ana Belén" oninput="updateTicketPreview()">
+      </div>
+
+      <!-- Campos dinámicos para Delivery -->
+      <div id="deliveryFields">
+        <div class="form-group-clean">
+          <label>Dirección de Entrega</label>
+          <input type="text" id="checkoutAddress" class="form-control-clean" placeholder="Zona, Calle y Nro de Casa" oninput="updateTicketPreview()">
+        </div>
+      </div>
+
+      <!-- Campos dinámicos para Recojo en Caja con selección de Fecha y Hora adaptada -->
+      <div id="pickupFields" style="display: none;">
+        <div class="form-group-clean">
+          <label>Fecha y Hora de Recojo</label>
+          <input type="date" id="checkoutPickupDate" class="form-control-clean" style="margin-bottom: 10px;" onchange="handleCheckoutPickupDateChange(this.value)">
+          <label style="font-size: 11px; color: var(--accent); margin-top: 4px;">Horarios Disponibles para la fecha seleccionada:</label>
+          <div class="time-pills-container" id="checkoutTimePills">
+            <!-- Cargado según horario de día laboral o fin de semana -->
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group-clean">
+        <label>Forma de Pago</label>
+        <select id="checkoutPayment" class="form-control-clean" onchange="togglePaymentQR(this.value)">
+          <option value="qr">Pago con QR Simple</option>
+          <option value="efectivo">Pago en Efectivo</option>
+        </select>
+      </div>
+
+      <div id="qrBoxContainer" style="text-align: center; margin: 15px 0; background: var(--surface-card); padding: 15px; border-radius: 16px; border: 1px dashed var(--border);">
+        <p style="font-size: 12px; font-weight: 700; color: var(--accent); margin-bottom: 8px;">QR DE PAGO SIMULADO</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=CafeAromaPagoPro" alt="QR de Pago" style="width: 130px; height: 130px; border-radius: 12px;">
+      </div>
+
+      <div class="ticket-display" id="ticketPreview">
+        <!-- Previsualización de ticket -->
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button class="btn-outline" style="flex: 1; justify-content: center;" onclick="downloadTicketTxt()">
+          <i class="fas fa-file-arrow-down"></i> Ticket .TXT
+        </button>
+        <button class="btn-primary" style="flex: 1.2; justify-content: center;" onclick="sendOrderToWhatsApp()">
+          <i class="fab fa-whatsapp"></i> Enviar Pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón flotante WhatsApp -->
+  <a href="https://wa.me/59176721293?text=¡Hola!%20Tengo%20una%20consulta%20sobre%20Cafetería%20Aroma." target="_blank" class="floating-wa" title="Escríbenos por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <footer>
+    <p>&copy; 2026 Cafetería Aroma — Landing Page (Plan 3 Completo)</p>
+  </footer>
+
+  <!-- Leaflet JS para Mapa interactivo -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    let activeCategory = 'all';
+    let quizAnswers = {};
+    let leafletMapInstance = null;
+    let currentPromoIndex = 0;
+
+    // Estado del Carrito y Barista
+    let cart = [];
+    let baristaSelections = {
+      base: { name: 'Espresso Doble', price: 14 },
+      milk: { name: 'Leche Entera Cremosa', price: 0 },
+      syrup: { name: 'Sin Sirope Especial', price: 0 },
+      topping: { name: 'Lluvia de Cacao Fino', price: 0 }
+    };
+
+    // Estado de Reservas de Mesas y Checkout Time
+    let selectedPeople = 2;
+    let selectedBookingDate = new Date().toISOString().split('T')[0];
+    let selectedBookingTime = '16:00';
+    let selectedCheckoutPickupTime = '16:00';
+
+    const products = [
+      { id: 1, name: "Capuccino Tradicional", category: "caliente", price: 18, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", desc: "Espresso con leche cremosa vaporizada y toque de canela." },
+      { id: 2, name: "Latte Macchiato", category: "caliente", price: 20, img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=500&q=80", desc: "Leche texturizada en tres capas finalizada con espresso." },
+      { id: 3, name: "Espresso Intenso", category: "caliente", price: 14, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=500&q=80", desc: "Shot puro de grano seleccionado de Los Yungas." },
+      { id: 4, name: "Iced Latte Vainilla", category: "frio", price: 22, img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=500&q=80", desc: "Espresso frío con leche fresca y toque suave de vainilla." },
+      { id: 5, name: "Frappé de Caramelo", category: "frio", price: 25, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80", desc: "Bebida helada licuada con crema batida y dulce de leche." },
+      { id: 6, name: "Cold Brew de la Casa", category: "frio", price: 20, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", desc: "Café infusionado en frío durante 18 horas, suave e intenso." },
+      { id: 7, name: "Cheesecake Frutos Rojos", category: "reposteria", price: 22, img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80", desc: "Tarta de queso crema horneada con mermelada artesanal." },
+      { id: 8, name: "Croissant de Almendras", category: "reposteria", price: 16, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80", desc: "Hojaldre crujiente horneado con crema frangipane." }
+    ];
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+
+      const targetView = document.getElementById('view-' + viewName);
+      if (targetView) targetView.classList.add('active');
+
+      const targetNav = document.getElementById('nav-' + viewName);
+      if (targetNav) targetNav.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (viewName === 'ubicacion' && leafletMapInstance) {
+        setTimeout(() => {
+          leafletMapInstance.invalidateSize();
+        }, 100);
       }
-
-      document.getElementById('count').textContent = totalItems;
-      document.getElementById('list').innerHTML = html || '<p style="color:var(--text-muted);">Tu carrito está vacío.</p>';
-      
-      let tax = subtotal * 0.13; // IVA 13%
-      let total = subtotal + tax;
-
-      document.getElementById('subtotalLabel').textContent = 'Bs ' + subtotal.toFixed(2);
-      document.getElementById('taxLabel').textContent = 'Bs ' + tax.toFixed(2);
-      document.getElementById('totalLabel').textContent = 'Bs ' + total.toFixed(2);
     }
-
-    // GESTIÓN DE RESEÑAS CON ESTRELLAS
-    document.querySelectorAll('#ratingSelector i').forEach(star => {
-      star.onclick = function() {
-        selectedRating = parseInt(this.getAttribute('data-value'));
-        document.querySelectorAll('#ratingSelector i').forEach(s => {
-          if(parseInt(s.getAttribute('data-value')) <= selectedRating) {
-            s.classList.add('active');
-          } else {
-            s.classList.remove('active');
-          }
-        });
-      }
-    });
-    document.querySelectorAll('#ratingSelector i').forEach(s => s.classList.add('active'));
-
-    function submitReview() {
-      const txt = document.getElementById('reviewText').value.trim();
-      if(!txt) return showToast("Por favor escribe un comentario para tu reseña.");
-      
-      let starsHtml = '';
-      for(let i=1; i<=5; i++) {
-        starsHtml += `<i class="${i <= selectedRating ? 'fas' : 'far'} fa-star"></i>`;
-      }
-
-      const grid = document.getElementById('reviewsGrid');
-      const newCard = document.createElement('div');
-      newCard.className = 'review-card reveal-element';
-      newCard.innerHTML = `
-        <div class="stars" style="color: #f1c40f; margin-bottom: 15px;">${starsHtml}</div>
-        <p class="review-text">"${txt}"</p>
-        <div class="review-user">- Cliente Satisfecho</div>
-      `;
-      grid.insertBefore(newCard, grid.firstChild);
-      
-      document.getElementById('reviewText').value = '';
-      showToast("¡Gracias! Tu reseña ha sido enviada con éxito.");
-      initScrollReveal();
-    }
-
-    // MINI CALENDARIO INTERACTIVO - JULIO 2026
-    function initMiniCalendar() { renderCalendarDays(); }
-
-    let currentMonthIdx = 6; // Julio
-    const months2026 = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const daysInMonths2026 = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    const startDays2026 = [4, 0, 0, 3, 5, 1, 3, 6, 2, 4, 0, 2]; // 0=Dom, 1=Lun, etc.
-
-    function changeMonth(dir) {
-      currentMonthIdx = (currentMonthIdx + dir + 12) % 12;
-      document.getElementById('calendarMonthYear').textContent = months2026[currentMonthIdx] + ' 2026';
-      renderCalendarDays();
-    }
-
-    function renderCalendarDays() {
-      const grid = document.getElementById('calendarGrid');
-      if(!grid) return;
-      grid.innerHTML = '';
-      
-      const dayNames = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
-      dayNames.forEach(d => { grid.innerHTML += `<div class="day-name">${d}</div>`; });
-      
-      let spaces = startDays2026[currentMonthIdx];
-      for(let i = 0; i < spaces; i++) { grid.innerHTML += `<div class="calendar-day empty"></div>`; }
-      
-      let days = daysInMonths2026[currentMonthIdx];
-      for(let day = 1; day <= days; day++) {
-        grid.innerHTML += `<div class="calendar-day" data-day="${day}" onclick="selectCalendarDay(${day})">${day}</div>`;
-      }
-      selectedDay2026 = null;
-    }
-
-    function selectCalendarDay(day) {
-      selectedDay2026 = day;
-      document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
-      if(event && event.target) {
-        event.target.classList.add('selected');
-      }
-    }
-
-    // RESERVAS DE MESA
-    function handleReserve(e) {
-      e.preventDefault();
-      if(!selectedDay2026) {
-        return showToast("Por favor selecciona un día del mini calendario para tu reserva.");
-      }
-      const nombre = e.target.querySelector('input[placeholder="Nombre completo"]').value;
-      const time = document.getElementById('bookingTime').value;
-      const mesAnio = document.getElementById('calendarMonthYear').textContent;
-      
-      const textoWhatsApp = `¡Hola Café Aroma! Quiero confirmar una reserva de mesa a nombre de: *${nombre}*. Día: *${selectedDay2026} de ${mesAnio}*. Hora: *${time}*. Por favor me confirman disponibilidad. ¡Gracias!`;
-      const urlWhatsApp = `https://wa.me/59176721293?text=${encodeURIComponent(textoWhatsApp)}`;
-      
-      window.open(urlWhatsApp, '_blank');
-      showToast(`Confirmando tu reserva de mesa para el ${selectedDay2026} de ${mesAnio} a las ${time}.`);
-      
-      e.target.reset();
-      selectedDay2026 = null;
-      document.querySelectorAll('.calendar-day').forEach(el => el.classList.remove('selected'));
-    }
-
-    function updatePaymentForm(method) {
-      document.getElementById('cardFieldsContainer').style.display = (method === 'Tarjeta') ? 'block' : 'none';
-      document.getElementById('cashPickupContainer').style.display = (method === 'Efectivo') ? 'block' : 'none';
-    }
-
-    // PASARELA CHECKOUT MULTI-PANTALLA
-    function goToStep(stepNum) {
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      const targetStep = document.getElementById('step' + stepNum);
-      if(targetStep) targetStep.classList.add('active');
-
-      if(stepNum === 2) {
-        let method = document.querySelector('input[name="payMethod"]:checked').value;
-        let orderNum = Math.floor(Math.random() * 90000) + 10000;
-        let totalVal = document.getElementById('totalLabel').textContent;
-        
-        let ticket = `=================================<br>`;
-        ticket += `       CAFÉ AROMA PREMIUM<br>`;
-        ticket += `   Plaza del Maestro, La Paz<br>`;
-        ticket += `=================================<br>`;
-        ticket += `FECHA: 2026-07-04<br>`;
-        ticket += `ORDEN NRO: #${orderNum}<br>`;
-        ticket += `---------------------------------<br>`;
-        for (let k in cart) {
-          ticket += `${data[k][0].padEnd(22, ' ')} x${cart[k]} (Bs ${cart[k]*data[k][1]})<br>`;
-        }
-        ticket += `---------------------------------<br>`;
-        ticket += `MÉTODO: ${method}<br>`;
-        ticket += `---------------------------------<br>`;
-        ticket += `<strong>TOTAL: ${totalVal}</strong><br>`;
-        ticket += `=================================<br>`;
-        
-        if (method === "QR") {
-          ticket += `<div style="text-align:center; margin: 15px 0; padding: 10px; background:#f5f5f5; border-radius:8px; border:1px dashed #ccc;">`;
-          ticket += `<p style="font-size:12px; margin-bottom:8px; color:#555; font-family:'Plus Jakarta Sans',sans-serif;"><b>Escanear para pagar con Simple QR</b></p>`;
-          ticket += `<img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=CafeAromaPremiumBoliviaMockQR" alt="QR de Prueba" style="width:150px; height:150px; display:block; margin:0 auto; border: 4px solid white; box-shadow:0 2px 5px rgba(0,0,0,0.1);"><br>`;
-          ticket += `<span style="font-size:11px; color:#c7a17a; font-family:'Plus Jakarta Sans',sans-serif; display:block; margin-top:-5px;">Monto exacto: ${totalVal}</span>`;
-          ticket += `</div>`;
-        } else if (method === "Tarjeta") {
-          let numTarjeta = document.getElementById('mockCardNumber').value || '4552 8741 0024 9632';
-          let terminacion = numTarjeta.slice(-4);
-          ticket += `<div style="margin: 15px 0; padding: 12px; background:#f4f9f4; border-radius:8px; border:1px solid #c2e0c2; font-family:'Plus Jakarta Sans',sans-serif; font-size:12px;">`;
-          ticket += `<p style="color:#1e4620; margin:0 0 5px 0; font-weight:bold;"><i class="fas fa-check-circle"></i> Transacción Electrónica Autorizada</p>`;
-          ticket += `<span style="color:#2e6932; display:block; margin-bottom:3px;"><b>Estado:</b> Aprobado por Pasarela Local</span>`;
-          ticket += `<span style="color:#555; display:block;"><b>Tarjeta:</b> **** **** **** ${terminacion}</span>`;
-          ticket += `<span style="color:#555; display:block;"><b>Código de Aut.:</b> AUTH-${Math.floor(Math.random()*800000)+100000}</span>`;
-          ticket += `</div>`;
-        } else if (method === "Efectivo") {
-          let fechaPick = document.getElementById('pickupDate').value || '2026-07-04';
-          let horaPick = document.getElementById('pickupTime').value || '16:30';
-          ticket += `<div style="margin: 15px 0; padding: 12px; background:#fff9e6; border-radius:8px; border:1px solid #ffeeba; font-family:'Plus Jakarta Sans',sans-serif; font-size:12px;">`;
-          ticket += `<p style="color:#856404; margin:0 0 5px 0; font-weight:bold;"><i class="fas fa-store"></i> Pedido para Retiro programado</p>`;
-          ticket += `<span style="color:#856404; display:block; margin-bottom:3px;"><b>Pago:</b> Efectivo en Caja al Recoger</span>`;
-          ticket += `<span style="color:#555; display:block;"><b>Fecha pautada:</b> ${fechaPick}</span>`;
-          ticket += `<span style="color:#555; display:block;"><b>Hora pautada:</b> ${horaPick}</span>`;
-          ticket += `</div>`;
-        }
-        
-        ticket += ` ¡Gracias por su compra! ❤️`;
-        document.getElementById('receiptContent').innerHTML = ticket;
-      }
-    }
-
-    // DESCARGAR COMPROBANTE DIGITAL EN TEXTO (.TXT)
-    function downloadReceiptFile() {
-      let rawText = document.getElementById('receiptContent').innerHTML;
-      rawText = rawText.replace(/<br>/g, '\r\n').replace(/<[^>]*>/g, '');
-      
-      const blob = new Blob([rawText], { type: 'text/plain;charset=utf-8' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = 'Comprobante_Cafe_Aroma.txt';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function closeCheckout() {
-      document.getElementById('dlg').close();
-    }
-
-    function processOrderEnd() {
-      let method = document.querySelector('input[name="payMethod"]:checked').value;
-      let totalVal = document.getElementById('totalLabel').textContent;
-      
-      let itemsList = "";
-      for (let k in cart) {
-        itemsList += `- ${data[k][0]} x${cart[k]} (Bs ${cart[k]*data[k][1]})\n`;
-      }
-      
-      let extraInfo = "";
-      if (method === "Efectivo") {
-        let fechaPick = document.getElementById('pickupDate').value || '2026-07-04';
-        let horaPick = document.getElementById('pickupTime').value || '16:30';
-        extraInfo = `\n📌 *Detalles de Retiro:*\n- Fecha: ${fechaPick}\n- Hora: ${horaPick}\n- Pago: Efectivo en Caja al Recoger`;
-      } else if (method === "QR") {
-        extraInfo = `\n📌 *Detalles de Pago:*\n- Método: Código QR Sin Contacto\n- (Comprobante adjunto por el cliente)`;
-      } else {
-        extraInfo = `\n📌 *Detalles de Pago:*\n- Método: Tarjeta de Crédito/Débito (Autorizado)`;
-      }
-      
-      const textoWhatsApp = `¡Hola Café Aroma! He realizado un nuevo pedido desde la web:\n\n🛒 *PRODUCTOS:*\n${itemsList}\n💰 *TOTAL:* ${totalVal}${extraInfo}\n\nPor favor, preparen mi orden. ¡Gracias!`;
-      const urlWhatsApp = `https://wa.me/59176721293?text=${encodeURIComponent(textoWhatsApp)}`;
-      
-      window.open(urlWhatsApp, '_blank');
-      
-      showToast("¡Pedido enviado con éxito! Se abrirá WhatsApp para enviar la orden detallada.");
-      cart = {};
-      renderCart();
-      closeCheckout();
-      document.getElementById('drawer').classList.remove('open');
-    }
-
-    // CARRUSEL AUTOMÁTICO
-    let currentSlide = 0;
-    setInterval(() => {
-      currentSlide = (currentSlide + 1) % 2;
-      const track = document.getElementById('carouselTrack');
-      if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }, 5000);
 
     function toggleTheme() {
-      const body = document.body;
-      const themeBtn = document.getElementById('themeBtn').querySelector('i');
-      if (body.getAttribute('data-theme') === 'dark') {
-        body.removeAttribute('data-theme');
-        themeBtn.className = 'fas fa-moon';
+      const html = document.documentElement;
+      const themeBtn = document.getElementById('themeToggle');
+      if (html.getAttribute('data-theme') === 'dark') {
+        html.setAttribute('data-theme', 'light');
+        themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
       } else {
-        body.setAttribute('data-theme', 'dark');
-        themeBtn.className = 'fas fa-sun';
+        html.setAttribute('data-theme', 'dark');
+        themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
       }
     }
 
-    function toggleMobileMenu() {
-      const nav = document.getElementById('navbar');
-      if(nav.style.display === 'flex') {
-        nav.style.display = 'none';
-      } else {
-        nav.style.display = 'flex';
-        nav.style.flexDirection = 'column';
-      }
+    function slidePromo(direction) {
+      const cards = document.querySelectorAll('.promo-card-single');
+      cards[currentPromoIndex].classList.remove('active');
+      currentPromoIndex = (currentPromoIndex + direction + cards.length) % cards.length;
+      cards[currentPromoIndex].classList.add('active');
     }
 
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('active');
     }
 
-    // LÓGICA DE DETECCIÓN DE SCROLL REVEAL
-    let revealObserver = null;
-    function initScrollReveal() {
-      if (!('IntersectionObserver' in window)) {
-        document.querySelectorAll('.reveal-element').forEach(el => el.classList.add('revealed'));
+    function renderProducts() {
+      const grid = document.getElementById('menuGrid');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      grid.innerHTML = '';
+
+      const filtered = products.filter(p => {
+        const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
+        const matchesSearch = p.name.toLowerCase().includes(searchTerm) || p.desc.toLowerCase().includes(searchTerm);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">No se encontraron productos.</p>';
         return;
       }
-      
-      if (!revealObserver) {
-        revealObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-      }
 
-      document.querySelectorAll('.reveal-element:not(.revealed)').forEach(el => {
-        revealObserver.observe(el);
+      filtered.forEach(p => {
+        grid.innerHTML += `
+          <div class="menu-card">
+            <img src="${p.img}" class="menu-card-img" alt="${p.name}" loading="lazy">
+            <div class="menu-card-body">
+              <div>
+                <div class="menu-card-head">
+                  <h3 class="menu-card-title">${p.name}</h3>
+                  <span class="menu-card-price">Bs ${p.price}</span>
+                </div>
+                <p class="menu-card-desc">${p.desc}</p>
+              </div>
+              <button class="btn-add-cart" onclick="addToCart('${p.name}', ${p.price}, event)">
+                <i class="fas fa-cart-plus"></i> Agregar al Pedido
+              </button>
+            </div>
+          </div>
+        `;
       });
     }
 
-    document.getElementById('search').oninput = e => paint(e.target.value);
-    document.getElementById('cartBtn').onclick = () => document.getElementById('drawer').classList.add('open');
-    document.getElementById('closeDrawerBtn').onclick = () => document.getElementById('drawer').classList.remove('open');
-    document.getElementById('pay').onclick = () => {
-      if(Object.keys(cart).length === 0) return showToast("El carrito está vacío.");
-      goToStep(1);
-      document.getElementById('dlg').showModal();
-    };
+    function setCategory(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProducts();
+    }
 
-    // Inicializadores al cargar
-    paint();
-    initMiniCalendar();
-    initScrollReveal();
+    function filterProducts() {
+      renderProducts();
+    }
+
+    // Lógica Barista Pro
+    function selectBaristaOption(group, name, price, element) {
+      baristaSelections[group] = { name, price };
+      
+      const parent = element.parentElement;
+      parent.querySelectorAll('.barista-chip').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
+
+      updateBaristaSummary();
+    }
+
+    function updateBaristaSummary() {
+      const total = baristaSelections.base.price + baristaSelections.milk.price + baristaSelections.syrup.price + baristaSelections.topping.price;
+      
+      document.getElementById('baristaCustomName').innerText = `${baristaSelections.base.name} + ${baristaSelections.milk.name}`;
+      document.getElementById('baristaCustomDetails').innerText = `${baristaSelections.syrup.name} | ${baristaSelections.topping.name}`;
+      document.getElementById('baristaPriceDisplay').innerText = `Bs ${total}`;
+    }
+
+    function addCustomCoffeeToCart(event) {
+      const total = baristaSelections.base.price + baristaSelections.milk.price + baristaSelections.syrup.price + baristaSelections.topping.price;
+      const customTitle = `Café Personalizado (${baristaSelections.base.name})`;
+      
+      addToCart(customTitle, total, event);
+      toggleCartDrawer();
+    }
+
+    // Lógica Animación Voladora y Carrito
+    function animateFlyToCart(event) {
+      if (!event) return;
+      const cartIcon = document.getElementById('cartHeaderBtn');
+      if (!cartIcon) return;
+
+      const targetRect = cartIcon.getBoundingClientRect();
+      const originX = event.clientX || (event.touches && event.touches[0].clientX) || (window.innerWidth / 2);
+      const originY = event.clientY || (event.touches && event.touches[0].clientY) || (window.innerHeight / 2);
+
+      const particle = document.createElement('div');
+      particle.className = 'fly-coffee-particle';
+      particle.innerHTML = '☕';
+      particle.style.left = `${originX}px`;
+      particle.style.top = `${originY}px`;
+
+      document.body.appendChild(particle);
+
+      requestAnimationFrame(() => {
+        const deltaX = targetRect.left + (targetRect.width / 2) - originX;
+        const deltaY = targetRect.top + (targetRect.height / 2) - originY;
+
+        particle.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.2)`;
+        particle.style.opacity = '0.1';
+      });
+
+      setTimeout(() => {
+        particle.remove();
+        cartIcon.style.transform = 'scale(1.25)';
+        setTimeout(() => { cartIcon.style.transform = 'scale(1)'; }, 200);
+      }, 750);
+    }
+
+    function addToCart(title, price, event) {
+      if (event) animateFlyToCart(event);
+      
+      const existing = cart.find(item => item.title === title);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ title, price, qty: 1 });
+      }
+      renderCart();
+    }
+
+    function changeCartQty(index, delta) {
+      cart[index].qty += delta;
+      if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cartDrawerItems');
+      const badge = document.getElementById('cartBadgeCount');
+      const totalDisplay = document.getElementById('cartDrawerTotal');
+
+      container.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:40px;">Tu carrito está vacío.</p>';
+      } else {
+        cart.forEach((item, idx) => {
+          const itemTotal = item.price * item.qty;
+          total += itemTotal;
+          count += item.qty;
+
+          container.innerHTML += `
+            <div class="cart-item-row">
+              <div class="cart-item-info">
+                <h5>${item.title}</h5>
+                <p>Bs ${itemTotal}</p>
+              </div>
+              <div class="cart-item-qty">
+                <button class="qty-btn" onclick="changeCartQty(${idx}, -1)">-</button>
+                <span style="font-weight:700; font-size:13px;">${item.qty}</span>
+                <button class="qty-btn" onclick="changeCartQty(${idx}, 1)">+</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      badge.innerText = count;
+      totalDisplay.innerText = `Bs ${total}`;
+      updateTicketPreview();
+    }
+
+    function toggleCartDrawer() {
+      document.getElementById('cartDrawer').classList.toggle('open');
+    }
+
+    function openCheckoutModal() {
+      if (cart.length === 0) return;
+      document.getElementById('checkoutModal').classList.add('active');
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('checkoutPickupDate').value = today;
+      document.getElementById('checkoutPickupDate').min = today;
+      handleCheckoutPickupDateChange(today);
+      updateTicketPreview();
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.remove('active');
+    }
+
+    function toggleCheckoutFields(val) {
+      document.getElementById('deliveryFields').style.display = val === 'delivery' ? 'block' : 'none';
+      document.getElementById('pickupFields').style.display = val === 'pickup' ? 'block' : 'none';
+      updateTicketPreview();
+    }
+
+    function togglePaymentQR(val) {
+      document.getElementById('qrBoxContainer').style.display = val === 'qr' ? 'block' : 'none';
+      updateTicketPreview();
+    }
+
+    function handleCheckoutPickupDateChange(dateStr) {
+      const dateObj = new Date(dateStr + 'T00:00:00');
+      const dayOfWeek = dateObj.getDay();
+      const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+
+      const pillsContainer = document.getElementById('checkoutTimePills');
+      pillsContainer.innerHTML = '';
+
+      let availableHours = isWeekend ? 
+        ['08:30', '10:00', '12:00', '14:30', '16:00', '18:00', '19:30', '20:30'] : 
+        ['07:30', '09:00', '11:00', '13:00', '15:00', '16:30', '18:30', '20:00', '21:00'];
+
+      selectedCheckoutPickupTime = availableHours[0];
+
+      availableHours.forEach((time, index) => {
+        const btn = document.createElement('button');
+        btn.className = `time-pill-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerText = time;
+        btn.type = 'button';
+        btn.onclick = () => {
+          pillsContainer.querySelectorAll('.time-pill-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedCheckoutPickupTime = time;
+          updateTicketPreview();
+        };
+        pillsContainer.appendChild(btn);
+      });
+
+      updateTicketPreview();
+    }
+
+    function updateTicketPreview() {
+      const client = document.getElementById('checkoutClientName').value || 'Cliente';
+      const type = document.getElementById('checkoutType').value;
+      const payment = document.getElementById('checkoutPayment').value;
+      
+      let total = 0;
+      let itemsTxt = '';
+      cart.forEach(i => {
+        const sub = i.price * i.qty;
+        total += sub;
+        itemsTxt += `- ${i.title} x${i.qty} (Bs ${sub})\n`;
+      });
+
+      let typeDetails = '';
+      if (type === 'delivery') {
+        const addr = document.getElementById('checkoutAddress').value || 'Por definir';
+        typeDetails = `Modalidad: Delivery\nDirección: ${addr}`;
+      } else {
+        const pDate = document.getElementById('checkoutPickupDate').value;
+        typeDetails = `Modalidad: Recojo en Caja\nEntregar a: ${client}\nFecha y Hora de Recojo: ${pDate} a las ${selectedCheckoutPickupTime}`;
+      }
+
+      const ticket = `=================================\n       CAFETERÍA AROMA - TICKET\n=================================\nCliente: ${client}\n${typeDetails}\nPago: ${payment.toUpperCase()}\n---------------------------------\n${itemsTxt}---------------------------------\nTOTAL: Bs ${total}\n=================================`;
+      
+      document.getElementById('ticketPreview').innerText = ticket;
+    }
+
+    function downloadTicketTxt() {
+      const text = document.getElementById('ticketPreview').innerText;
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `Ticket_CafeAroma_${Date.now()}.txt`;
+      a.click();
+    }
+
+    function sendOrderToWhatsApp() {
+      const ticket = document.getElementById('ticketPreview').innerText;
+      const url = `https://wa.me/59176721293?text=${encodeURIComponent('¡Hola Cafetería Aroma! Confirmo mi pedido:\n\n' + ticket)}`;
+      window.open(url, '_blank');
+      closeCheckoutModal();
+      toggleCartDrawer();
+      cart = [];
+      renderCart();
+    }
+
+    // Lógica Reserva de Mesas Inteligente
+    function initReservationSystem() {
+      const datePicker = document.getElementById('bookingDatePicker');
+      const today = new Date().toISOString().split('T')[0];
+      datePicker.min = today;
+      datePicker.value = today;
+      
+      handleBookingDateChange(today);
+    }
+
+    function handleBookingDateChange(dateStr) {
+      selectedBookingDate = dateStr;
+      const dateObj = new Date(dateStr + 'T00:00:00');
+      const dayOfWeek = dateObj.getDay(); // 0 = Domingo, 6 = Sábado
+      
+      const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+      
+      document.getElementById('displaySelectedDate').innerHTML = `<i class="far fa-calendar-check" style="margin-right:8px;"></i> ${dateStr} (${isWeekend ? 'Fin de Semana' : 'Día Laboral'})`;
+
+      // Cargar horas
+      const pillsContainer = document.getElementById('availableTimePills');
+      pillsContainer.innerHTML = '';
+
+      let availableHours = [];
+      if (isWeekend) {
+        // Horario Fin de Semana: 08:30 - 21:00
+        availableHours = ['08:30', '10:00', '12:00', '14:30', '16:00', '18:00', '19:30', '20:30'];
+      } else {
+        // Horario Lunes a Viernes: 07:30 - 21:30
+        availableHours = ['07:30', '09:00', '11:00', '13:00', '15:00', '16:30', '18:30', '20:00', '21:00'];
+      }
+
+      selectedBookingTime = availableHours[0];
+
+      availableHours.forEach((time, index) => {
+        const btn = document.createElement('button');
+        btn.className = `time-pill-btn ${index === 0 ? 'active' : ''}`;
+        btn.innerText = time;
+        btn.type = 'button';
+        btn.onclick = () => {
+          document.querySelectorAll('#availableTimePills .time-pill-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          selectedBookingTime = time;
+        };
+        pillsContainer.appendChild(btn);
+      });
+    }
+
+    function changePeopleCount(delta) {
+      selectedPeople += delta;
+      if (selectedPeople < 1) selectedPeople = 1;
+      if (selectedPeople > 12) selectedPeople = 12;
+
+      document.getElementById('peopleCountDisplay').innerHTML = `<i class="fas fa-users" style="color: var(--accent); margin-right: 6px;"></i> ${selectedPeople} Personas`;
+    }
+
+    function sendTableReservation() {
+      const clientName = document.getElementById('bookingClientName').value || 'Cliente';
+      const msg = `¡Hola Cafetería Aroma! Quisiera reservar una mesa a nombre de: *${clientName}*.\nFecha: *${selectedBookingDate}*\nHora: *${selectedBookingTime}*\nPersonas: *${selectedPeople} personas*\n\nme confirman disponibilidad`;
+      
+      const url = `https://wa.me/59176721293?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    function answerQuiz(step, answer) {
+      quizAnswers[step] = answer;
+      document.getElementById(`quiz-step-${step}`).classList.remove('active');
+
+      if (step < 3) {
+        document.getElementById(`quiz-step-${step + 1}`).classList.add('active');
+      } else {
+        showQuizResult();
+      }
+    }
+
+    function showQuizResult() {
+      document.getElementById('quiz-result').classList.add('active');
+      const card = document.getElementById('quizResultCard');
+
+      let recommended = products[0];
+      if (quizAnswers[1] === 'frio' && quizAnswers[2] === 'dulce') {
+        recommended = products.find(p => p.id === 5) || products[3];
+      } else if (quizAnswers[1] === 'frio' && quizAnswers[2] === 'intenso') {
+        recommended = products.find(p => p.id === 6);
+      } else if (quizAnswers[1] === 'caliente' && quizAnswers[2] === 'dulce') {
+        recommended = products.find(p => p.id === 2);
+      } else if (quizAnswers[1] === 'caliente' && quizAnswers[2] === 'intenso') {
+        recommended = products.find(p => p.id === 3);
+      }
+
+      card.innerHTML = `
+        <img src="${recommended.img}" alt="${recommended.name}">
+        <div>
+          <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">${recommended.name}</h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px;">${recommended.desc}</p>
+          <span style="font-size: 16px; font-weight: 800; color: var(--accent); display: block;">Bs ${recommended.price}</span>
+        </div>
+      `;
+    }
+
+    function resetQuiz() {
+      quizAnswers = {};
+      document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('quiz-step-1').classList.add('active');
+    }
+
+    function initMap() {
+      const laPazCoords = [-16.4885, -68.1182];
+      leafletMapInstance = L.map('interactiveMap').setView(laPazCoords, 16);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(leafletMapInstance);
+
+      const customIcon = L.divIcon({
+        className: 'custom-map-pin',
+        html: `<div style="background: #d4a373; color: #0b0705; width: 36px; height: 36px; border-radius: 50%; display: flex; align- items: center; justify-content: center; font-size: 18px; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.5);"><i class="fas fa-coffee"></i></div>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
+      });
+
+      L.marker(laPazCoords, { icon: customIcon })
+        .addTo(leafletMapInstance)
+        .bindPopup('<b>Cafetería Aroma</b><br>Plaza del Maestro, Villa Fátima.')
+        .openPopup();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderProducts();
+      initMap();
+      initReservationSystem();
+      renderCart();
+    });
   </script>
 </body>
 </html>
