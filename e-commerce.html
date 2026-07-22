@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Cafetería Aroma | Plan 3 - Experiencia e Interacción</title>
-  <meta name="description" content="Cafetería Aroma en La Paz. Descubre nuestro menú, quiz de café personalizado, combos del día, galería, reseñas y ubicación interactiva.">
+  <title>Cafetería Aroma | Plan 4 - E-Commerce Automatizado</title>
+  <meta name="description" content="Cafetería Aroma en La Paz. Tienda e-commerce automatizada con variaciones en tiempo real, menú interactivo, reserva de mesas y ticket directo a WhatsApp.">
 
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>☕</text></svg>">
 
-  <!-- Fuentes tipográficas -->
+  <!-- Fuentes tipográficas estilo Webflow / Good Garms -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
   <!-- FontAwesome e Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Leaflet CSS para Mapa Interactivo profesional -->
+  <!-- Leaflet CSS para Mapa Interactivo -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
   <style>
@@ -26,7 +26,8 @@
       --bg: #0b0705;
       --surface: #140e0b;
       --surface-card: #1c1410;
-      --border: #2a1e17;
+      --border: rgba(212, 163, 115, 0.15);
+      --border-strong: #2a1e17;
       --text: #f5f0ed;
       --text-muted: #a8968d;
       --accent: #d4a373;
@@ -42,7 +43,8 @@
       --bg: #fbf8f5;
       --surface: #ffffff;
       --surface-card: #f4ece6;
-      --border: #e2d3c7;
+      --border: rgba(184, 115, 51, 0.2);
+      --border-strong: #e2d3c7;
       --text: #2b1f18;
       --text-muted: #6e5e54;
       --accent: #b87333;
@@ -86,7 +88,7 @@
       background: var(--header-bg); 
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-strong);
       z-index: 1000; 
       transition: var(--transition);
       gap: 15px;
@@ -146,7 +148,7 @@
 
     .theme-toggle-btn {
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--accent);
       width: 38px;
       height: 38px;
@@ -166,7 +168,7 @@
     .cart-btn-header {
       position: relative;
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text);
       width: 38px;
       height: 38px;
@@ -325,7 +327,7 @@
       border-radius: 30px;
       font-weight: 600;
       font-size: 14px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
@@ -349,7 +351,7 @@
       width: 100%;
       max-width: 340px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 32px;
       padding: 30px;
       text-align: center;
@@ -394,7 +396,7 @@
       width: 100%;
       padding: 14px 20px 14px 50px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 30px;
       color: var(--text);
       font-family: inherit;
@@ -414,7 +416,7 @@
     }
     .filter-pill {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text-muted);
       padding: 9px 20px;
       border-radius: 25px;
@@ -437,7 +439,7 @@
     }
     .menu-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 24px;
       overflow: hidden;
       display: flex;
@@ -468,12 +470,61 @@
       margin-bottom: 8px;
     }
     .menu-card-title { font-size: 17px; font-weight: 700; }
-    .menu-card-price { font-size: 16px; font-weight: 800; color: var(--accent); }
-    .menu-card-desc { font-size: 13.5px; color: var(--text-muted); margin-bottom: 15px; }
+    .menu-card-price { 
+      font-size: 17px; 
+      font-weight: 800; 
+      color: var(--accent);
+      transition: var(--transition);
+    }
+    .menu-card-desc { font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px; }
+
+    /* Variantes dinámicas de producto (Core Plan 4) */
+    .variant-section {
+      margin-bottom: 15px;
+      background: var(--surface-card);
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .variant-label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .variant-pills-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .variant-chip {
+      flex: 1;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text-muted);
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .variant-chip.selected {
+      background: var(--accent);
+      color: #0b0705;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
 
     .btn-add-cart {
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text);
       padding: 10px 16px;
       border-radius: 20px;
@@ -493,10 +544,9 @@
       border-color: var(--accent);
     }
 
-    /* --- CONSTRUCTOR MODO BARISTA PRO --- */
     .barista-builder {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 32px;
       padding: 40px;
       box-shadow: 0 20px 50px var(--shadow);
@@ -522,7 +572,7 @@
     }
     .barista-chip {
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 18px;
       padding: 12px 16px;
       cursor: pointer;
@@ -540,7 +590,7 @@
     }
     .barista-summary-box {
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 24px;
       padding: 25px;
       display: flex;
@@ -551,7 +601,7 @@
       margin-top: 20px;
     }
 
-    /* --- CARRITO DRAWER Y CHECKOUT --- */
+    /* Cart Drawer y Checkout */
     .cart-drawer {
       position: fixed;
       top: 0;
@@ -560,7 +610,7 @@
       max-width: 400px;
       height: 100vh;
       background: var(--surface);
-      border-left: 1px solid var(--border);
+      border-left: 1px solid var(--border-strong);
       box-shadow: -10px 0 40px var(--shadow);
       z-index: 2000;
       transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -574,7 +624,7 @@
       justify-content: space-between;
       align-items: center;
       padding-bottom: 15px;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-strong);
       margin-bottom: 20px;
     }
     .cart-items-list {
@@ -591,7 +641,7 @@
       background: var(--surface-card);
       padding: 12px 16px;
       border-radius: 16px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
     }
     .cart-item-info h5 { font-size: 14px; font-weight: 700; }
     .cart-item-info p { font-size: 12.5px; color: var(--accent); font-weight: 700; }
@@ -604,7 +654,7 @@
       width: 26px;
       height: 26px;
       border-radius: 50%;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       background: var(--surface);
       color: var(--text);
       cursor: pointer;
@@ -615,7 +665,7 @@
     }
 
     .cart-footer {
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--border-strong);
       padding-top: 20px;
       margin-top: 15px;
     }
@@ -642,7 +692,7 @@
     .checkout-modal.active { display: flex; animation: fadeIn 0.3s ease forwards; }
     .checkout-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 28px;
       max-width: 500px;
       width: 100%;
@@ -668,7 +718,7 @@
       width: 100%;
       padding: 12px 16px;
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 14px;
       color: var(--text);
       font-family: inherit;
@@ -688,10 +738,9 @@
       margin: 15px 0;
     }
 
-    /* --- SISTEMA DE RESERVA DE MESAS MEJORADO --- */
     .booking-box-clean {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 32px;
       padding: 35px;
       max-width: 650px;
@@ -708,7 +757,7 @@
       width: 100%;
       padding: 14px;
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 16px;
       color: var(--text);
       font-weight: 700;
@@ -727,7 +776,7 @@
       align-items: center;
       justify-content: space-between;
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 16px;
       padding: 10px 16px;
     }
@@ -735,7 +784,7 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       background: var(--surface);
       color: var(--text);
       font-weight: 800;
@@ -753,7 +802,7 @@
     }
     .time-pill-btn {
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text-muted);
       padding: 8px 16px;
       border-radius: 20px;
@@ -770,7 +819,7 @@
 
     .quiz-section {
       background: var(--quiz-bg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 32px;
       padding: 45px;
       margin-top: 60px;
@@ -791,7 +840,7 @@
     }
     .quiz-option-btn {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text);
       padding: 18px 22px;
       border-radius: 20px;
@@ -810,7 +859,7 @@
     
     .quiz-result-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 24px;
       padding: 25px;
       display: flex;
@@ -842,7 +891,7 @@
     }
     .promo-card-single {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 28px;
       padding: 30px;
       text-align: center;
@@ -851,9 +900,7 @@
       box-shadow: 0 20px 50px var(--shadow);
       position: relative;
     }
-    .promo-card-single.active {
-      display: block;
-    }
+    .promo-card-single.active { display: block; }
     .promo-badge-tag {
       position: absolute;
       top: 20px;
@@ -873,15 +920,8 @@
       border-radius: 20px;
       margin-bottom: 20px;
     }
-    .promo-card-single h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-    .promo-card-single p {
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
+    .promo-card-single h3 { font-size: 22px; margin-bottom: 8px; }
+    .promo-card-single p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
     .promo-price-box {
       display: flex;
       justify-content: center;
@@ -891,7 +931,7 @@
       background: var(--surface-card);
       padding: 12px 20px;
       border-radius: 18px;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
     }
     .old-price {
       text-decoration: line-through;
@@ -899,16 +939,12 @@
       font-size: 18px;
       font-weight: 700;
       opacity: 0.9;
-      text-decoration-thickness: 2.5px;
-      font-variant-numeric: tabular-nums;
     }
     .new-price {
       color: var(--accent);
       font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.5px;
-      text-shadow: 0 2px 10px var(--accent-glow);
-      font-variant-numeric: tabular-nums;
     }
     .savings-pill {
       font-size: 12px;
@@ -920,13 +956,10 @@
       border: 1px solid var(--border);
     }
 
-    .faq-container {
-      max-width: 720px;
-      margin: 0 auto;
-    }
+    .faq-container { max-width: 720px; margin: 0 auto; }
     .accordion-item {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 16px;
       margin-bottom: 14px;
       overflow: hidden;
@@ -947,16 +980,9 @@
       align-items: center;
       cursor: pointer;
       font-family: inherit;
-      transition: var(--transition);
     }
-    .accordion-header:hover {
-      color: var(--accent);
-    }
-    .accordion-header i {
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      color: var(--accent);
-      font-size: 14px;
-    }
+    .accordion-header:hover { color: var(--accent); }
+    .accordion-header i { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: var(--accent); font-size: 14px; }
     .accordion-body {
       max-height: 0;
       overflow: hidden;
@@ -976,7 +1002,7 @@
 
     .slider-nav-btn {
       background: var(--surface-card);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text);
       width: 44px;
       height: 44px;
@@ -989,32 +1015,13 @@
     }
     .slider-nav-btn:hover { background: var(--accent); color: #0b0705; }
 
-    .about-wrapper {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-      align-items: center;
-    }
-
-    .about-text h3 {
-      font-size: 28px;
-      margin-bottom: 15px;
-    }
-    .about-text p {
-      color: var(--text-muted);
-      margin-bottom: 18px;
-      font-size: 15px;
-    }
-
-    .about-highlights {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-top: 25px;
-    }
+    .about-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .about-text h3 { font-size: 28px; margin-bottom: 15px; }
+    .about-text p { color: var(--text-muted); margin-bottom: 18px; font-size: 15px; }
+    .about-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px; }
     .highlight-box {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       padding: 16px;
       border-radius: 16px;
       display: flex;
@@ -1024,51 +1031,30 @@
     .highlight-box i { font-size: 22px; color: var(--accent); }
     .highlight-box span { font-size: 13.5px; font-weight: 600; }
 
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
+    .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .gallery-item {
       height: 180px;
       border-radius: 20px;
       overflow: hidden;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       position: relative;
     }
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: var(--transition);
-    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
     .gallery-item:hover img { transform: scale(1.08); }
 
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-      margin-top: 40px;
-    }
-
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 40px; }
     .review-card {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 22px;
       padding: 25px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
     .stars { color: #f39c12; font-size: 14px; margin-bottom: 12px; }
     .review-text { font-size: 14px; color: var(--text-muted); font-style: italic; margin-bottom: 18px; }
-    
-    .reviewer-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .reviewer-info { display: flex; align-items: center; gap: 12px; }
     .reviewer-avatar {
       width: 42px;
       height: 42px;
@@ -1088,47 +1074,20 @@
       grid-template-columns: 1fr 1fr;
       gap: 30px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 30px;
       padding: 30px;
       overflow: hidden;
     }
+    #interactiveMap { width: 100%; height: 380px; border-radius: 20px; z-index: 1; }
+    .location-info { display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+    .location-detail { display: flex; align-items: flex-start; gap: 14px; }
+    .location-detail i { font-size: 22px; color: var(--accent); margin-top: 3px; }
 
-    #interactiveMap {
-      width: 100%;
-      height: 380px;
-      border-radius: 20px;
-      z-index: 1;
-    }
-
-    .location-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 18px;
-    }
-
-    .location-detail {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-    }
-    .location-detail i {
-      font-size: 22px;
-      color: var(--accent);
-      margin-top: 3px;
-    }
-
-    .info-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 22px;
-      margin-top: 40px;
-    }
-
+    .info-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; margin-top: 40px; }
     .info-card-clean {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       border-radius: 22px;
       padding: 28px;
     }
@@ -1139,7 +1098,7 @@
 
     footer {
       background: var(--bg);
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--border-strong);
       padding: 35px 6%;
       text-align: center;
       color: var(--text-muted);
@@ -1239,7 +1198,7 @@
       <section class="hero">
         <div class="hero-content">
           <h1>Donde cada taza cuenta una <span>historia inolvidable.</span></h1>
-          <p>Siente el aroma del mejor grano recién tostado en Plaza del Maestro. Explora nuestra carta, arma tu café en vivo o reserva tu mesa en segundos.</p>
+          <p>Siente el aroma del mejor grano recién tostado en Plaza del Maestro. Explora nuestra carta con variaciones dinámicas, arma tu café en vivo o reserva tu mesa en segundos.</p>
           
           <div class="hero-cta-group">
             <button class="btn-primary" onclick="switchView('menu')">
@@ -1261,7 +1220,6 @@
       </section>
     </div>
 
-    <!-- VISTA: MODO BARISTA PRO (ARMA TU PROPIO CAFÉ) -->
     <div class="view-section" id="view-barista">
       <section>
         <div class="section-title">
@@ -1350,12 +1308,11 @@
       </section>
     </div>
 
-    <!-- VISTA: MENÚ DIGITAL COMPLETO -->
     <div class="view-section" id="view-menu">
       <section>
         <div class="section-title">
-          <h2>Nuestra Carta Digital</h2>
-          <p>Selección artesanal de cafés, bebidas frías y repostería horneada diariamente</p>
+          <h2>Nuestra Carta Digital Automatizada</h2>
+          <p>Selección artesanal de cafés, bebidas frías y repostería. Elige tus variaciones de tamaño o porción con cálculo automático de precio.</p>
         </div>
 
         <div class="menu-controls">
@@ -1373,10 +1330,9 @@
         </div>
 
         <div class="menu-grid" id="menuGrid">
-          <!-- Renderizado dinámico desde JS -->
+          <!-- Renderizado dinámico desde JS con variaciones -->
         </div>
 
-        <!-- Sección Quiz -->
         <div class="quiz-section" id="quiz">
           <div class="quiz-header">
             <span class="tagline-badge" style="margin-bottom: 8px;"><i class="fas fa-wand-magic-sparkles"></i> Quiz Interactivo</span>
@@ -1441,7 +1397,6 @@
       </section>
     </div>
 
-    <!-- VISTA: SISTEMA DE RESERVAS DE MESAS INTERACTIVO -->
     <div class="view-section" id="view-reserva">
       <section>
         <div class="section-title">
@@ -1489,7 +1444,6 @@
       </section>
     </div>
 
-    <!-- VISTA: PROMOCIONES Y COMBOS -->
     <div class="view-section" id="view-promociones">
       <section>
         <div class="section-title">
@@ -1508,7 +1462,7 @@
               <span class="new-price">Bs 28</span>
               <span class="savings-pill"><i class="fas fa-tag"></i> Ahorras Bs 6</span>
             </div>
-            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart('Combo Mañanero', 28, event)">
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addPromoToCart('Combo Mañanero', 28, event)">
               <i class="fas fa-cart-plus"></i> Agregar al Pedido
             </button>
           </div>
@@ -1523,7 +1477,7 @@
               <span class="new-price">Bs 55</span>
               <span class="savings-pill"><i class="fas fa-tag"></i> Ahorras Bs 11</span>
             </div>
-            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart('Dúo Dulce Tarde', 55, event)">
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addPromoToCart('Dúo Dulce Tarde', 55, event)">
               <i class="fas fa-cart-plus"></i> Agregar al Pedido
             </button>
           </div>
@@ -1538,7 +1492,7 @@
               <span class="new-price">Bs 20</span>
               <span class="savings-pill"><i class="fas fa-tag"></i> Ahorras Bs 6</span>
             </div>
-            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addToCart('Espresso Experience', 20, event)">
+            <button class="btn-primary" style="width: 100%; justify-content: center;" onclick="addPromoToCart('Espresso Experience', 20, event)">
               <i class="fas fa-cart-plus"></i> Agregar al Pedido
             </button>
           </div>
@@ -1551,7 +1505,6 @@
       </section>
     </div>
 
-    <!-- VISTA: PREGUNTAS FRECUENTES -->
     <div class="view-section" id="view-faq">
       <section>
         <div class="section-title">
@@ -1572,11 +1525,11 @@
 
           <div class="accordion-item">
             <button class="accordion-header" onclick="toggleFaq(this)">
-              ¿Cuáles son las formas de pago aceptadas en el local?
+              ¿Cuáles son las formas de pago aceptadas en el local y para pedidos?
               <i class="fas fa-chevron-down"></i>
             </button>
             <div class="accordion-body">
-              Aceptamos pago en efectivo, transferencias mediante código QR y tarjetas de débito/crédito.
+              Aceptamos pago en efectivo, transferencias mediante código QR Simple y tarjetas de débito/crédito.
             </div>
           </div>
 
@@ -1603,7 +1556,6 @@
       </section>
     </div>
 
-    <!-- VISTA: NOSOTROS Y GALERÍA -->
     <div class="view-section" id="view-nosotros">
       <section>
         <div class="about-wrapper">
@@ -1706,7 +1658,6 @@
       </section>
     </div>
 
-    <!-- VISTA: INFORMACIÓN Y HORARIOS -->
     <div class="view-section" id="view-informacion">
       <section>
         <div class="section-title">
@@ -1729,7 +1680,7 @@
             <h3>Métodos de Pago</h3>
             <ul>
               <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Efectivo</li>
-              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Transferencia QR</li>
+              <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Transferencia QR Simple</li>
               <li><i class="fas fa-check" style="color: var(--accent); margin-right: 6px;"></i> Tarjetas de Débito/Crédito</li>
             </ul>
           </div>
@@ -1747,7 +1698,6 @@
       </section>
     </div>
 
-    <!-- VISTA: UBICACIÓN Y MAPA -->
     <div class="view-section" id="view-ubicacion">
       <section>
         <div class="section-title">
@@ -1796,7 +1746,7 @@
     </div>
 
     <div class="cart-items-list" id="cartDrawerItems">
-      <!-- Elementos del carrito -->
+      <!-- Elementos del carrito dinámicos -->
     </div>
 
     <div class="cart-footer">
@@ -1839,7 +1789,7 @@
         </div>
       </div>
 
-      <!-- Campos dinámicos para Recojo en Caja con selección de Fecha y Hora adaptada -->
+      <!-- Campos dinámicos para Recojo en Caja -->
       <div id="pickupFields" style="display: none;">
         <div class="form-group-clean">
           <label>Fecha y Hora de Recojo</label>
@@ -1885,7 +1835,7 @@
   </a>
 
   <footer>
-    <p>&copy; 2026 Cafetería Aroma — Landing Page (Plan 3 Completo)</p>
+    <p>&copy; 2026 Cafetería Aroma — Landing Page (Plan 4: E-Commerce Automatizado)</p>
   </footer>
 
   <!-- Leaflet JS para Mapa interactivo -->
@@ -1896,6 +1846,9 @@
     let quizAnswers = {};
     let leafletMapInstance = null;
     let currentPromoIndex = 0;
+
+    // Estado global de productos y variantes seleccionadas (ID del producto -> índice de variante)
+    let selectedVariantsState = {};
 
     // Estado del Carrito y Barista
     let cart = [];
@@ -1912,15 +1865,104 @@
     let selectedBookingTime = '16:00';
     let selectedCheckoutPickupTime = '16:00';
 
+    // Productos con variantes de tamaño/porción y cálculo automático de precio (Core Plan 4)
     const products = [
-      { id: 1, name: "Capuccino Tradicional", category: "caliente", price: 18, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", desc: "Espresso con leche cremosa vaporizada y toque de canela." },
-      { id: 2, name: "Latte Macchiato", category: "caliente", price: 20, img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=500&q=80", desc: "Leche texturizada en tres capas finalizada con espresso." },
-      { id: 3, name: "Espresso Intenso", category: "caliente", price: 14, img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=500&q=80", desc: "Shot puro de grano seleccionado de Los Yungas." },
-      { id: 4, name: "Iced Latte Vainilla", category: "frio", price: 22, img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=500&q=80", desc: "Espresso frío con leche fresca y toque suave de vainilla." },
-      { id: 5, name: "Frappé de Caramelo", category: "frio", price: 25, img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80", desc: "Bebida helada licuada con crema batida y dulce de leche." },
-      { id: 6, name: "Cold Brew de la Casa", category: "frio", price: 20, img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", desc: "Café infusionado en frío durante 18 horas, suave e intenso." },
-      { id: 7, name: "Cheesecake Frutos Rojos", category: "reposteria", price: 22, img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80", desc: "Tarta de queso crema horneada con mermelada artesanal." },
-      { id: 8, name: "Croissant de Almendras", category: "reposteria", price: 16, img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80", desc: "Hojaldre crujiente horneado con crema frangipane." }
+      { 
+        id: 1, 
+        name: "Capuccino Tradicional", 
+        category: "caliente", 
+        basePrice: 18, 
+        img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", 
+        desc: "Espresso con leche cremosa vaporizada y toque de canela.",
+        variants: [
+          { name: "Mediano 12 oz", extra: 0 },
+          { name: "Grande 16 oz", extra: 4 }
+        ]
+      },
+      { 
+        id: 2, 
+        name: "Latte Macchiato", 
+        category: "caliente", 
+        basePrice: 20, 
+        img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=500&q=80", 
+        desc: "Leche texturizada en tres capas finalizada con espresso.",
+        variants: [
+          { name: "Mediano 12 oz", extra: 0 },
+          { name: "Grande 16 oz", extra: 4 }
+        ]
+      },
+      { 
+        id: 3, 
+        name: "Espresso Intenso", 
+        category: "caliente", 
+        basePrice: 14, 
+        img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=500&q=80", 
+        desc: "Shot puro de grano seleccionado de Los Yungas.",
+        variants: [
+          { name: "Shot Simple", extra: 0 },
+          { name: "Shot Doble", extra: 4 }
+        ]
+      },
+      { 
+        id: 4, 
+        name: "Iced Latte Vainilla", 
+        category: "frio", 
+        basePrice: 22, 
+        img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=500&q=80", 
+        desc: "Espresso frío con leche fresca y toque suave de vainilla.",
+        variants: [
+          { name: "Mediano 12 oz", extra: 0 },
+          { name: "Jarra Personal 18 oz", extra: 5 }
+        ]
+      },
+      { 
+        id: 5, 
+        name: "Frappé de Caramelo", 
+        category: "frio", 
+        basePrice: 25, 
+        img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=500&q=80", 
+        desc: "Bebida helada licuada con crema batida y dulce de leche.",
+        variants: [
+          { name: "Estándar", extra: 0 },
+          { name: "Extra Cream XL", extra: 5 }
+        ]
+      },
+      { 
+        id: 6, 
+        name: "Cold Brew de la Casa", 
+        category: "frio", 
+        basePrice: 20, 
+        img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", 
+        desc: "Café infusionado en frío durante 18 horas, suave e intenso.",
+        variants: [
+          { name: "Vaso 12 oz", extra: 0 },
+          { name: "Botella 500ml", extra: 8 }
+        ]
+      },
+      { 
+        id: 7, 
+        name: "Cheesecake Frutos Rojos", 
+        category: "reposteria", 
+        basePrice: 22, 
+        img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=500&q=80", 
+        desc: "Tarta de queso crema horneada con mermelada artesanal.",
+        variants: [
+          { name: "Porción Individual", extra: 0 },
+          { name: "Porción Doble", extra: 18 }
+        ]
+      },
+      { 
+        id: 8, 
+        name: "Croissant de Almendras", 
+        category: "reposteria", 
+        basePrice: 16, 
+        img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80", 
+        desc: "Hojaldre crujiente horneado con crema frangipane.",
+        variants: [
+          { name: "Unidad", extra: 0 },
+          { name: "Pack x2 Unidades", extra: 14 }
+        ]
+      }
     ];
 
     function switchView(viewName) {
@@ -1984,6 +2026,23 @@
       }
 
       filtered.forEach(p => {
+        // Inicializar variante si no existe en el estado
+        if (selectedVariantsState[p.id] === undefined) {
+          selectedVariantsState[p.id] = 0;
+        }
+
+        const selectedVarIdx = selectedVariantsState[p.id];
+        const selectedVariant = p.variants[selectedVarIdx];
+        const currentPrice = p.basePrice + selectedVariant.extra;
+
+        // Construir chips de variantes
+        let variantChipsHTML = '';
+        p.variants.forEach((v, idx) => {
+          const isSelected = idx === selectedVarIdx ? 'selected' : '';
+          const extraTxt = v.extra > 0 ? ` (+Bs ${v.extra})` : '';
+          variantChipsHTML += `<button class="variant-chip ${isSelected}" onclick="selectProductVariant(${p.id}, ${idx})">${v.name}${extraTxt}</button>`;
+        });
+
         grid.innerHTML += `
           <div class="menu-card">
             <img src="${p.img}" class="menu-card-img" alt="${p.name}" loading="lazy">
@@ -1991,17 +2050,45 @@
               <div>
                 <div class="menu-card-head">
                   <h3 class="menu-card-title">${p.name}</h3>
-                  <span class="menu-card-price">Bs ${p.price}</span>
+                  <span class="menu-card-price" id="card-price-${p.id}">Bs ${currentPrice}</span>
                 </div>
                 <p class="menu-card-desc">${p.desc}</p>
+                
+                <div class="variant-section">
+                  <div class="variant-label">
+                    <span>Tamaño / Opción:</span>
+                    <span style="color: var(--text-muted); font-weight:600;">${selectedVariant.name}</span>
+                  </div>
+                  <div class="variant-pills-group">
+                    ${variantChipsHTML}
+                  </div>
+                </div>
               </div>
-              <button class="btn-add-cart" onclick="addToCart('${p.name}', ${p.price}, event)">
+              
+              <button class="btn-add-cart" onclick="addMenuProductToCart(${p.id}, event)">
                 <i class="fas fa-cart-plus"></i> Agregar al Pedido
               </button>
             </div>
           </div>
         `;
       });
+    }
+
+    function selectProductVariant(productId, variantIndex) {
+      selectedVariantsState[productId] = variantIndex;
+      renderProducts();
+    }
+
+    function addMenuProductToCart(productId, event) {
+      const prod = products.find(p => p.id === productId);
+      if (!prod) return;
+
+      const varIdx = selectedVariantsState[productId] || 0;
+      const variant = prod.variants[varIdx];
+      const finalPrice = prod.basePrice + variant.extra;
+      const fullTitle = `${prod.name} (${variant.name})`;
+
+      addToCart(fullTitle, finalPrice, event);
     }
 
     function setCategory(cat, btn) {
@@ -2015,7 +2102,6 @@
       renderProducts();
     }
 
-    // Lógica Barista Pro
     function selectBaristaOption(group, name, price, element) {
       baristaSelections[group] = { name, price };
       
@@ -2036,13 +2122,16 @@
 
     function addCustomCoffeeToCart(event) {
       const total = baristaSelections.base.price + baristaSelections.milk.price + baristaSelections.syrup.price + baristaSelections.topping.price;
-      const customTitle = `Café Personalizado (${baristaSelections.base.name})`;
+      const customTitle = `Café Personalizado (${baristaSelections.base.name} + ${baristaSelections.milk.name} | ${baristaSelections.syrup.name})`;
       
       addToCart(customTitle, total, event);
       toggleCartDrawer();
     }
 
-    // Lógica Animación Voladora y Carrito
+    function addPromoToCart(title, price, event) {
+      addToCart(`[PROMO] ${title}`, price, event);
+    }
+
     function animateFlyToCart(event) {
       if (!event) return;
       const cartIcon = document.getElementById('cartHeaderBtn');
@@ -2215,7 +2304,7 @@
         typeDetails = `Modalidad: Recojo en Caja\nEntregar a: ${client}\nFecha y Hora de Recojo: ${pDate} a las ${selectedCheckoutPickupTime}`;
       }
 
-      const ticket = `=================================\n       CAFETERÍA AROMA - TICKET\n=================================\nCliente: ${client}\n${typeDetails}\nPago: ${payment.toUpperCase()}\n---------------------------------\n${itemsTxt}---------------------------------\nTOTAL: Bs ${total}\n=================================`;
+      const ticket = `=================================\n  CAFETERÍA AROMA - TICKET PEDIDO\n  [Plan 4: E-Commerce Automatizado]\n=================================\nCliente: ${client}\n${typeDetails}\nPago: ${payment.toUpperCase()}\n---------------------------------\n${itemsTxt}---------------------------------\nTOTAL: Bs ${total}\n=================================`;
       
       document.getElementById('ticketPreview').innerText = ticket;
     }
@@ -2239,7 +2328,6 @@
       renderCart();
     }
 
-    // Lógica Reserva de Mesas Inteligente
     function initReservationSystem() {
       const datePicker = document.getElementById('bookingDatePicker');
       const today = new Date().toISOString().split('T')[0];
@@ -2264,10 +2352,8 @@
 
       let availableHours = [];
       if (isWeekend) {
-        // Horario Fin de Semana: 08:30 - 21:00
         availableHours = ['08:30', '10:00', '12:00', '14:30', '16:00', '18:00', '19:30', '20:30'];
       } else {
-        // Horario Lunes a Viernes: 07:30 - 21:30
         availableHours = ['07:30', '09:00', '11:00', '13:00', '15:00', '16:30', '18:30', '20:00', '21:00'];
       }
 
@@ -2297,7 +2383,7 @@
 
     function sendTableReservation() {
       const clientName = document.getElementById('bookingClientName').value || 'Cliente';
-      const msg = `¡Hola Cafetería Aroma! Quisiera reservar una mesa a nombre de: *${clientName}*.\nFecha: *${selectedBookingDate}*\nHora: *${selectedBookingTime}*\nPersonas: *${selectedPeople} personas*\n\nme confirman disponibilidad`;
+      const msg = `¡Hola Cafetería Aroma! Quisiera reservar una mesa a nombre de: *${clientName}*.\nFecha: *${selectedBookingDate}*\nHora: *${selectedBookingTime}*\nPersonas: *${selectedPeople} personas*\n\n¿Me confirman disponibilidad por favor?`;
       
       const url = `https://wa.me/59176721293?text=${encodeURIComponent(msg)}`;
       window.open(url, '_blank');
@@ -2334,7 +2420,7 @@
         <div>
           <h4 style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">${recommended.name}</h4>
           <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px;">${recommended.desc}</p>
-          <span style="font-size: 16px; font-weight: 800; color: var(--accent); display: block;">Bs ${recommended.price}</span>
+          <span style="font-size: 16px; font-weight: 800; color: var(--accent); display: block;">Desde Bs ${recommended.basePrice}</span>
         </div>
       `;
     }
@@ -2355,7 +2441,7 @@
 
       const customIcon = L.divIcon({
         className: 'custom-map-pin',
-        html: `<div style="background: #d4a373; color: #0b0705; width: 36px; height: 36px; border-radius: 50%; display: flex; align- items: center; justify-content: center; font-size: 18px; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.5);"><i class="fas fa-coffee"></i></div>`,
+        html: `<div style="background: #d4a373; color: #0b0705; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.5);"><i class="fas fa-coffee"></i></div>`,
         iconSize: [36, 36],
         iconAnchor: [18, 18]
       });
