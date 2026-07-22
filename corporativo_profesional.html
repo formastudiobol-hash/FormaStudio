@@ -310,6 +310,7 @@
       box-shadow: 0 25px 60px var(--shadow);
       position: relative;
       z-index: 2;
+      animation: floatCard 6s ease-in-out infinite;
     }
     .hero-card-floating img {
       width: 100%;
@@ -317,6 +318,11 @@
       object-fit: cover;
       border-radius: 20px;
       margin-bottom: 18px;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
     }
 
     .menu-controls {
@@ -547,7 +553,7 @@
     .old-price {
       text-decoration: line-through;
       color: #e74c3c;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 700;
       opacity: 0.9;
       text-decoration-thickness: 2.5px;
@@ -555,7 +561,7 @@
     }
     .new-price {
       color: var(--accent);
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: -0.5px;
       text-shadow: 0 2px 10px var(--accent-glow);
@@ -896,9 +902,9 @@
 
         <div class="hero-visual">
           <div class="hero-card-floating">
-            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80" alt="Cappuccino Insignia" loading="lazy">
-            <h3 class="brand-font">Cappuccino Especial</h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Grano seleccionado de Los Yungas</p>
+            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" alt="Capuccino insignia">
+            <h3 class="brand-font" style="font-size: 20px; font-weight: 700; margin-bottom: 4px;">Aroma Blend</h3>
+            <p style="font-size: 13.5px; color: var(--text-muted);">Cappuccino insignia de la casa</p>
           </div>
         </div>
       </section>
